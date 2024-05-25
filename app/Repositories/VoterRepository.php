@@ -15,6 +15,6 @@ class VoterRepository
 
     public function all()
     {
-        return $this->model->all();
+        return $this->model::with('leader')->get();
     }
 }

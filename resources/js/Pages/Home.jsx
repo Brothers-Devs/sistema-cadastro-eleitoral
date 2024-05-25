@@ -1,10 +1,12 @@
 import CardDataStats from "@/Components/CardDataStats";
+import { Head } from '@inertiajs/react';
 import DefaultLayout from "@/Layouts/DefaultLayout";
 import { IoPeopleOutline } from "react-icons/io5";
 
 export default function Home({ total }) {
   return (
     <DefaultLayout>
+      <Head title="Home" />
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <CardDataStats title="Total de Eleitores" total={total.total_voters}>
           <svg
