@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\VoterController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +15,6 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/', function () {
-    return Inertia::render('Home');
-})->name('home');
+Route::get('/voters', [VoterController::class, 'list'])->name('voters.list');
