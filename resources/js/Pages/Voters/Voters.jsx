@@ -6,6 +6,9 @@ import ModalUltis from "@/Utils/ModalUtils";
 import { Tooltip } from "@mui/material";
 import { useMemo, useState } from "react";
 import ButtonsActions from "./Actions/ButtonActions";
+import { mask } from "remask";
+
+const PATTERN_CPF = ["999.999.999-99"];
 
 export default function Voters({ itens }) {
   const [openModal, setOpenModal] = useState(false);
@@ -28,13 +31,13 @@ export default function Voters({ itens }) {
       {
         field: "name",
         headerName: "Nome",
-        width: 210,
+        width: 150,
         disableClickEventBubbling: true,
       },
       {
-        field: "date_of_birth",
-        headerName: "Data Nasc.",
-        width: 150,
+        field: "cpf",
+        headerName: "CPF",
+        width: 130,
         disableClickEventBubbling: true,
       },
       {
@@ -44,45 +47,9 @@ export default function Voters({ itens }) {
         disableClickEventBubbling: true,
       },
       {
-        field: "cpf",
-        headerName: "CPF",
-        width: 150,
-        disableClickEventBubbling: true,
-      },
-      {
-        field: "rg",
-        headerName: "RG",
-        width: 150,
-        disableClickEventBubbling: true,
-      },
-      {
-        field: "title_number",
-        headerName: "Nº Título",
-        width: 110,
-        disableClickEventBubbling: true,
-      },
-      {
-        field: "zone",
-        headerName: "Zona",
-        width: 110,
-        disableClickEventBubbling: true,
-      },
-      {
-        field: "session",
-        headerName: "seção",
-        width: 110,
-        disableClickEventBubbling: true,
-      },
-      {
-        field: "address",
-        headerName: "Endereço",
-        width: 150,
-        disableClickEventBubbling: true,
-      },
-      {
-        field: "zip_code",
-        headerName: "CEP",
-        width: 150,
+        field: "city",
+        headerName: "Município",
+        width: 160,
         disableClickEventBubbling: true,
       },
       {
@@ -91,28 +58,17 @@ export default function Voters({ itens }) {
         width: 150,
         disableClickEventBubbling: true,
       },
+
       {
-        field: "city",
-        headerName: "Cidade",
-        width: 160,
-        disableClickEventBubbling: true,
-      },
-      {
-        field: "leader_name",
+        field: "leader",
         headerName: "Liderança",
         width: 160,
         disableClickEventBubbling: true,
         valueGetter: (_, row) => {
-          return `${row?.leader.name}`;
-        },
-      },
-      {
-        field: "leader_cpf",
-        headerName: "CPF da Liderança",
-        width: 160,
-        disableClickEventBubbling: true,
-        valueGetter: (_, row) => {
-          return `${row?.leader.cpf}`;
+          return `${row?.leader.name} - (${mask(
+            row?.leader.cpf,
+            PATTERN_CPF
+          )})`;
         },
       },
       {

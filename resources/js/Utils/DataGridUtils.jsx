@@ -3,8 +3,6 @@ import { AiOutlineInbox } from "react-icons/ai";
 import {
   DataGrid,
   GridLogicOperator,
-  GridToolbarContainer,
-  GridToolbarDensitySelector,
   GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
 
@@ -48,12 +46,7 @@ function CustomNoRowsOverlay() {
   );
 }
 function CustomToolbar() {
-  return (
-    <GridToolbarContainer className="w-full flex-1 justify-between">
-      <QuickSearchToolbar />
-      <GridToolbarDensitySelector />
-    </GridToolbarContainer>
-  );
+  return <QuickSearchToolbar />;
 }
 
 export default function DataGridUtils({
