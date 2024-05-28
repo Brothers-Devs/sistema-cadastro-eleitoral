@@ -1,5 +1,5 @@
 import CardDataStats from "@/Components/CardDataStats";
-import { Head } from '@inertiajs/react';
+import { Head } from "@inertiajs/react";
 import DefaultLayout from "@/Layouts/DefaultLayout";
 import { IoPeopleOutline } from "react-icons/io5";
 
