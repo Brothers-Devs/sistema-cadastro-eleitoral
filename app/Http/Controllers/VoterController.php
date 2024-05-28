@@ -19,7 +19,7 @@ class VoterController extends Controller
     {
         $itens = $this->voterService->all();
 
-        return Inertia::render('Eleitores/Eleitores', ['itens' => $itens]);
+        return Inertia::render('Voters/Voters', ['itens' => $itens]);
     }
 
     public function create(StoreUpdateVoterRequest $request)

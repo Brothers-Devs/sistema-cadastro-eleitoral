@@ -20,6 +20,16 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
-        "react-icons": "^5.2.1"
+        "@emotion/react": "^11.11.4",
+        "@emotion/styled": "^11.11.5",
+        "@mui/icons-material": "^5.15.18",
+        "@mui/material": "^5.15.18",
+        "@mui/x-data-grid": "^7.5.1",
+        "@mui/x-date-pickers": "^7.5.1",
+        "dayjs": "^1.11.11",
+        "flatpickr": "^4.6.13",
+        "notiflix": "^3.2.7",
+        "react-icons": "^5.2.1",
+        "react-toastify": "^10.0.5"
     }
 }
