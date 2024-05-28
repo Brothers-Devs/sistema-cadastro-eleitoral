@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('voters', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->date('date_of_birth');
+            $table->date('date_of_birth')->nullable();
             $table->string('rg', 10)->nullable();
             $table->string('cpf', 11);
             $table->string('phone', 14);
