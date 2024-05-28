@@ -4,6 +4,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Create } from "@mui/icons-material";
 import { useState } from "react";
 import { Notify } from "notiflix";
+import { GoAlert } from "react-icons/go";
+import { mask } from "remask";
 
 const style = {
   position: "absolute",
@@ -14,12 +16,13 @@ const style = {
   alignItems: "center",
   flexDirection: "column",
   width: 500,
-  height: 230,
+  height: 250,
   bgcolor: "background.paper",
   borderRadius: 2,
   boxShadow: 24,
   p: 4,
 };
+const PATTERN_CPF = ["999.999.999-99"];
 
 export default function ButtonsActions({ params }) {
   const [open, setOpen] = useState(false);
@@ -94,16 +97,27 @@ function ModalDelete({
       aria-describedby="keep-mounted-modal-description"
     >
       <Box sx={style}>
-        <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
-          Excluir Registro
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <GoAlert size={30} className="mr-3" color="red" />
+          <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
+            Excluir Eleitor
+          </Typography>
+        </Box>
         <Typography
           id="keep-mounted-modal-description"
           variant="subtitle1"
           component="h2"
           sx={{ mt: 2, textAlign: "center" }}
         >
-          {`Tem certeza que deseja excluir o ${dataVoter.row.name} de CPF: ${dataVoter.row.cpf} ?`}
+          {`Tem certeza que deseja excluir o eleitor ${
+            dataVoter.row.name
+          } de CPF: ${mask(dataVoter.row.cpf, PATTERN_CPF)} ?`}
         </Typography>
         <Stack direction="row" alignItems="center" spacing={4} sx={{ mt: 5 }}>
           <Button
@@ -113,7 +127,7 @@ function ModalDelete({
             sx={{ borderRadius: 20, width: 100 }}
             // onClick={submitDeletion}
           >
-            Sim
+            Excluir
           </Button>
           <Button
             color="warning"
@@ -122,7 +136,7 @@ function ModalDelete({
             sx={{ borderRadius: 20, width: 100 }}
             onClick={handleClose}
           >
-            Não
+            Cancelar
           </Button>
         </Stack>
       </Box>
