@@ -9,6 +9,7 @@ import { Inertia } from "@inertiajs/inertia";
 import { router } from "@inertiajs/react";
 import { toast } from "react-toastify";
 import ModalUltis from "@/Utils/ModalUtils";
+import { Notify } from "notiflix";
 
 const style = {
   position: "absolute",
@@ -27,51 +28,32 @@ const style = {
 };
 const PATTERN_CPF = ["999.999.999-99"];
 
-const OpenModalEdit = ({ showModal, handleClose, parseRowSelected }) => {
-  const voter = {
-    name: "Lucas",
-    cpf: "04356036204",
-    phone: "",
-    date_of_birth: "",
-    rg: "",
-    title_number: "",
-    zone: "",
-    session: "",
-    address: "",
-    zip_code: "",
-    neighborhood: "",
-    city: "",
-    leader_name: "",
-    leader_cpf: "",
-  };
-
-  return (
-    <ModalUltis
-      showModal={showModal}
-      handleClose={handleClose}
-      title="Editar Eleitor"
-      typeButton="Editar Eleitor"
-      voter={voter}
-    />
-  );
-};
-
-export default function ButtonsActions({ params }) {
+export default function ButtonsActions({
+  handleEdit,
+  _,
+  setOpenModalEdit,
+  modification,
+  setModification,
+}) {
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const handleOpenModalDelete = () => setOpenModalDelete(true);
   const handleCloseModalDelete = () => setOpenModalDelete(false);
-
-  const [openModalEdit, setOpenModalEdit] = useState(false);
-  const handleOpenModalEdit = () => setOpenModalEdit(true);
-  const handleCloseModalEdit = () => setOpenModalEdit(false);
 
   const getRowSelectedOfLocalStorage = localStorage.getItem("rowSelected");
   const parseRowSelected = JSON.parse(getRowSelectedOfLocalStorage);
 
   return (
     <Stack direction="row" alignItems="center" spacing={0}>
-      <Tooltip title="Editar" onClick={handleOpenModalEdit}>
-        <IconButton aria-label="edit" size="medium" color="primary">
+      <Tooltip title="Editar">
+        <IconButton
+          aria-label="edit"
+          size="medium"
+          color="primary"
+          onClick={() => {
+            setOpenModalEdit(true);
+            handleEdit(parseRowSelected?.row);
+          }}
+        >
           <Create fontSize="inherit" />
         </IconButton>
       </Tooltip>
@@ -91,16 +73,8 @@ export default function ButtonsActions({ params }) {
           open={openModalDelete}
           rowId={parseRowSelected?.id}
           dataVoter={parseRowSelected}
-          //   modification={modification}
-          //   setModification={setModification}
-        />
-      ) : null}
-
-      {openModalEdit ? (
-        <OpenModalEdit
-          showModal={openModalEdit}
-          handleClose={handleCloseModalEdit}
-          parseRowSelected={parseRowSelected}
+          modification={modification}
+          setModification={setModification}
         />
       ) : null}
     </Stack>
@@ -112,16 +86,17 @@ function ModalDelete({
   open,
   rowId,
   dataVoter,
-  //   modification,
-  //   setModification,
+  modification,
+  setModification,
 }) {
   function submitDeletion() {
-    router.delete("", {
+    router.delete(`/voters/${rowId}`, {
       onSuccess: () => {
-        toast.success("Eleitor excluido com sucesso!");
+        setModification(!modification);
+        Notify.success("Eleitor excluido com sucesso!");
       },
       onError: () => {
-        toast.error("Falha ao excluir eleitor!");
+        Notify.failure("Falha ao excluir eleitor!");
       },
     });
   }
@@ -163,7 +138,7 @@ function ModalDelete({
             size="large"
             variant="outlined"
             sx={{ borderRadius: 20, width: 100 }}
-            // onClick={submitDeletion}
+            onClick={submitDeletion}
           >
             Excluir
           </Button>
