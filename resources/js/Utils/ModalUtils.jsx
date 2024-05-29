@@ -6,8 +6,10 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import { toast } from "react-toastify";
-import { mask } from "remask";
+import { mask, unMask } from "remask";
 import SecondaryButton from "@/Components/SecondaryButton";
+import { useState } from "react";
+import { Notify } from "notiflix";
 
 const style = {
   position: "absolute",
@@ -33,34 +35,44 @@ export default function ModalUltis({
   handleClose,
   title,
   typeButton,
-  voter,
+  typeModal,
 }) {
-  const { data, setData, post, errors } = useForm({
-    name: voter?.name,
-    cpf: voter?.cpf,
-    phone: voter?.phone,
-    date_of_birth: voter?.date_of_birth,
-    rg: voter?.rg,
-    title_number: voter?.title_number,
-    zone: voter?.zone,
-    session: voter?.session,
-    address: voter?.address,
-    zip_code: voter?.zip_code,
-    neighborhood: voter?.neighborhood,
-    city: voter?.city,
-    leader_name: voter?.leader_name,
-    leader_cpf: voter?.leader_cpf,
-  });
+  const [dataVetorDefault, setDataVetorDefault] = useState();
+
+  if (typeModal === "edit") {
+    setDataVetorDefault(JSON.parse(localStorage.getItem("rowSelected")));
+  }
+
+  const { data, setData, post, errors, processing, reset, transform } = useForm(
+    {
+      name: dataVetorDefault?.row.name || "",
+      cpf: dataVetorDefault?.row.cpf || "",
+      phone: dataVetorDefault?.row.phone || "",
+      date_of_birth: dataVetorDefault?.row.date_of_birth || "",
+      rg: dataVetorDefault?.row.rg || "",
+      title_number: dataVetorDefault?.row.title_number || "",
+      zone: dataVetorDefault?.row.zone || "",
+      session: dataVetorDefault?.row.session || "",
+      address: dataVetorDefault?.row.address || "",
+      zip_code: dataVetorDefault?.row.zip_code || "",
+      neighborhood: dataVetorDefault?.row.neighborhood || "",
+      city: dataVetorDefault?.row.city || "",
+      leader_name: dataVetorDefault?.row.leader.leader_name || "",
+      leader_cpf: dataVetorDefault?.row.leader.leader_cpf || "",
+    }
+  );
 
   const submit = (e) => {
     e.preventDefault();
 
     post(route("voters.create"), {
       onSuccess: () => {
-        console.log("Deu Bom");
+        Notify.success("Eleitor cadastro com Sucesso!");
+        reset();
+        handleClose();
       },
       onError: (e) => {
-        console.log(e);
+        Notify.failure("Erro ao cadastrar eleitor!");
       },
     });
   };
@@ -406,6 +418,7 @@ export default function ModalUltis({
               </div>
               <PrimaryButton
                 type="submit"
+                disabled={processing}
                 onClick={submit}
                 className="flex w-full mt-3 h-12 justify-center rounded bg-green-600 p-3 font-medium text-gray hover:bg-opacity-90"
               >
