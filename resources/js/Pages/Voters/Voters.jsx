@@ -9,6 +9,7 @@ import ButtonsActions from "./Actions/ButtonActions";
 import { mask } from "remask";
 
 const PATTERN_CPF = ["999.999.999-99"];
+const PATTERN_PHONE = ["(99) 9 9999-9999"];
 
 export default function Voters({ items }) {
   const [openModal, setOpenModal] = useState(false);
@@ -39,12 +40,18 @@ export default function Voters({ items }) {
         headerName: "CPF",
         width: 130,
         disableClickEventBubbling: true,
+        valueGetter: (_, row) => {
+          return `${mask(row?.cpf, PATTERN_CPF)}`;
+        },
       },
       {
         field: "phone",
         headerName: "Telefone",
         width: 160,
         disableClickEventBubbling: true,
+        valueGetter: (_, row) => {
+          return `${mask(row?.phone, PATTERN_PHONE)}`;
+        },
       },
       {
         field: "city",
@@ -115,7 +122,7 @@ export default function Voters({ items }) {
       <ModalUltis
         showModal={openModal}
         handleClose={handleClose}
-        title={"Formulário de Cadastro de Eleitores"}
+        title={"Cadastrar Eleitor"}
         typeButton={"Cadastrar Eleitor"}
       />
     </DefaultLayout>
