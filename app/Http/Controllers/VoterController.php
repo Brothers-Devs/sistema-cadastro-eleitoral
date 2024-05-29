@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dto\Voter\CreateVoterDto;
 use App\Http\Requests\StoreUpdateVoterRequest;
 use App\Services\VoterService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -24,10 +25,11 @@ class VoterController extends Controller
         return Inertia::render('Voters/Voters', ['items' => $items]);
     }
 
-    public function findById(int $id): Response
+    public function findById(int $id): JsonResponse
     {
         $voter = $this->voterService->findById($id);
-        return Inertia::render('Voters/Voter', ['voter' => $voter]);
+
+        return response()->json($voter);
     }
 
     public function create(StoreUpdateVoterRequest $request): RedirectResponse
