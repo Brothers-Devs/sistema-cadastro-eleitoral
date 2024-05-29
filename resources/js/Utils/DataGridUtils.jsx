@@ -59,13 +59,15 @@ export default function DataGridUtils({
       sx={{ p: 3, height: "33rem" }}
       getRowId={(rows) => rows.id}
       rows={dataContent}
-      loading={dataContent.length === 0}
       columns={columns}
       disableRowSelectionOnClick
       disableColumnMenu
       key={dataContent?.id}
       pageSizeOptions={[10, 25, 50]}
       initialState={{
+        sorting: {
+          sortModel: [{ field: "id", sort: "desc" }],
+        },
         pagination: { paginationModel: { pageSize: 10 } },
         filter: {
           filterModel: {
