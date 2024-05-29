@@ -3,9 +3,12 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Create } from "@mui/icons-material";
 import { useState } from "react";
-import { Notify } from "notiflix";
 import { GoAlert } from "react-icons/go";
 import { mask } from "remask";
+import { Inertia } from "@inertiajs/inertia";
+import { router } from "@inertiajs/react";
+import { toast } from "react-toastify";
+import ModalUltis from "@/Utils/ModalUtils";
 
 const style = {
   position: "absolute",
@@ -24,22 +27,51 @@ const style = {
 };
 const PATTERN_CPF = ["999.999.999-99"];
 
+const OpenModalEdit = ({ showModal, handleClose, parseRowSelected }) => {
+  const voter = {
+    name: "Lucas",
+    cpf: "04356036204",
+    phone: "",
+    date_of_birth: "",
+    rg: "",
+    title_number: "",
+    zone: "",
+    session: "",
+    address: "",
+    zip_code: "",
+    neighborhood: "",
+    city: "",
+    leader_name: "",
+    leader_cpf: "",
+  };
+
+  return (
+    <ModalUltis
+      showModal={showModal}
+      handleClose={handleClose}
+      title="Editar Eleitor"
+      typeButton="Editar Eleitor"
+      voter={voter}
+    />
+  );
+};
+
 export default function ButtonsActions({ params }) {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const handleOpenModalDelete = () => setOpenModalDelete(true);
+  const handleCloseModalDelete = () => setOpenModalDelete(false);
+
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const handleOpenModalEdit = () => setOpenModalEdit(true);
+  const handleCloseModalEdit = () => setOpenModalEdit(false);
 
   const getRowSelectedOfLocalStorage = localStorage.getItem("rowSelected");
   const parseRowSelected = JSON.parse(getRowSelectedOfLocalStorage);
 
-  const onClick = (_) => {
-    const currentRow = params.row;
-  };
-
   return (
     <Stack direction="row" alignItems="center" spacing={0}>
-      <Tooltip title="Editar" onClick={onClick}>
-        <IconButton aria-label="delete" size="medium" color="primary">
+      <Tooltip title="Editar" onClick={handleOpenModalEdit}>
+        <IconButton aria-label="edit" size="medium" color="primary">
           <Create fontSize="inherit" />
         </IconButton>
       </Tooltip>
@@ -48,19 +80,27 @@ export default function ButtonsActions({ params }) {
           aria-label="delete"
           size="medium"
           color="error"
-          onClick={handleOpen}
+          onClick={handleOpenModalDelete}
         >
           <DeleteIcon fontSize="inherit" />
         </IconButton>
       </Tooltip>
-      {open ? (
+      {openModalDelete ? (
         <ModalDelete
-          handleClose={handleClose}
-          open={open}
+          handleClose={handleCloseModalDelete}
+          open={openModalDelete}
           rowId={parseRowSelected?.id}
           dataVoter={parseRowSelected}
           //   modification={modification}
           //   setModification={setModification}
+        />
+      ) : null}
+
+      {openModalEdit ? (
+        <OpenModalEdit
+          showModal={openModalEdit}
+          handleClose={handleCloseModalEdit}
+          parseRowSelected={parseRowSelected}
         />
       ) : null}
     </Stack>
@@ -76,16 +116,14 @@ function ModalDelete({
   //   setModification,
 }) {
   function submitDeletion() {
-    const promise = instance.delete(`/teams/${rowId}`);
-    promise
-      .then((_) => {
-        setModification(!modification);
-        Notify.success("Excluído com sucesso!");
-        handleClose();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    router.delete("", {
+      onSuccess: () => {
+        toast.success("Eleitor excluido com sucesso!");
+      },
+      onError: () => {
+        toast.error("Falha ao excluir eleitor!");
+      },
+    });
   }
 
   return (
