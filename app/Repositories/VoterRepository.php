@@ -17,4 +17,14 @@ class VoterRepository
     {
         return $this->model::with('leader')->get();
     }
+
+    public function findById(int $id)
+    {
+        $voter = $this->model::with('leader')->find($id);
+        if (!$voter) {
+            return null;
+        }
+
+        return $voter;
+    }
 }
