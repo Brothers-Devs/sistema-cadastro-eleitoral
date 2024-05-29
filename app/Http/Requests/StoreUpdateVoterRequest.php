@@ -33,7 +33,7 @@ class StoreUpdateVoterRequest extends FormRequest
             'zone' => 'nullable|max:45',
             'session' => 'nullable|max:5',
             'address' => 'nullable|string|max:255',
-            'zip_code' => 'nullable|size:10',
+            'zip_code' => 'nullable|size:9',
             'neighborhood' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:100',
             'leader_name' => 'required|max:255',

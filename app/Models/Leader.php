@@ -19,4 +19,9 @@ class Leader extends Model
     {
         return $this->hasMany(Voter::class);
     }
+
+    public function setCpfAttribute($value): void
+    {
+        $this->attributes['cpf'] = preg_replace('/\D/', '', $value);
+    }
 }
