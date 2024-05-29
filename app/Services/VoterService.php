@@ -22,6 +22,11 @@ class VoterService
         return $this->voterRepository->all();
     }
 
+    public function findById(int $id)
+    {
+        return $this->voterRepository->findById($id);
+    }
+
     public function create(CreateVoterDto $createVoterDto)
     {
         return DB::transaction(function () use ($createVoterDto) {

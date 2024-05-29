@@ -19,4 +19,5 @@ use Inertia\Inertia;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/voters', [VoterController::class, 'list'])->name('voters.list');
+Route::get('/voters/{id}', [VoterController::class, 'findById'])->name('voters.findById');
 Route::post('/voters', [VoterController::class, 'create'])->name('voters.create');

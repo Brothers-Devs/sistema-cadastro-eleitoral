@@ -11,7 +11,7 @@ import { mask } from "remask";
 const PATTERN_CPF = ["999.999.999-99"];
 const PATTERN_PHONE = ["(99) 9 9999-9999"];
 
-export default function Voters({ itens }) {
+export default function Voters({ items }) {
   const [openModal, setOpenModal] = useState(false);
   const [rowSelected, setRowSelected] = useState(false);
   const handleClose = () => setOpenModal(false);
@@ -113,7 +113,7 @@ export default function Voters({ itens }) {
 
       {/* Lista de Eleitores */}
       <DataGridUtils
-        dataContent={itens}
+        dataContent={items}
         columns={columns}
         setRowSelected={setRowSelected}
       />

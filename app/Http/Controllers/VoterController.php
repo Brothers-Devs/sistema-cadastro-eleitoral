@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Dto\Voter\CreateVoterDto;
 use App\Http\Requests\StoreUpdateVoterRequest;
 use App\Services\VoterService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class VoterController extends Controller
 {
@@ -15,17 +18,24 @@ class VoterController extends Controller
     ) {
     }
 
-    public function list()
+    public function list(): Response
     {
-        $itens = $this->voterService->all();
+        $items = $this->voterService->all();
 
-        return Inertia::render('Voters/Voters', ['itens' => $itens]);
+        return Inertia::render('Voters/Voters', ['items' => $items]);
     }
 
-    public function create(StoreUpdateVoterRequest $request)
+    public function findById(int $id): JsonResponse
+    {
+        $voter = $this->voterService->findById($id);
+
+        return response()->json($voter);
+    }
+
+    public function create(StoreUpdateVoterRequest $request): RedirectResponse
     {
         $this->voterService->create(CreateVoterDto::makeFromRequest($request));
 
-        return Redirect::route('voters.list');
+        return Redirect::route('voters.list')->with('message', 'Eleitor cadastrado com sucesso!');
     }
 }
