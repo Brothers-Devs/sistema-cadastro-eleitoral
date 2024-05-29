@@ -23,7 +23,7 @@ class StoreUpdateVoterRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|max:255',
             'date_of_birth' => ['nullable', new DateFormatPtBr()],
             'rg' => 'nullable|max:10',
@@ -39,5 +39,15 @@ class StoreUpdateVoterRequest extends FormRequest
             'leader_name' => 'required|max:255',
             'leader_cpf' => 'required|size:14'
         ];
+
+        if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
+            $rules['cpf'] = [
+                'required',
+                'size:14',
+                Rule::unique('voters')->ignore($this->voter_id)
+            ];
+        }
+
+        return $rules;
     }
 }

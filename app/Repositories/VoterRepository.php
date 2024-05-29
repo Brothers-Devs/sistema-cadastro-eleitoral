@@ -10,7 +10,8 @@ class VoterRepository
 {
     public function __construct(
         protected Voter $model
-    ) {
+    )
+    {
     }
 
     public function all()
@@ -26,5 +27,14 @@ class VoterRepository
         }
 
         return $voter;
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function delete(int $id): void
+    {
+        $this->model->findOrFail($id)->delete();
     }
 }
