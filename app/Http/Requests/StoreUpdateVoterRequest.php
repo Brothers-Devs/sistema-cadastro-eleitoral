@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\DateFormatPtBr;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -24,19 +25,19 @@ class StoreUpdateVoterRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'date_of_birth' => 'nullable|date|date_format:Y-d-m',
+            'date_of_birth' => ['nullable', new DateFormatPtBr()],
             'rg' => 'nullable|max:10',
-            'cpf' => 'required|min:11|max:11|unique:voters',
-            'phone' => 'required|digits:11',
+            'cpf' => 'required|size:14|unique:voters',
+            'phone' => 'required|size:16',
             'title_number' => 'nullable|max:45',
             'zone' => 'nullable|max:45',
             'session' => 'nullable|max:5',
             'address' => 'nullable|string|max:255',
-            'zip_code' => 'nullable|digits:8',
+            'zip_code' => 'nullable|size:10',
             'neighborhood' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:100',
             'leader_name' => 'required|max:255',
-            'leader_cpf' => 'required|min:11|max:11'
+            'leader_cpf' => 'required|size:14'
         ];
     }
 }
