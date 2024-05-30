@@ -83,7 +83,7 @@ export default function Edit({voter}) {
                   <div className="w-full xl:w-1/3">
                     <InputLabel
                       htmlFor="name"
-                      value="Nome*"
+                      value="Nome do Eleitor*"
                       className="mb-2.5 block text-black dark:text-white"
                     />
 
@@ -92,7 +92,7 @@ export default function Edit({voter}) {
                       name="name"
                       value={data?.name}
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="Nome"
+                      placeholder="Nome Completo"
                       required={true}
                       autoComplete="name"
                       onChange={(e) => setData("name", e.target.value)}
@@ -410,7 +410,7 @@ export default function Edit({voter}) {
                 onClick={submit}
                 className="flex mt-3 w-full h-12 justify-center rounded bg-green-600 p-3 font-medium text-gray hover:bg-opacity-90"
               >
-                Editar Eleitor
+                Salvar
               </PrimaryButton>
             </Box>
           </Box>
