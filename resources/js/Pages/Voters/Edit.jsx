@@ -1,13 +1,13 @@
 import DefaultLayout from "@/Layouts/DefaultLayout";
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 import PrimaryButton from "@/Components/PrimaryButton";
-import {Link, useForm} from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import {mask} from "remask";
+import { mask } from "remask";
 
-import {Notify} from "notiflix";
+import { Notify } from "notiflix";
 import Breadcrumb from "@/Components/Breadcrumbs/Breadcrumb";
 import NotFound from "../NotFound/NotFound";
 
@@ -25,8 +25,8 @@ const PATTERN_PHONE = ["(99) 9 9999-9999"];
 const PATTERN_DATE = ["99/99/9999"];
 const PATTERN_CEP = ["99999-999"];
 
-export default function Edit({voter}) {
-  const {data, setData, put, errors, processing, reset} = useForm({
+export default function Edit({ voter }) {
+  const { data, setData, put, errors, processing, reset } = useForm({
     name: voter?.name || "",
     cpf: voter?.cpf ? mask(voter?.cpf, PATTERN_CPF) : "",
     phone: voter?.phone ? mask(voter?.phone, PATTERN_PHONE) : "",
@@ -52,26 +52,31 @@ export default function Edit({voter}) {
       data,
       onSuccess: () => {
         Notify.success("Eleitor editado com sucesso!");
+        Notify.success("Eleitor editado com sucesso!");
         reset();
       },
       onError: (e) => {
         console.log(e);
-        Notify.failure("Algo deu errado, verifique os dados enviados e tente novamente!");
+        Notify.failure(
+          "Algo deu errado, verifique os dados enviados e tente novamente!"
+        );
+        Notify.failure(
+          "Algo deu errado, verifique os dados enviados e tente novamente!"
+        );
       },
     });
   };
 
   return voter === null ? (
-    <NotFound/>
+    <NotFound />
   ) : (
     <DefaultLayout>
-      <Breadcrumb pageName="Editar Eleitor"/>
+      <Breadcrumb pageName="Editar Eleitor" />
       <div className="grid grid-cols-1 gap-9">
         <form onSubmit={submit} className="w-full">
           <div className="flex flex-col gap-9">
             {/* <!-- Dados Pessoais --> */}
-            <div
-              className="w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+            <div className="w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                 <h3 className="font-medium text-black dark:text-white">
                   Dados Pessoais
@@ -98,7 +103,7 @@ export default function Edit({voter}) {
                       onChange={(e) => setData("name", e.target.value)}
                     />
 
-                    <InputError message={errors.name} className="mt-2"/>
+                    <InputError message={errors.name} className="mt-2" />
                   </div>
                   <div className="w-full xl:w-1/3">
                     <InputLabel
@@ -123,7 +128,10 @@ export default function Edit({voter}) {
                       }
                     />
 
-                    <InputError message={errors.date_of_birth} className="mt-2"/>
+                    <InputError
+                      message={errors.date_of_birth}
+                      className="mt-2"
+                    />
                   </div>
                   <div className="w-full xl:w-1/3"></div>
                 </div>
@@ -145,7 +153,7 @@ export default function Edit({voter}) {
                       onChange={(e) => setData("rg", e.target.value)}
                     />
 
-                    <InputError message={errors.rg} className="mt-2"/>
+                    <InputError message={errors.rg} className="mt-2" />
                   </div>
                   <div className="w-full xl:w-1/3">
                     <InputLabel
@@ -166,7 +174,7 @@ export default function Edit({voter}) {
                       }
                     />
 
-                    <InputError message={errors.cpf} className="mt-2"/>
+                    <InputError message={errors.cpf} className="mt-2" />
                   </div>
                   <div className="w-full xl:w-1/3">
                     <InputLabel
@@ -187,7 +195,7 @@ export default function Edit({voter}) {
                       }
                     />
 
-                    <InputError message={errors.phone} className="mt-2"/>
+                    <InputError message={errors.phone} className="mt-2" />
                   </div>
                 </div>
 
@@ -209,7 +217,10 @@ export default function Edit({voter}) {
                       onChange={(e) => setData("title_number", e.target.value)}
                     />
 
-                    <InputError message={errors.title_number} className="mt-2"/>
+                    <InputError
+                      message={errors.title_number}
+                      className="mt-2"
+                    />
                   </div>
                   <div className="w-full xl:w-1/3">
                     <InputLabel
@@ -227,7 +238,7 @@ export default function Edit({voter}) {
                       onChange={(e) => setData("zone", e.target.value)}
                     />
 
-                    <InputError message={errors.zone} className="mt-2"/>
+                    <InputError message={errors.zone} className="mt-2" />
                   </div>
                   <div className="w-full xl:w-1/3">
                     <InputLabel
@@ -245,7 +256,7 @@ export default function Edit({voter}) {
                       onChange={(e) => setData("session", e.target.value)}
                     />
 
-                    <InputError message={errors.session} className="mt-2"/>
+                    <InputError message={errors.session} className="mt-2" />
                   </div>
                 </div>
 
@@ -269,7 +280,7 @@ export default function Edit({voter}) {
                       }
                     />
 
-                    <InputError message={errors.zip_code} className="mt-2"/>
+                    <InputError message={errors.zip_code} className="mt-2" />
                   </div>
                   <div className="w-full xl:w-1/3"></div>
                   <div className="w-full xl:w-1/3"></div>
@@ -291,7 +302,7 @@ export default function Edit({voter}) {
                       onChange={(e) => setData("address", e.target.value)}
                     />
 
-                    <InputError message={errors.address} className="mt-2"/>
+                    <InputError message={errors.address} className="mt-2" />
                   </div>
                   <div className="w-full xl:w-1/4">
                     <InputLabel
@@ -309,7 +320,10 @@ export default function Edit({voter}) {
                       onChange={(e) => setData("neighborhood", e.target.value)}
                     />
 
-                    <InputError message={errors.neighborhood} className="mt-2"/>
+                    <InputError
+                      message={errors.neighborhood}
+                      className="mt-2"
+                    />
                   </div>
                   <div className="w-full xl:w-1/4">
                     <InputLabel
@@ -327,15 +341,14 @@ export default function Edit({voter}) {
                       onChange={(e) => setData("city", e.target.value)}
                     />
 
-                    <InputError message={errors.city} className="mt-2"/>
+                    <InputError message={errors.city} className="mt-2" />
                   </div>
                 </div>
               </div>
             </div>
 
             {/* <!-- Dados da liderança --> */}
-            <div
-              className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+            <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                 <h3 className="font-medium text-black dark:text-white">
                   Dados da Liderança
@@ -360,7 +373,7 @@ export default function Edit({voter}) {
                       onChange={(e) => setData("leader_name", e.target.value)}
                     />
 
-                    <InputError message={errors.leader_name} className="mt-2"/>
+                    <InputError message={errors.leader_name} className="mt-2" />
                   </div>
                   <div className="w-full xl:w-1/2">
                     <InputLabel
@@ -381,7 +394,7 @@ export default function Edit({voter}) {
                       }
                     />
 
-                    <InputError message={errors.leader_cpf} className="mt-2"/>
+                    <InputError message={errors.leader_cpf} className="mt-2" />
                   </div>
                 </div>
               </div>
@@ -395,15 +408,14 @@ export default function Edit({voter}) {
               gap: 3,
             }}
           >
-            <Box sx={{width: "100%"}}>
+            <Box sx={{ width: "100%" }}>
               <Link href={route("voters.list")}>
-                <PrimaryButton
-                  className="flex mt-3 w-full h-12 justify-center rounded bg-slate-500 p-3 font-medium text-gray hover:bg-opacity-90">
+                <PrimaryButton className="flex mt-3 w-full h-12 justify-center rounded bg-slate-500 p-3 font-medium text-gray hover:bg-opacity-90">
                   Cancelar
                 </PrimaryButton>
               </Link>
             </Box>
-            <Box sx={{width: "100%"}}>
+            <Box sx={{ width: "100%" }}>
               <PrimaryButton
                 type="submit"
                 disabled={processing}
@@ -414,10 +426,8 @@ export default function Edit({voter}) {
               </PrimaryButton>
             </Box>
           </Box>
-
         </form>
       </div>
     </DefaultLayout>
-  )
-    ;
+  );
 }
