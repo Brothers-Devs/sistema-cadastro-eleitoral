@@ -52,8 +52,6 @@ export default function Edit({ voter }) {
       data,
       onSuccess: () => {
         Notify.success("Eleitor editado com sucesso!");
-        Notify.success("Eleitor editado com sucesso!");
-        reset();
       },
       onError: (e) => {
         console.log(e);
@@ -422,7 +420,7 @@ export default function Edit({ voter }) {
                 onClick={submit}
                 className="flex mt-3 w-full h-12 justify-center rounded bg-green-600 p-3 font-medium text-gray hover:bg-opacity-90"
               >
-                Editar Eleitor
+                Salvar
               </PrimaryButton>
             </Box>
           </Box>

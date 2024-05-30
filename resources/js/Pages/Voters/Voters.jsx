@@ -2,11 +2,11 @@ import Breadcrumb from "@/Components/Breadcrumbs/Breadcrumb";
 import PrimaryButton from "@/Components/PrimaryButton";
 import DefaultLayout from "@/Layouts/DefaultLayout";
 import DataGridUtils from "@/Utils/DataGridUtils";
-import ModalUltis from "@/Utils/ModalUtils";
 import { Tooltip } from "@mui/material";
 import { useMemo, useState } from "react";
 import ButtonsActions from "./Actions/ButtonActions";
 import { mask } from "remask";
+import ModalCreateVoter from "./Modal/ModalCreateVoter";
 
 const PATTERN_CPF = ["999.999.999-99"];
 const PATTERN_PHONE = ["(99) 9 9999-9999"];
@@ -121,11 +121,11 @@ export default function Voters({ items }) {
       />
 
       {/* Modal de Criação ou Edição de Eleitor */}
-      <ModalUltis
+      <ModalCreateVoter
         showModal={openModal}
         handleClose={handleClose}
         title={"Cadastrar Eleitor"}
-        typeButton={"Cadastrar Eleitor"}
+        typeButton={"Salvar"}
       />
     </DefaultLayout>
   );
