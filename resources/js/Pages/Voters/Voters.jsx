@@ -7,7 +7,6 @@ import { Tooltip } from "@mui/material";
 import { useMemo, useState } from "react";
 import ButtonsActions from "./Actions/ButtonActions";
 import { mask } from "remask";
-import EditModal from "./Edit/EditModal";
 
 const PATTERN_CPF = ["999.999.999-99"];
 const PATTERN_PHONE = ["(99) 9 9999-9999"];
@@ -16,27 +15,11 @@ export default function Voters({ items }) {
   const [modification, setModification] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [rowSelected, setRowSelected] = useState(false);
-  const [openModalEdit, setOpenModalEdit] = useState(false);
-  const [editingVoter, setEditingVoter] = useState(null);
 
-  const handleEdit = (parseRowSelected) => {
-    console.log(parseRowSelected);
-    setEditingVoter(parseRowSelected);
-    setOpenModalEdit(true);
-  };
-  const handleCloseModal = () => {
-    setOpenModalEdit(!openModalEdit);
-    setEditingVoter(null);
-  };
   const handleClose = () => {
     localStorage.removeItem("rowSelected");
     setOpenModal(false);
   };
-
-  localStorage.setItem(
-    "rowSelected",
-    rowSelected ? JSON.stringify(rowSelected) : null
-  );
 
   const columns = useMemo(
     () => [
@@ -98,15 +81,11 @@ export default function Voters({ items }) {
       {
         headerName: "Ações",
         width: 90,
-        renderCell: () => (
+        renderCell: ({ row }) => (
           <ButtonsActions
-            {...{
-              handleEdit,
-              openModalEdit,
-              setOpenModalEdit,
-              modification,
-              setModification,
-            }}
+            rowSelected={row}
+            modification={modification}
+            setModification={setModification}
           />
         ),
 
@@ -146,18 +125,6 @@ export default function Voters({ items }) {
         title={"Cadastrar Eleitor"}
         typeButton={"Cadastrar Eleitor"}
       />
-      {editingVoter && (
-        <>
-          {/* <EditModal showModal={openModalEdit} handleClose={handleCloseModal} /> */}
-          <ModalUltis
-            showModal={openModalEdit}
-            handleClose={handleCloseModal}
-            title="Editar Eleitor"
-            typeButton="Editar Eleitor"
-            typeModal="edit"
-          />
-        </>
-      )}
     </DefaultLayout>
   );
 }

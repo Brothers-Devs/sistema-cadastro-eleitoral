@@ -6,6 +6,8 @@ import {
   IoPeopleOutline,
 } from "react-icons/io5";
 
+import Logo from "@/Logo/logo-candidato.png";
+
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const trigger = useRef(null);
   const sidebar = useRef(null);
@@ -59,10 +61,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <div>
+        {/* <div>
           <span className="text-bodydark font-semibold">Eleições 2024</span>
-        </div>
-
+        </div> */}
+        <Link href={route("home")}>
+          <img src={Logo} alt="Logo" />
+        </Link>
         <button
           ref={trigger}
           onClick={() => setSidebarOpen(!sidebarOpen)}

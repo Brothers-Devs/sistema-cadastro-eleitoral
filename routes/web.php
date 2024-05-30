@@ -22,4 +22,5 @@ Route::get('/voters', [VoterController::class, 'list'])->name('voters.list');
 Route::get('/voters/{id}', [VoterController::class, 'findById'])->name('voters.findById');
 Route::post('/voters', [VoterController::class, 'create'])->name('voters.create');
 Route::put('/voters/{id}', [VoterController::class, 'update'])->name('voters.update');
+Route::get('/voters/{id}/edit', [VoterController::class, 'edit'])->name('voters.edit');
 Route::delete('/voters/{id}', [VoterController::class, 'delete'])->name('voters.delete');
