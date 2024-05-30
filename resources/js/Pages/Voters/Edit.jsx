@@ -5,10 +5,11 @@ import { Link, router, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import { mask } from "remask";
+import { mask, unMask } from "remask";
 
 import { Notify } from "notiflix";
 import Breadcrumb from "@/Components/Breadcrumbs/Breadcrumb";
+import NotFound from "../NotFound/NotFound";
 
 const style = {
   width: 800,
@@ -25,21 +26,23 @@ const PATTERN_DATE = ["99/99/9999"];
 const PATTERN_CEP = ["99999-999"];
 
 export default function Edit({ voter }) {
-  const { data, setData, post, errors, processing, reset } = useForm({
+  const { data, setData, put, errors, processing, reset } = useForm({
     name: voter?.name || "",
-    cpf: voter?.cpf || "",
-    phone: voter?.phone || "",
-    date_of_birth: voter?.date_of_birth || "",
+    cpf: voter?.cpf ? mask(voter?.cpf, PATTERN_CPF) : "",
+    phone: voter?.phone ? mask(voter?.phone, PATTERN_PHONE) : "",
+    date_of_birth: voter?.date_of_birth
+      ? mask(voter?.date_of_birth, PATTERN_DATE)
+      : "",
     rg: voter?.rg || "",
     title_number: voter?.title_number || "",
     zone: voter?.zone || "",
     session: voter?.session || "",
     address: voter?.address || "",
-    zip_code: voter?.zip_code || "",
+    zip_code: voter?.zip_code ? mask(voter?.zip_code, PATTERN_CEP) : "",
     neighborhood: voter?.neighborhood || "",
     city: voter?.city || "",
     leader_name: voter?.leader.name || "",
-    leader_cpf: voter?.leader.cpf || "",
+    leader_cpf: voter?.leader.cpf ? mask(voter?.leader.cpf, PATTERN_CPF) : "",
   });
 
   const submit = (e) => {
@@ -47,18 +50,18 @@ export default function Edit({ voter }) {
 
     const dataRequest = {
       ...data,
-      cpf: mask(data.cpf, PATTERN_CPF),
-      date_of_birth: mask(data.date_of_birth, PATTERN_DATE),
-      phone: mask(data.phone, PATTERN_PHONE),
-      zip_code: mask(data.zip_code, PATTERN_CEP),
-      leader_cpf: mask(data.leader_cpf, PATTERN_CPF),
+      cpf: unMask(data.cpf, PATTERN_CPF),
+      date_of_birth: unMask(data.date_of_birth, PATTERN_DATE),
+      phone: unMask(data.phone, PATTERN_PHONE),
+      zip_code: unMask(data.zip_code, PATTERN_CEP),
+      leader_cpf: unMask(data.leader_cpf, PATTERN_CPF),
     };
 
-    router.put(`/voters/${voter.id}`, dataRequest, {
+    put(`/voters/${voter.id}`, {
+      data: dataRequest,
       onSuccess: () => {
         Notify.success("Eleitor Editado com Sucesso!");
         reset();
-        router.get("voters.list");
       },
       onError: (e) => {
         console.log(e);
@@ -67,7 +70,9 @@ export default function Edit({ voter }) {
     });
   };
 
-  return (
+  return voter === null ? (
+    <NotFound />
+  ) : (
     <DefaultLayout>
       <Breadcrumb pageName="Editar Eleitor" />
       <Box
@@ -75,7 +80,6 @@ export default function Edit({ voter }) {
           width: "100%",
           display: "flex",
           justifyContent: "center",
-          //   alignItems: "center",
         }}
       >
         <Box sx={style}>
@@ -93,7 +97,7 @@ export default function Edit({ voter }) {
                   <TextInput
                     id="name"
                     name="name"
-                    value={data.name}
+                    value={data?.name}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="Nome"
                     required={true}
@@ -114,7 +118,7 @@ export default function Edit({ voter }) {
                   <TextInput
                     id="date_of_birth"
                     name="date_of_birth"
-                    value={data.date_of_birth}
+                    value={data?.date_of_birth}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="Data de Nascimento"
                     required={true}
@@ -143,7 +147,7 @@ export default function Edit({ voter }) {
                   <TextInput
                     id="rg"
                     name="rg"
-                    value={data.rg}
+                    value={data?.rg}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="RG"
                     onChange={(e) => setData("rg", e.target.value)}
@@ -161,7 +165,7 @@ export default function Edit({ voter }) {
                   <TextInput
                     id="cpf"
                     name="cpf"
-                    value={data.cpf}
+                    value={data?.cpf}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="999.999.999-99"
                     required={true}
@@ -186,7 +190,7 @@ export default function Edit({ voter }) {
                   <TextInput
                     id="phone"
                     name="phone"
-                    value={data.phone}
+                    value={data?.phone}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="(99) 9 9999-9999"
                     required={true}
@@ -207,7 +211,7 @@ export default function Edit({ voter }) {
                   <TextInput
                     id="title_number"
                     name="title_number"
-                    value={data.title_number}
+                    value={data?.title_number}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="Nº Título"
                     onChange={(e) => setData("title_number", e.target.value)}
@@ -229,7 +233,7 @@ export default function Edit({ voter }) {
                   <TextInput
                     id="zone"
                     name="zone"
-                    value={data.zone}
+                    value={data?.zone}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="Nº Zona"
                     onChange={(e) => setData("zone", e.target.value)}
@@ -247,7 +251,7 @@ export default function Edit({ voter }) {
                   <TextInput
                     id="session"
                     name="session"
-                    value={data.session}
+                    value={data?.session}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="Seção"
                     onChange={(e) => setData("session", e.target.value)}
@@ -269,7 +273,7 @@ export default function Edit({ voter }) {
                   <TextInput
                     id="address"
                     name="address"
-                    value={data.address}
+                    value={data?.address}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="Endereço"
                     onChange={(e) => setData("address", e.target.value)}
@@ -287,7 +291,7 @@ export default function Edit({ voter }) {
                   <TextInput
                     id="cep"
                     name="cep"
-                    value={data.zip_code}
+                    value={data?.zip_code}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="CEP"
                     onChange={(e) =>
@@ -311,7 +315,7 @@ export default function Edit({ voter }) {
                   <TextInput
                     id="neighborhood"
                     name="neighborhood"
-                    value={data.neighborhood}
+                    value={data?.neighborhood}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="Bairro"
                     onChange={(e) => setData("neighborhood", e.target.value)}
@@ -329,7 +333,7 @@ export default function Edit({ voter }) {
                   <TextInput
                     id="city"
                     name="city"
-                    value={data.city}
+                    value={data?.city}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="Cidade"
                     onChange={(e) => setData("city", e.target.value)}

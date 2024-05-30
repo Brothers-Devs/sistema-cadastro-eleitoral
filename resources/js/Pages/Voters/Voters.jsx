@@ -17,7 +17,6 @@ export default function Voters({ items }) {
   const [rowSelected, setRowSelected] = useState(false);
 
   const handleClose = () => {
-    localStorage.removeItem("rowSelected");
     setOpenModal(false);
   };
 
@@ -32,7 +31,7 @@ export default function Voters({ items }) {
       {
         field: "name",
         headerName: "Nome",
-        width: 150,
+        width: 250,
         disableClickEventBubbling: true,
       },
       {
@@ -47,7 +46,7 @@ export default function Voters({ items }) {
       {
         field: "phone",
         headerName: "Telefone",
-        width: 160,
+        width: 140,
         disableClickEventBubbling: true,
         valueGetter: (_, row) => {
           return `${mask(row?.phone, PATTERN_PHONE)}`;
@@ -56,20 +55,20 @@ export default function Voters({ items }) {
       {
         field: "city",
         headerName: "Município",
-        width: 160,
+        width: 120,
         disableClickEventBubbling: true,
       },
       {
         field: "neighborhood",
         headerName: "Bairro",
-        width: 150,
+        width: 120,
         disableClickEventBubbling: true,
       },
 
       {
         field: "leader",
         headerName: "Liderança",
-        width: 160,
+        width: 200,
         disableClickEventBubbling: true,
         valueGetter: (_, row) => {
           return `${row?.leader.name} - (${mask(
