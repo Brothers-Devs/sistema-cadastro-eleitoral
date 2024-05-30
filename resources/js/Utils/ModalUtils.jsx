@@ -15,7 +15,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 600,
+  width: 1000,
   height: 660,
   bgcolor: "background.paper",
   border: "1px solid",
@@ -66,12 +66,12 @@ export default function ModalUltis({
 
     post(route("voters.create"), {
       onSuccess: () => {
-        Notify.success("Eleitor cadastro com Sucesso!");
+        Notify.success("Eleitor cadastro com sucesso!");
         reset();
         handleClose();
       },
       onError: (e) => {
-        Notify.failure("Erro ao cadastrar eleitor!");
+        Notify.failure("Algo deu errado, tente novamente");
       },
     });
   };
@@ -97,13 +97,13 @@ export default function ModalUltis({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
+              p: "15px",
             }}
           >
             <Typography
               variant="h5"
               sx={{
                 fontWeight: "bold",
-                p: "26px",
               }}
             >
               {title}
@@ -116,11 +116,11 @@ export default function ModalUltis({
           <form onSubmit={submit}>
             <div className="w-full p-6.5">
               {/*Input de Nome e Data*/}
-              <div className="mb-10 flex flex-col gap-6 xl:flex-row">
-                <div className="w-full h-14 xl:w-1/2">
+              <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
+                <div className="w-full xl:w-2/3">
                   <InputLabel
                     htmlFor="name"
-                    value="Nome"
+                    value="Nome*"
                     className="mb-2.5 block text-black dark:text-white"
                   />
 
@@ -129,16 +129,15 @@ export default function ModalUltis({
                     name="name"
                     value={data.name}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="Nome"
+                    placeholder="Nome Completo"
                     required={true}
                     autoComplete="name"
                     onChange={(e) => setData("name", e.target.value)}
                   />
 
-                  <InputError message={errors.name} className="mt-2" />
+                  <InputError message={errors.name} className="mt-2"/>
                 </div>
-
-                <div className="w-full xl:w-1/2">
+                <div className="w-full xl:w-1/3">
                   <InputLabel
                     htmlFor="date_of_birth"
                     value="Data de Nascimento"
@@ -150,7 +149,7 @@ export default function ModalUltis({
                     name="date_of_birth"
                     value={data.date_of_birth}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="Data de Nascimento"
+                    placeholder="__/__/____"
                     required={true}
                     autoComplete="date"
                     onChange={(e) =>
@@ -161,13 +160,13 @@ export default function ModalUltis({
                     }
                   />
 
-                  <InputError message={errors.date_of_birth} className="mt-2" />
+                  <InputError message={errors.date_of_birth} className="mt-2"/>
                 </div>
               </div>
 
-              {/*Input de RG e CPF*/}
+              {/*Input de RG, CPF e Telefone*/}
               <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
-                <div className="w-full xl:w-1/2">
+                <div className="w-full xl:w-1/3">
                   <InputLabel
                     htmlFor="rg"
                     value="RG"
@@ -183,12 +182,12 @@ export default function ModalUltis({
                     onChange={(e) => setData("rg", e.target.value)}
                   />
 
-                  <InputError message={errors.rg} className="mt-2" />
+                  <InputError message={errors.rg} className="mt-2"/>
                 </div>
-                <div className="w-full  xl:w-1/2">
+                <div className="w-full xl:w-1/3">
                   <InputLabel
                     htmlFor="cpf"
-                    value="CPF"
+                    value="CPF*"
                     className="mb-2.5 block text-black dark:text-white"
                   />
 
@@ -197,23 +196,19 @@ export default function ModalUltis({
                     name="cpf"
                     value={data.cpf}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="999.999.999-99"
+                    placeholder="000.000.000-00"
                     required={true}
                     onChange={(e) =>
                       setData("cpf", mask(e.target.value, PATTERN_CPF))
                     }
                   />
 
-                  <InputError message={errors.cpf} className="mt-2" />
+                  <InputError message={errors.cpf} className="mt-2"/>
                 </div>
-              </div>
-
-              {/*Input de Telefone e Título*/}
-              <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
-                <div className="w-full  xl:w-1/2">
+                <div className="w-full xl:w-1/3">
                   <InputLabel
                     htmlFor="phone"
-                    value="Telefone"
+                    value="Telefone*"
                     className="mb-2.5 block text-black dark:text-white"
                   />
 
@@ -222,16 +217,20 @@ export default function ModalUltis({
                     name="phone"
                     value={data.phone}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="(99) 9 9999-9999"
+                    placeholder="(91) 9 0000-0000"
                     required={true}
                     onChange={(e) =>
                       setData("phone", mask(e.target.value, PATTERN_PHONE))
                     }
                   />
 
-                  <InputError message={errors.phone} className="mt-2" />
+                  <InputError message={errors.phone} className="mt-2"/>
                 </div>
-                <div className="w-full  xl:w-1/2">
+              </div>
+
+              {/*Input de Título, Zona e Seção*/}
+              <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
+                <div className="w-full xl:w-1/3">
                   <InputLabel
                     htmlFor="title_number"
                     value="Nº Título"
@@ -247,13 +246,9 @@ export default function ModalUltis({
                     onChange={(e) => setData("title_number", e.target.value)}
                   />
 
-                  <InputError message={errors.title_number} className="mt-2" />
+                  <InputError message={errors.title_number} className="mt-2"/>
                 </div>
-              </div>
-
-              {/*Input de Zona e Seção*/}
-              <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
-                <div className="w-full  xl:w-1/2">
+                <div className="w-full xl:w-1/3">
                   <InputLabel
                     htmlFor="zone"
                     value="Zona"
@@ -269,9 +264,9 @@ export default function ModalUltis({
                     onChange={(e) => setData("zone", e.target.value)}
                   />
 
-                  <InputError message={errors.zone} className="mt-2" />
+                  <InputError message={errors.zone} className="mt-2"/>
                 </div>
-                <div className="w-full  xl:w-1/2">
+                <div className="w-full xl:w-1/3">
                   <InputLabel
                     htmlFor="session"
                     value="Seção"
@@ -287,7 +282,7 @@ export default function ModalUltis({
                     onChange={(e) => setData("session", e.target.value)}
                   />
 
-                  <InputError message={errors.session} className="mt-2" />
+                  <InputError message={errors.session} className="mt-2"/>
                 </div>
               </div>
 
@@ -323,7 +318,7 @@ export default function ModalUltis({
                     name="cep"
                     value={data.zip_code}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="CEP"
+                    placeholder="00000-000"
                     onChange={(e) =>
                       setData("zip_code", mask(e.target.value, PATTERN_CEP))
                     }
@@ -372,12 +367,13 @@ export default function ModalUltis({
                   <InputError message={errors.city} className="mt-2" />
                 </div>
               </div>
+
               {/*Input de Nome do Líder e CPF*/}
-              <div className="w-full flex flex-col gap-6 xl:flex-row  mb-5">
+              <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
                 <div className="w-full  xl:w-1/2">
                   <InputLabel
                     htmlFor="leader"
-                    value="Nome da Liderança"
+                    value="Nome da Liderança*"
                     className="mb-2.5 block text-black dark:text-white"
                   />
 
@@ -396,7 +392,7 @@ export default function ModalUltis({
                 <div className="w-full  xl:w-1/2">
                   <InputLabel
                     htmlFor="leader_cpf"
-                    value="CPF da Liderança"
+                    value="CPF da Liderança*"
                     className="mb-2.5 block text-black dark:text-white"
                   />
 
@@ -405,7 +401,7 @@ export default function ModalUltis({
                     name="leader_cpf"
                     value={data.leader_cpf}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="CPF da Liderança"
+                    placeholder="000.000.000-00"
                     required={true}
                     onChange={(e) =>
                       setData("leader_cpf", mask(e.target.value, PATTERN_CPF))

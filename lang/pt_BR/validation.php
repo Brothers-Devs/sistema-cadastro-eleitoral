@@ -213,7 +213,10 @@ return [
         'modality' => 'modalidade',
         'category' => 'categoria',
         'blood_type' => 'tipo sanguíneo',
-        'birth_date' => 'data de nascimento'
+        'birth_date' => 'data de nascimento',
+        'date_of_birth' => 'data de nascimento',
+        'leader_name' => 'nome da liderança',
+        'leader_cpf' => 'cpf da liderança',
     ],
 
 ];
