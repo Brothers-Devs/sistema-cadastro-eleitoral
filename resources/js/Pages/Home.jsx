@@ -20,18 +20,18 @@ export default function Home({ total }) {
             <IoPeopleOutline size={22} color="#3C50E0" />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total de Liderança" total={total.total_leaders}>
-          <svg
-            className="fill-primary dark:fill-white"
-            width="22"
-            height="18"
-            viewBox="0 0 22 18"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <IoPeopleOutline size={22} color="#3C50E0" />
-          </svg>
-        </CardDataStats>
+        {/*<CardDataStats title="Total de Liderança" total={total.total_leaders}>*/}
+        {/*  <svg*/}
+        {/*    className="fill-primary dark:fill-white"*/}
+        {/*    width="22"*/}
+        {/*    height="18"*/}
+        {/*    viewBox="0 0 22 18"*/}
+        {/*    fill="none"*/}
+        {/*    xmlns="http://www.w3.org/2000/svg"*/}
+        {/*  >*/}
+        {/*    <IoPeopleOutline size={22} color="#3C50E0" />*/}
+        {/*  </svg>*/}
+        {/*</CardDataStats>*/}
       </div>
     </DefaultLayout>
   );
