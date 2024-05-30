@@ -51,9 +51,10 @@ const Header = (props) => {
         <div className="hidden sm:block"></div>
 
         <div className="flex items-center gap-3 2xsm:gap-7">
+          <p>Eleições 2024</p>
           <ul className="flex items-center gap-2 2xsm:gap-4">
             {/* <!-- Dark Mode Toggler --> */}
-            <DarkModeSwitcher />
+            {/*<DarkModeSwitcher />*/}
           </ul>
         </div>
       </div>
