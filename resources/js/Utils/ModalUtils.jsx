@@ -120,7 +120,7 @@ export default function ModalUltis({
                 <div className="w-full xl:w-2/3">
                   <InputLabel
                     htmlFor="name"
-                    value="Nome*"
+                    value="Nome do Eleitor*"
                     className="mb-2.5 block text-black dark:text-white"
                   />
 

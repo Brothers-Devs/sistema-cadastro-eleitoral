@@ -125,7 +125,7 @@ export default function Voters({ items }) {
         showModal={openModal}
         handleClose={handleClose}
         title={"Cadastrar Eleitor"}
-        typeButton={"Cadastrar Eleitor"}
+        typeButton={"Salvar"}
       />
     </DefaultLayout>
   );
