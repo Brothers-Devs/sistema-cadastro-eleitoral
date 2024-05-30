@@ -18,7 +18,7 @@ class CreateLeaderDto
     {
         return new self(
             name: $request->leader_name,
-            cpf: $request->leader_cpf
+            cpf: self::removeMask($request->leader_cpf)
         );
     }
 
@@ -26,8 +26,13 @@ class CreateLeaderDto
     {
         return new self(
             name: $data['leader_name'],
-            cpf: $data['leader_cpf']
+            cpf: self::removeMask($data['leader_cpf'])
         );
+    }
+
+    protected static function removeMask(string $value): array|string|null
+    {
+        return preg_replace('/\D/', '', $value);
     }
 
     public function toArray(): array

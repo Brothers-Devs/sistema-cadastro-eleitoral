@@ -16,13 +16,7 @@ class VoterController extends Controller
 {
     public function __construct(
         protected VoterService $voterService
-    )
-    {
-    }
-    public function edit(int $id){
-        $voter = $this->voterService->findById($id);
-        
-        return Inertia::render("Voters/Edit",["voter" => $voter]);
+    ) {
     }
 
     public function list(): Response
@@ -48,6 +42,17 @@ class VoterController extends Controller
                 'success' => true,
                 'message' => 'Eleitor cadastrado com sucesso.'
             ]);
+    }
+
+    /**
+     * @param int $id
+     * @return Response
+     */
+    public function edit(int $id): Response
+    {
+        $voter = $this->voterService->findById($id);
+
+        return Inertia::render('Voters/Edit', ['voter' => $voter]);
     }
 
     /**
