@@ -56,7 +56,7 @@ export default function DataGridUtils({
 }) {
   return (
     <DataGrid
-      sx={{ p: 3, height: "33rem" }}
+      sx={{ p: 3, height: "46.68rem" }}
       getRowId={(rows) => rows.id}
       rows={dataContent}
       columns={columns}

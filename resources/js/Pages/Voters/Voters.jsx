@@ -57,12 +57,18 @@ export default function Voters({ items }) {
         headerName: "Município",
         width: 120,
         disableClickEventBubbling: true,
+        valueGetter: (_, row) => {
+          return `${row?.city ? row.city : "-"}`;
+        },
       },
       {
         field: "neighborhood",
         headerName: "Bairro",
         width: 120,
         disableClickEventBubbling: true,
+        valueGetter: (_, row) => {
+          return `${row?.neighborhood ? row.neighborhood : "-"}`;
+        },
       },
 
       {
@@ -71,10 +77,7 @@ export default function Voters({ items }) {
         width: 200,
         disableClickEventBubbling: true,
         valueGetter: (_, row) => {
-          return `${row?.leader.name} - (${mask(
-            row?.leader.cpf,
-            PATTERN_CPF
-          )})`;
+          return `${row?.leader.name} (${mask(row?.leader.cpf, PATTERN_CPF)})`;
         },
       },
       {

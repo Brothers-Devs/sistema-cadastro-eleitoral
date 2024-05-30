@@ -48,17 +48,8 @@ export default function Edit({ voter }) {
   const submit = (e) => {
     e.preventDefault();
 
-    const dataRequest = {
-      ...data,
-      cpf: unMask(data.cpf, PATTERN_CPF),
-      date_of_birth: unMask(data.date_of_birth, PATTERN_DATE),
-      phone: unMask(data.phone, PATTERN_PHONE),
-      zip_code: unMask(data.zip_code, PATTERN_CEP),
-      leader_cpf: unMask(data.leader_cpf, PATTERN_CPF),
-    };
-
     put(`/voters/${voter.id}`, {
-      data: dataRequest,
+      data,
       onSuccess: () => {
         Notify.success("Eleitor Editado com Sucesso!");
         reset();
