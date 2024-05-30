@@ -6,12 +6,11 @@ import { Tooltip } from "@mui/material";
 import { useMemo, useState } from "react";
 import ButtonsActions from "./Actions/ButtonActions";
 import { mask } from "remask";
-import ModalCreateVoter from "./Modal/ModalCreateVoter";
+import ModalCreateLeader from "./Modal/ModalCreateLeader";
 
 const PATTERN_CPF = ["999.999.999-99"];
-const PATTERN_PHONE = ["(99) 9 9999-9999"];
 
-export default function Voters({ items }) {
+export default function Leaders({ items }) {
   const [modification, setModification] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [rowSelected, setRowSelected] = useState(false);
@@ -44,43 +43,6 @@ export default function Voters({ items }) {
         },
       },
       {
-        field: "phone",
-        headerName: "Telefone",
-        width: 140,
-        disableClickEventBubbling: true,
-        valueGetter: (_, row) => {
-          return `${mask(row?.phone, PATTERN_PHONE)}`;
-        },
-      },
-      {
-        field: "city",
-        headerName: "Município",
-        width: 120,
-        disableClickEventBubbling: true,
-        valueGetter: (_, row) => {
-          return `${row?.city ? row.city : "-"}`;
-        },
-      },
-      {
-        field: "neighborhood",
-        headerName: "Bairro",
-        width: 120,
-        disableClickEventBubbling: true,
-        valueGetter: (_, row) => {
-          return `${row?.neighborhood ? row.neighborhood : "-"}`;
-        },
-      },
-
-      {
-        field: "leader",
-        headerName: "Liderança",
-        width: 200,
-        disableClickEventBubbling: true,
-        valueGetter: (_, row) => {
-          return `${row?.leader.name} (${mask(row?.leader.cpf, PATTERN_CPF)})`;
-        },
-      },
-      {
         headerName: "Ações",
         width: 90,
         renderCell: ({ row }) => (
@@ -101,7 +63,7 @@ export default function Voters({ items }) {
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Eleitores" />
+      <Breadcrumb pageName="Lideres" />
 
       <div className="flex justify-between">
         <div></div>
@@ -109,23 +71,23 @@ export default function Voters({ items }) {
           className="bg-green-600 hover:bg-green-500 mb-10 h-11"
           onClick={() => setOpenModal(!openModal)}
         >
-          <Tooltip title="Cadastrar Eleitor">Cadastrar</Tooltip>
+          <Tooltip title="Cadastrar Liderança">Cadastrar</Tooltip>
         </PrimaryButton>
       </div>
 
-      {/* Lista de Eleitores */}
+      {/* Lista de Lideranças */}
       <DataGridUtils
         dataContent={items}
         columns={columns}
         setRowSelected={setRowSelected}
       />
 
-      {/* Modal de Criação ou Edição de Eleitor */}
-      <ModalCreateVoter
+      {/* Modal de Criação de Liderança */}
+      <ModalCreateLeader
         showModal={openModal}
         handleClose={handleClose}
         title={"Cadastrar Eleitor"}
-        typeButton={"Salvar"}
+        typeButton={"Cadastrar Eleitor"}
       />
     </DefaultLayout>
   );

@@ -114,7 +114,7 @@ function ModalDelete({
         >
           <GoAlert size={30} className="mr-3" color="red" />
           <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
-            Excluir Eleitor
+            Excluir Liderança
           </Typography>
         </Box>
         <Typography
@@ -123,13 +123,13 @@ function ModalDelete({
           component="h2"
           sx={{ mt: 2, textAlign: "center" }}
         >
-          {`Tem certeza que deseja excluir o eleitor ${
+          {`Tem certeza que deseja excluir a Liderança ${
             dataVoter.name
           } de CPF: ${mask(dataVoter.cpf, PATTERN_CPF)} ?`}
         </Typography>
         <Stack direction="row" alignItems="center" spacing={4} sx={{ mt: 5 }}>
           <PrimaryButton
-            className="bg-slate-200 p-3 font-medium text-slate-800 hover:bg-slate-100 mb-10 h-11"
+            className="bg-slate-200 p-3 font-medium text-slate-600 hover:bg-slate-100 mb-10 h-11"
             onClick={handleClose}
           >
             Cancelar
