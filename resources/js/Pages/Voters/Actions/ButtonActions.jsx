@@ -5,11 +5,9 @@ import { Create } from "@mui/icons-material";
 import { useState } from "react";
 import { GoAlert } from "react-icons/go";
 import { mask } from "remask";
-import { Inertia } from "@inertiajs/inertia";
 import { router } from "@inertiajs/react";
-import { toast } from "react-toastify";
-import ModalUltis from "@/Utils/ModalUtils";
 import { Notify } from "notiflix";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 const style = {
   position: "absolute",
@@ -20,7 +18,7 @@ const style = {
   alignItems: "center",
   flexDirection: "column",
   width: 500,
-  height: 250,
+  height: 280,
   bgcolor: "background.paper",
   borderRadius: 2,
   boxShadow: 24,
@@ -29,9 +27,7 @@ const style = {
 const PATTERN_CPF = ["999.999.999-99"];
 
 export default function ButtonsActions({
-  handleEdit,
-  _,
-  setOpenModalEdit,
+  rowSelected,
   modification,
   setModification,
 }) {
@@ -39,8 +35,9 @@ export default function ButtonsActions({
   const handleOpenModalDelete = () => setOpenModalDelete(true);
   const handleCloseModalDelete = () => setOpenModalDelete(false);
 
-  const getRowSelectedOfLocalStorage = localStorage.getItem("rowSelected");
-  const parseRowSelected = JSON.parse(getRowSelectedOfLocalStorage);
+  function handleEdit() {
+    router.get(`/voters/${rowSelected?.id}/edit`);
+  }
 
   return (
     <Stack direction="row" alignItems="center" spacing={0}>
@@ -49,10 +46,7 @@ export default function ButtonsActions({
           aria-label="edit"
           size="medium"
           color="primary"
-          onClick={() => {
-            setOpenModalEdit(true);
-            handleEdit(parseRowSelected?.row);
-          }}
+          onClick={handleEdit}
         >
           <Create fontSize="inherit" />
         </IconButton>
@@ -71,8 +65,8 @@ export default function ButtonsActions({
         <ModalDelete
           handleClose={handleCloseModalDelete}
           open={openModalDelete}
-          rowId={parseRowSelected?.id}
-          dataVoter={parseRowSelected}
+          rowId={rowSelected?.id}
+          dataVoter={rowSelected}
           modification={modification}
           setModification={setModification}
         />
@@ -114,7 +108,8 @@ function ModalDelete({
           sx={{
             display: "flex",
             justifyContent: "center",
-            alignContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
           }}
         >
           <GoAlert size={30} className="mr-3" color="red" />
@@ -129,28 +124,22 @@ function ModalDelete({
           sx={{ mt: 2, textAlign: "center" }}
         >
           {`Tem certeza que deseja excluir o eleitor ${
-            dataVoter.row.name
-          } de CPF: ${mask(dataVoter.row.cpf, PATTERN_CPF)} ?`}
+            dataVoter.name
+          } de CPF: ${mask(dataVoter.cpf, PATTERN_CPF)} ?`}
         </Typography>
         <Stack direction="row" alignItems="center" spacing={4} sx={{ mt: 5 }}>
-          <Button
-            color="success"
-            size="large"
-            variant="outlined"
-            sx={{ borderRadius: 20, width: 100 }}
-            onClick={submitDeletion}
-          >
-            Excluir
-          </Button>
-          <Button
-            color="warning"
-            size="large"
-            variant="outlined"
-            sx={{ borderRadius: 20, width: 100 }}
+          <PrimaryButton
+            className="bg-slate-200 p-3 font-medium text-boxdark hover:bg-slate-100 mb-10 h-11"
             onClick={handleClose}
           >
             Cancelar
-          </Button>
+          </PrimaryButton>
+          <PrimaryButton
+            className="bg-red-600 p-3 font-medium hover:bg-red-400 mb-10 h-11"
+            onClick={submitDeletion}
+          >
+            Excluir
+          </PrimaryButton>
         </Stack>
       </Box>
     </Modal>
