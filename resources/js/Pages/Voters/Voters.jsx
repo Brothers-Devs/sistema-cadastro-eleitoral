@@ -106,7 +106,7 @@ export default function Voters({ items }) {
       <div className="flex justify-between">
         <div></div>
         <PrimaryButton
-          className="bg-green-600 hover:bg-green-500 mb-10 h-11"
+          className="bg-green-600 text-slate-50 hover:bg-green-500 tex mb-10 h-11"
           onClick={() => setOpenModal(!openModal)}
         >
           <Tooltip title="Cadastrar Eleitor">Cadastrar</Tooltip>
