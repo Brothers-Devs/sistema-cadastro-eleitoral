@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply font-satoshi font-normal text-base bg-white relative z-1;
+    @apply font-satoshi font-normal text-base bg-whiten relative z-1;
   }
 }
 
@@ -31,7 +31,7 @@
 }
 
 /* third-party libraries CSS */
-/* 
+/*
 .tableCheckbox:checked ~ div span {
   @apply opacity-100;
 }

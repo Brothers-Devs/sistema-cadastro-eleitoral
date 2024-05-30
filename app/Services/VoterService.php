@@ -53,8 +53,11 @@ class VoterService
             );
 
             if ($leader) {
-                $voter = $leader->voters()->find($updateVoterDto->id);
-                $voter->update($updateVoterDto->toArray());
+                if ($voter = $this->voterRepository->findById($updateVoterDto->id)) {
+                    $data = $updateVoterDto->toArray();
+                    $data['leader_id'] = $leader->id;
+                    return $voter->update($data);
+                };
             }
         });
     }

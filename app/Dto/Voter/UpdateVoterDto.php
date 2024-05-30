@@ -13,7 +13,7 @@ class UpdateVoterDto
         public int $id,
         public string $name,
         public ?string $dateOfBirth,
-        public ?int $rg,
+        public ?string $rg,
         public string $cpf,
         public string $phone,
         public ?string $titleNumber,
