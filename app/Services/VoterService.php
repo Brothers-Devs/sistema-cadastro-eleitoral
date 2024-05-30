@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Dto\Leader\CreateLeaderDto;
 use App\Dto\Voter\CreateVoterDto;
 use App\Dto\Voter\UpdateVoterDto;
 use App\Models\Leader;
 use App\Repositories\LeaderRepository;
 use App\Repositories\VoterRepository;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class VoterService
 {
@@ -47,17 +49,42 @@ class VoterService
     {
         return DB::transaction(function () use ($updateVoterDto) {
             /** @var Leader $leader */
-            $leader = $this->leaderRepository->model->firstOrCreate(
-                ['cpf' => $updateVoterDto->leader->cpf],
-                $updateVoterDto->leader->toArray()
-            );
+            $leader = $this->leaderRepository->findByCpf($updateVoterDto->leader->cpf);
 
             if ($leader) {
-                if ($voter = $this->voterRepository->findById($updateVoterDto->id)) {
-                    $data = $updateVoterDto->toArray();
-                    $data['leader_id'] = $leader->id;
-                    return $voter->update($data);
-                };
+                $leaderOld = $leader;
+                $leader->update($updateVoterDto->leader->toArray());
+                Log::info(
+                    'LIDER_ATUALIZADO',
+                    [
+                        'old' => $leaderOld->toArray(),
+                        'new' => $leader->toArray(),
+                    ]
+                );
+            } else {
+                /** @var Leader $leader */
+                $leader = $this->leaderRepository->create(
+                    CreateLeaderDto::makeFromArray([
+                        'leader_name' => $updateVoterDto->leader->name,
+                        'leader_cpf' => $updateVoterDto->leader->cpf,
+                    ])
+                );
+                Log::info('LIDER_CADASTRADO', $leader->toArray());
+            }
+
+            if ($voter = $this->voterRepository->findById($updateVoterDto->id)) {
+                $voterOld = $voter;
+                $data = $updateVoterDto->toArray();
+                $data['leader_id'] = $leader->id;
+                $voter->update($data);
+                $voter->refresh();
+                Log::info(
+                    'ELEITOR_ATUALIZADO',
+                    [
+                        'old' => $voterOld->toArray(),
+                        'new' => $voter->toArray(),
+                    ]
+                );
             }
         });
     }
