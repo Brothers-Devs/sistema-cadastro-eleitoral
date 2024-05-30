@@ -71,7 +71,7 @@ export default function ModalUltis({
         handleClose();
       },
       onError: (e) => {
-        Notify.failure("Algo deu errado, tente novamente");
+        Notify.failure("Algo deu errado, verifique os dados enviados e tente novamente!");
       },
     });
   };

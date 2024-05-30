@@ -51,12 +51,12 @@ export default function Edit({ voter }) {
     put(`/voters/${voter.id}`, {
       data,
       onSuccess: () => {
-        Notify.success("Eleitor Editado com Sucesso!");
+        Notify.success("Eleitor editado com sucesso!");
         reset();
       },
       onError: (e) => {
         console.log(e);
-        Notify.failure("Erro ao editar eleitor!");
+        Notify.failure("Algo deu errado, verifique os dados enviados e tente novamente!");
       },
     });
   };
@@ -385,6 +385,13 @@ export default function Edit({ voter }) {
                 }}
               >
                 <Box sx={{ width: "100%" }}>
+                  <Link href={route("voters.list")}>
+                    <PrimaryButton className="flex mt-3 w-full h-12 justify-center rounded bg-slate-600 p-3 font-medium text-gray hover:bg-opacity-90">
+                      Cancelar
+                    </PrimaryButton>
+                  </Link>
+                </Box>
+                <Box sx={{ width: "100%" }}>
                   <PrimaryButton
                     type="submit"
                     disabled={processing}
@@ -393,13 +400,6 @@ export default function Edit({ voter }) {
                   >
                     Editar Eleitor
                   </PrimaryButton>
-                </Box>
-                <Box sx={{ width: "100%" }}>
-                  <Link href={route("voters.list")}>
-                    <PrimaryButton className="flex mt-3 w-full h-12 justify-center rounded bg-slate-600 p-3 font-medium text-gray hover:bg-opacity-90">
-                      Cancelar
-                    </PrimaryButton>
-                  </Link>
                 </Box>
               </Box>
             </div>

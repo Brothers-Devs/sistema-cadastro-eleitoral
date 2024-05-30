@@ -1,0 +1,342 @@
+{
+  "_ApplicationLogo-ltPcv-Wr.js": {
+    "file": "assets/ApplicationLogo-ltPcv-Wr.js",
+    "name": "ApplicationLogo",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Box-uMls3rl9.js": {
+    "file": "assets/Box-uMls3rl9.js",
+    "name": "Box",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Breadcrumb-CHUONxhB.js": {
+    "file": "assets/Breadcrumb-CHUONxhB.js",
+    "name": "Breadcrumb",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_ButtonActions-BTHfypfh.js": {
+    "file": "assets/ButtonActions-BTHfypfh.js",
+    "name": "ButtonActions",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Box-uMls3rl9.js",
+      "_iconBase-Cxtnh1GD.js",
+      "_notiflix-aio-3.2.7.min-D9dPabra.js",
+      "_PrimaryButton-CmOvU_d3.js"
+    ]
+  },
+  "_DefaultLayout-dTxQfisa.js": {
+    "file": "assets/DefaultLayout-dTxQfisa.js",
+    "name": "DefaultLayout",
+    "imports": [
+      "resources/js/app.jsx",
+      "_iconBase-Cxtnh1GD.js"
+    ],
+    "assets": [
+      "assets/logo-candidato-DdTOUPlL.png"
+    ]
+  },
+  "_GuestLayout-BC6mBq4L.js": {
+    "file": "assets/GuestLayout-BC6mBq4L.js",
+    "name": "GuestLayout",
+    "imports": [
+      "resources/js/app.jsx",
+      "_ApplicationLogo-ltPcv-Wr.js"
+    ]
+  },
+  "_InputLabel-BU3UjW-M.js": {
+    "file": "assets/InputLabel-BU3UjW-M.js",
+    "name": "InputLabel",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_PrimaryButton-CmOvU_d3.js": {
+    "file": "assets/PrimaryButton-CmOvU_d3.js",
+    "name": "PrimaryButton",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_SecondaryButton-Bq4ESAeI.js": {
+    "file": "assets/SecondaryButton-Bq4ESAeI.js",
+    "name": "SecondaryButton",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_TextInput-CdpjPqAr.js": {
+    "file": "assets/TextInput-CdpjPqAr.js",
+    "name": "TextInput",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_iconBase-Cxtnh1GD.js": {
+    "file": "assets/iconBase-Cxtnh1GD.js",
+    "name": "iconBase",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_notiflix-aio-3.2.7.min-D9dPabra.js": {
+    "file": "assets/notiflix-aio-3.2.7.min-D9dPabra.js",
+    "name": "notiflix-aio-3.2.7.min",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_transition-plYe0479.js": {
+    "file": "assets/transition-plYe0479.js",
+    "name": "transition",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "resources/js/Logo/logo-candidato.png": {
+    "file": "assets/logo-candidato-DdTOUPlL.png",
+    "src": "resources/js/Logo/logo-candidato.png"
+  },
+  "resources/js/Pages/Auth/ConfirmPassword.jsx": {
+    "file": "assets/ConfirmPassword-C1MojD30.js",
+    "name": "ConfirmPassword",
+    "src": "resources/js/Pages/Auth/ConfirmPassword.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_GuestLayout-BC6mBq4L.js",
+      "_TextInput-CdpjPqAr.js",
+      "_InputLabel-BU3UjW-M.js",
+      "_PrimaryButton-CmOvU_d3.js",
+      "_ApplicationLogo-ltPcv-Wr.js"
+    ]
+  },
+  "resources/js/Pages/Auth/ForgotPassword.jsx": {
+    "file": "assets/ForgotPassword-DaQq7Cgk.js",
+    "name": "ForgotPassword",
+    "src": "resources/js/Pages/Auth/ForgotPassword.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_GuestLayout-BC6mBq4L.js",
+      "_TextInput-CdpjPqAr.js",
+      "_PrimaryButton-CmOvU_d3.js",
+      "_ApplicationLogo-ltPcv-Wr.js"
+    ]
+  },
+  "resources/js/Pages/Auth/Login.jsx": {
+    "file": "assets/Login-FRBFBeqr.js",
+    "name": "Login",
+    "src": "resources/js/Pages/Auth/Login.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_GuestLayout-BC6mBq4L.js",
+      "_TextInput-CdpjPqAr.js",
+      "_InputLabel-BU3UjW-M.js",
+      "_PrimaryButton-CmOvU_d3.js",
+      "_ApplicationLogo-ltPcv-Wr.js"
+    ]
+  },
+  "resources/js/Pages/Auth/Register.jsx": {
+    "file": "assets/Register-MpXKo6XS.js",
+    "name": "Register",
+    "src": "resources/js/Pages/Auth/Register.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_GuestLayout-BC6mBq4L.js",
+      "_TextInput-CdpjPqAr.js",
+      "_InputLabel-BU3UjW-M.js",
+      "_PrimaryButton-CmOvU_d3.js",
+      "_ApplicationLogo-ltPcv-Wr.js"
+    ]
+  },
+  "resources/js/Pages/Auth/ResetPassword.jsx": {
+    "file": "assets/ResetPassword-RA3ClJx1.js",
+    "name": "ResetPassword",
+    "src": "resources/js/Pages/Auth/ResetPassword.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_GuestLayout-BC6mBq4L.js",
+      "_TextInput-CdpjPqAr.js",
+      "_InputLabel-BU3UjW-M.js",
+      "_PrimaryButton-CmOvU_d3.js",
+      "_ApplicationLogo-ltPcv-Wr.js"
+    ]
+  },
+  "resources/js/Pages/Auth/VerifyEmail.jsx": {
+    "file": "assets/VerifyEmail-BG1MMON4.js",
+    "name": "VerifyEmail",
+    "src": "resources/js/Pages/Auth/VerifyEmail.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_GuestLayout-BC6mBq4L.js",
+      "_PrimaryButton-CmOvU_d3.js",
+      "_ApplicationLogo-ltPcv-Wr.js"
+    ]
+  },
+  "resources/js/Pages/Home.jsx": {
+    "file": "assets/Home-DV3z0IHp.js",
+    "name": "Home",
+    "src": "resources/js/Pages/Home.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_DefaultLayout-dTxQfisa.js",
+      "_iconBase-Cxtnh1GD.js"
+    ]
+  },
+  "resources/js/Pages/NotFound/NotFound.jsx": {
+    "file": "assets/NotFound-COiQtxF6.js",
+    "name": "NotFound",
+    "src": "resources/js/Pages/NotFound/NotFound.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_DefaultLayout-dTxQfisa.js",
+      "_iconBase-Cxtnh1GD.js",
+      "_Breadcrumb-CHUONxhB.js",
+      "_Box-uMls3rl9.js"
+    ]
+  },
+  "resources/js/Pages/Profile/Edit.jsx": {
+    "file": "assets/Edit-BZtJnyov.js",
+    "name": "Edit",
+    "src": "resources/js/Pages/Profile/Edit.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_ApplicationLogo-ltPcv-Wr.js",
+      "_transition-plYe0479.js",
+      "resources/js/Pages/Profile/Partials/DeleteUserForm.jsx",
+      "resources/js/Pages/Profile/Partials/UpdatePasswordForm.jsx",
+      "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.jsx",
+      "_TextInput-CdpjPqAr.js",
+      "_InputLabel-BU3UjW-M.js",
+      "_SecondaryButton-Bq4ESAeI.js",
+      "_PrimaryButton-CmOvU_d3.js"
+    ]
+  },
+  "resources/js/Pages/Profile/Partials/DeleteUserForm.jsx": {
+    "file": "assets/DeleteUserForm-BQn-JRu5.js",
+    "name": "DeleteUserForm",
+    "src": "resources/js/Pages/Profile/Partials/DeleteUserForm.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_TextInput-CdpjPqAr.js",
+      "_InputLabel-BU3UjW-M.js",
+      "_transition-plYe0479.js",
+      "_SecondaryButton-Bq4ESAeI.js"
+    ]
+  },
+  "resources/js/Pages/Profile/Partials/UpdatePasswordForm.jsx": {
+    "file": "assets/UpdatePasswordForm-Ceewbdz5.js",
+    "name": "UpdatePasswordForm",
+    "src": "resources/js/Pages/Profile/Partials/UpdatePasswordForm.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_TextInput-CdpjPqAr.js",
+      "_InputLabel-BU3UjW-M.js",
+      "_PrimaryButton-CmOvU_d3.js",
+      "_transition-plYe0479.js"
+    ]
+  },
+  "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.jsx": {
+    "file": "assets/UpdateProfileInformationForm-C2bcXwrp.js",
+    "name": "UpdateProfileInformationForm",
+    "src": "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_TextInput-CdpjPqAr.js",
+      "_InputLabel-BU3UjW-M.js",
+      "_PrimaryButton-CmOvU_d3.js",
+      "_transition-plYe0479.js"
+    ]
+  },
+  "resources/js/Pages/Voters/Edit.jsx": {
+    "file": "assets/Edit-Brxh-7GR.js",
+    "name": "Edit",
+    "src": "resources/js/Pages/Voters/Edit.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_DefaultLayout-dTxQfisa.js",
+      "_PrimaryButton-CmOvU_d3.js",
+      "_InputLabel-BU3UjW-M.js",
+      "_TextInput-CdpjPqAr.js",
+      "_notiflix-aio-3.2.7.min-D9dPabra.js",
+      "_Breadcrumb-CHUONxhB.js",
+      "resources/js/Pages/NotFound/NotFound.jsx",
+      "_Box-uMls3rl9.js",
+      "_iconBase-Cxtnh1GD.js"
+    ]
+  },
+  "resources/js/Pages/Voters/Voters.jsx": {
+    "file": "assets/Voters-CNwx0zv8.js",
+    "name": "Voters",
+    "src": "resources/js/Pages/Voters/Voters.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Breadcrumb-CHUONxhB.js",
+      "_PrimaryButton-CmOvU_d3.js",
+      "_DefaultLayout-dTxQfisa.js",
+      "_iconBase-Cxtnh1GD.js",
+      "_ButtonActions-BTHfypfh.js",
+      "_Box-uMls3rl9.js",
+      "_InputLabel-BU3UjW-M.js",
+      "_TextInput-CdpjPqAr.js",
+      "_notiflix-aio-3.2.7.min-D9dPabra.js",
+      "_SecondaryButton-Bq4ESAeI.js"
+    ]
+  },
+  "resources/js/Pages/Welcome.jsx": {
+    "file": "assets/Welcome-C4USd9_U.js",
+    "name": "Welcome",
+    "src": "resources/js/Pages/Welcome.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "resources/js/app.jsx": {
+    "file": "assets/app-zMhdX34b.js",
+    "name": "app",
+    "src": "resources/js/app.jsx",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/Pages/Auth/ConfirmPassword.jsx",
+      "resources/js/Pages/Auth/ForgotPassword.jsx",
+      "resources/js/Pages/Auth/Login.jsx",
+      "resources/js/Pages/Auth/Register.jsx",
+      "resources/js/Pages/Auth/ResetPassword.jsx",
+      "resources/js/Pages/Auth/VerifyEmail.jsx",
+      "resources/js/Pages/Home.jsx",
+      "resources/js/Pages/NotFound/NotFound.jsx",
+      "resources/js/Pages/Profile/Edit.jsx",
+      "resources/js/Pages/Profile/Partials/DeleteUserForm.jsx",
+      "resources/js/Pages/Profile/Partials/UpdatePasswordForm.jsx",
+      "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.jsx",
+      "_ButtonActions-BTHfypfh.js",
+      "resources/js/Pages/Voters/Edit.jsx",
+      "resources/js/Pages/Voters/Voters.jsx",
+      "resources/js/Pages/Welcome.jsx"
+    ],
+    "css": [
+      "assets/app-BC4fkrvD.css"
+    ]
+  }
+}
