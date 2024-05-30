@@ -62,7 +62,6 @@ export default function DataGridUtils({
       columns={columns}
       disableRowSelectionOnClick
       disableColumnMenu
-      key={dataContent?.id}
       pageSizeOptions={[10, 25, 50]}
       initialState={{
         sorting: {
