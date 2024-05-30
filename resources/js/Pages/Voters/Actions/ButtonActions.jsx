@@ -129,7 +129,7 @@ function ModalDelete({
         </Typography>
         <Stack direction="row" alignItems="center" spacing={4} sx={{ mt: 5 }}>
           <PrimaryButton
-            className="bg-slate-200 p-3 font-medium text-slate-600 hover:bg-slate-100 mb-10 h-11"
+            className="bg-slate-200 p-3 font-medium text-slate-700 hover:bg-slate-100 mb-10 h-11"
             onClick={handleClose}
           >
             Cancelar
