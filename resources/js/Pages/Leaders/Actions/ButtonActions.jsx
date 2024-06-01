@@ -36,7 +36,7 @@ export default function ButtonsActions({
   const handleCloseModalDelete = () => setOpenModalDelete(false);
 
   function handleEdit() {
-    router.get(`/voters/${rowSelected?.id}/edit`);
+    router.get(`/leaders/${rowSelected?.id}/edit`);
   }
 
   return (
@@ -51,7 +51,7 @@ export default function ButtonsActions({
           <Create fontSize="inherit" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="Deletar">
+      <Tooltip title="Excluir">
         <IconButton
           aria-label="delete"
           size="medium"
@@ -84,13 +84,13 @@ function ModalDelete({
   setModification,
 }) {
   function submitDeletion() {
-    router.delete(`/voters/${rowId}`, {
+    router.delete(`/leaders/${rowId}`, {
       onSuccess: () => {
         setModification(!modification);
-        Notify.success("Eleitor excluido com sucesso!");
+        Notify.success("Liderança excluída com sucesso!");
       },
       onError: () => {
-        Notify.failure("Falha ao excluir eleitor!");
+        Notify.failure("Falha ao excluir Liderança!");
       },
     });
   }
@@ -129,13 +129,13 @@ function ModalDelete({
         </Typography>
         <Stack direction="row" alignItems="center" spacing={4} sx={{ mt: 5 }}>
           <PrimaryButton
-            className="bg-slate-200 p-3 font-medium text-slate-600 hover:bg-slate-100 mb-10 h-11"
+            className="bg-slate-200 p-3 font-medium text-slate-700 hover:bg-slate-100 mb-10 h-11"
             onClick={handleClose}
           >
             Cancelar
           </PrimaryButton>
           <PrimaryButton
-            className="bg-red-600 p-3 font-medium hover:bg-red-400 mb-10 h-11"
+            className="bg-red-600 p-3 font-medium text-slate-50 hover:bg-red-400 mb-10 h-11"
             onClick={submitDeletion}
           >
             Excluir

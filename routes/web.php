@@ -27,5 +27,9 @@ Route::put('/voters/{id}', [VoterController::class, 'update'])->name('voters.upd
 Route::get('/voters/{id}/edit', [VoterController::class, 'edit'])->name('voters.edit');
 Route::delete('/voters/{id}', [VoterController::class, 'delete'])->name('voters.delete');
 
-//Líderes
+//Lideranças
 Route::get('/leaders', [LeaderController::class, 'list'])->name('leaders.list');
+Route::post('/leaders', [LeaderController::class, 'create'])->name('leaders.create');
+Route::put('/leaders/{id}', [LeaderController::class, 'update'])->name('leaders.update');
+Route::get('/leaders/{id}/edit', [LeaderController::class, 'edit'])->name('leaders.edit');
+Route::delete('/leaders/{id}', [LeaderController::class, 'delete'])->name('leaders.delete');
