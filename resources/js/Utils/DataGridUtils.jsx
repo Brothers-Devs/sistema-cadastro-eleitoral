@@ -80,6 +80,8 @@ export default function DataGridUtils({
         noRowsOverlay: CustomNoRowsOverlay,
         noResultsOverlay: CustomNoRowsOverlay,
       }}
+      showCellVerticalBorder={true}
+      showColumnVerticalBorder={true}
       onRowClick={(params) => setRowSelected(params)}
     />
   );
