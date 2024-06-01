@@ -27,17 +27,20 @@ export default function Voters({ items }) {
         headerName: "ID",
         width: 80,
         disableClickEventBubbling: true,
+        headerClassName: "bg-bodydark2 text-white",
       },
       {
         field: "name",
         headerName: "Nome",
         width: 250,
         disableClickEventBubbling: true,
+        headerClassName: "bg-bodydark2 text-white",
       },
       {
         field: "cpf",
         headerName: "CPF",
         width: 130,
+        headerClassName: "bg-bodydark2 text-white",
         disableClickEventBubbling: true,
         valueGetter: (_, row) => {
           return `${mask(row?.cpf, PATTERN_CPF)}`;
@@ -48,6 +51,7 @@ export default function Voters({ items }) {
         headerName: "Telefone",
         width: 140,
         disableClickEventBubbling: true,
+        headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
           return `${mask(row?.phone, PATTERN_PHONE)}`;
         },
@@ -57,6 +61,7 @@ export default function Voters({ items }) {
         headerName: "Município",
         width: 120,
         disableClickEventBubbling: true,
+        headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
           return `${row?.city ? row.city : "-"}`;
         },
@@ -66,6 +71,7 @@ export default function Voters({ items }) {
         headerName: "Bairro",
         width: 120,
         disableClickEventBubbling: true,
+        headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
           return `${row?.neighborhood ? row.neighborhood : "-"}`;
         },
@@ -76,13 +82,15 @@ export default function Voters({ items }) {
         headerName: "Liderança",
         width: 200,
         disableClickEventBubbling: true,
+        headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
           return `${row?.leader.name} (${mask(row?.leader.cpf, PATTERN_CPF)})`;
         },
       },
       {
         headerName: "Ações",
-        width: 90,
+        width: 108,
+        headerClassName: "bg-bodydark2 text-white",
         renderCell: ({ row }) => (
           <ButtonsActions
             rowSelected={row}
