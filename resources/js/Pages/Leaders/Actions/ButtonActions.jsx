@@ -36,7 +36,7 @@ export default function ButtonsActions({
   const handleCloseModalDelete = () => setOpenModalDelete(false);
 
   function handleEdit() {
-    router.get(`/voters/${rowSelected?.id}/edit`);
+    router.get(`/leaders/${rowSelected?.id}/edit`);
   }
 
   return (
@@ -51,7 +51,7 @@ export default function ButtonsActions({
           <Create fontSize="inherit" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="Deletar">
+      <Tooltip title="Excluir">
         <IconButton
           aria-label="delete"
           size="medium"
@@ -84,10 +84,10 @@ function ModalDelete({
   setModification,
 }) {
   function submitDeletion() {
-    router.delete(`/voters/${rowId}`, {
+    router.delete(`/leaders/${rowId}`, {
       onSuccess: () => {
         setModification(!modification);
-        Notify.success("Liderança excluida com sucesso!");
+        Notify.success("Liderança excluída com sucesso!");
       },
       onError: () => {
         Notify.failure("Falha ao excluir Liderança!");
