@@ -87,10 +87,10 @@ function ModalDelete({
     router.delete(`/voters/${rowId}`, {
       onSuccess: () => {
         setModification(!modification);
-        Notify.success("Eleitor excluido com sucesso!");
+        Notify.success("Liderança excluida com sucesso!");
       },
       onError: () => {
-        Notify.failure("Falha ao excluir eleitor!");
+        Notify.failure("Falha ao excluir Liderança!");
       },
     });
   }
@@ -129,13 +129,13 @@ function ModalDelete({
         </Typography>
         <Stack direction="row" alignItems="center" spacing={4} sx={{ mt: 5 }}>
           <PrimaryButton
-            className="bg-slate-200 p-3 font-medium text-slate-600 hover:bg-slate-100 mb-10 h-11"
+            className="bg-slate-200 p-3 font-medium text-slate-700 hover:bg-slate-100 mb-10 h-11"
             onClick={handleClose}
           >
             Cancelar
           </PrimaryButton>
           <PrimaryButton
-            className="bg-red-600 p-3 font-medium hover:bg-red-400 mb-10 h-11"
+            className="bg-red-600 p-3 font-medium text-slate-50 hover:bg-red-400 mb-10 h-11"
             onClick={submitDeletion}
           >
             Excluir
