@@ -7,7 +7,6 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import { mask } from "remask";
 import SecondaryButton from "@/Components/SecondaryButton";
-import { useState } from "react";
 import { Notify } from "notiflix";
 
 const style = {
@@ -40,9 +39,9 @@ export default function ModalCreateLeader({
   const submit = (e) => {
     e.preventDefault();
 
-    post(route("voters.create"), {
+    post(route("leaders.create"), {
       onSuccess: () => {
-        Notify.success("Eleitor cadastro com sucesso!");
+        Notify.success("Liderança cadastra com sucesso!");
         reset();
         handleClose();
       },
@@ -54,7 +53,7 @@ export default function ModalCreateLeader({
 
   return (
     <Modal
-      style={{ zIndex: 9999 }}
+      style={{ zIndex: 999 }}
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={showModal}
@@ -96,43 +95,43 @@ export default function ModalCreateLeader({
               <div className="w-full flex flex-col gap-6 xl:flex-row max-xl:left-1 mb-5">
                 <div className="w-full  xl:w-1/2">
                   <InputLabel
-                    htmlFor="leader"
+                    htmlFor="name"
                     value="Nome da Liderança*"
                     className="mb-2.5 block text-black dark:text-white"
                   />
 
                   <TextInput
-                    id="leader"
-                    name="leader"
-                    value={data.leader_name}
+                    id="name"
+                    name="name"
+                    value={data.name}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="Nome da Liderança"
                     required={true}
-                    onChange={(e) => setData("leader_name", e.target.value)}
+                    onChange={(e) => setData("name", e.target.value)}
                   />
 
-                  <InputError message={errors.leader_name} className="mt-2" />
+                  <InputError message={errors.name} className="mt-2" />
                 </div>
                 <div className="w-full  xl:w-1/2">
                   <InputLabel
-                    htmlFor="leader_cpf"
+                    htmlFor="cpf"
                     value="CPF da Liderança*"
                     className="mb-2.5 block text-black dark:text-white"
                   />
 
                   <TextInput
-                    id="leader_cpf"
-                    name="leader_cpf"
-                    value={data.leader_cpf}
+                    id="cpf"
+                    name="cpf"
+                    value={data.cpf}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     placeholder="000.000.000-00"
                     required={true}
                     onChange={(e) =>
-                      setData("leader_cpf", mask(e.target.value, PATTERN_CPF))
+                      setData("cpf", mask(e.target.value, PATTERN_CPF))
                     }
                   />
 
-                  <InputError message={errors.leader_cpf} className="mt-2" />
+                  <InputError message={errors.cpf} className="mt-2" />
                 </div>
               </div>
               <PrimaryButton

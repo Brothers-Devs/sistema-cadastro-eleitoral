@@ -17,8 +17,8 @@ class CreateLeaderDto
     public static function makeFromRequest(StoreUpdateLeaderRequest $request): CreateLeaderDto
     {
         return new self(
-            name: $request->leader_name,
-            cpf: self::removeMask($request->leader_cpf)
+            name: $request->name,
+            cpf: self::removeMask($request->cpf)
         );
     }
 
