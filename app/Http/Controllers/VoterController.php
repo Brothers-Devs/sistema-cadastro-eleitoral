@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dto\Voter\CreateVoterDto;
 use App\Dto\Voter\UpdateVoterDto;
 use App\Http\Requests\StoreUpdateVoterRequest;
+use App\Services\LeaderService;
 use App\Services\VoterService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -15,15 +16,21 @@ use Inertia\Response;
 class VoterController extends Controller
 {
     public function __construct(
-        protected VoterService $voterService
-    ) {
+        protected VoterService  $voterService,
+        protected LeaderService $leaderService
+    )
+    {
     }
 
     public function list(): Response
     {
         $items = $this->voterService->all();
+        $leaders = $this->leaderService->all();
 
-        return Inertia::render('Voters/Voters', ['items' => $items]);
+        return Inertia::render('Voters/Voters', [
+            'items' => $items,
+            'leaders' => $leaders
+        ]);
     }
 
     public function findById(int $id): JsonResponse
