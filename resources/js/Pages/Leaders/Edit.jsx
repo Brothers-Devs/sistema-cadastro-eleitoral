@@ -51,7 +51,7 @@ export default function Edit({ voter }) {
     <NotFound />
   ) : (
     <DefaultLayout>
-      <Breadcrumb pageName="Editar Eleitor" />
+      <Breadcrumb pageName="Editar Liderança" />
       <Box
         sx={{
           width: "100%",
