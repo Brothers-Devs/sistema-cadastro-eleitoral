@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dto\Leader\CreateLeaderDto;
 use App\Dto\Leader\UpdateLeaderDto;
+use App\Exceptions\LeaderHasVotersException;
 use App\Http\Requests\StoreUpdateLeaderRequest;
 use App\Services\LeaderService;
 use Illuminate\Http\RedirectResponse;
@@ -73,17 +74,10 @@ class LeaderController extends Controller
     /**
      * @param int $id
      * @return RedirectResponse
+     * @throws LeaderHasVotersException
      */
     public function delete(int $id): RedirectResponse
     {
-        if (!$this->leaderService->findById($id)) {
-            Redirect::route('leaders.list')
-                ->with([
-                    'success' => false,
-                    'message' => 'Liderança não encontrada.'
-                ]);
-        }
-
         $this->leaderService->delete($id);
 
         return Redirect::route('leaders.list')

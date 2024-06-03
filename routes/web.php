@@ -4,7 +4,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\VoterController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------

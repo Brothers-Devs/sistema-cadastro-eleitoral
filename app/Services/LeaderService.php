@@ -6,9 +6,12 @@ namespace App\Services;
 
 use App\Dto\Leader\CreateLeaderDto;
 use App\Dto\Leader\UpdateLeaderDto;
+use App\Exceptions\LeaderHasVotersException;
+use App\Models\Leader;
 use App\Repositories\LeaderRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LeaderService
 {
@@ -65,9 +68,20 @@ class LeaderService
     /**
      * @param int $id
      * @return void
+     * @throws LeaderHasVotersException
      */
     public function delete(int $id): void
     {
+        /** @var Leader $leader */
+        $leader = $this->leaderRepository->findById($id);
+        if (!$leader) {
+            throw new ModelNotFoundException('Liderança não encontrada.');
+        }
+
+        if ($leader->voters()->count() > 0) {
+            throw new LeaderHasVotersException();
+        }
+
         $this->leaderRepository->delete($id);
     }
 }
