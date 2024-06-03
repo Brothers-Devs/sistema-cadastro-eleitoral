@@ -27,7 +27,7 @@ class LeaderController extends Controller
      */
     public function list(): Response
     {
-        $items = $this->leaderService->all();
+        $items = $this->leaderService->all(true);
 
         return Inertia::render('Leaders/Leaders', ['items' => $items]);
     }

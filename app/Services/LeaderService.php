@@ -22,11 +22,12 @@ class LeaderService
     }
 
     /**
+     * @param bool $withRelations
      * @return Collection
      */
-    public function all(): Collection
+    public function all(bool $withRelations = false): Collection
     {
-        return $this->leaderRepository->all();
+        return $this->leaderRepository->all($withRelations);
     }
 
     /**
