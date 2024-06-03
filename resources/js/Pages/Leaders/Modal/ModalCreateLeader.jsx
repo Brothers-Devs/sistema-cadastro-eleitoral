@@ -7,7 +7,6 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import { mask } from "remask";
 import SecondaryButton from "@/Components/SecondaryButton";
-import { useState } from "react";
 import { Notify } from "notiflix";
 
 const style = {
@@ -15,19 +14,16 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 1000,
-  height: 660,
+  width: 850,
+  minWidth: { xs: "95%", sm: "70%", md: "50%", lg: "40%" },
+  maxWidth: "90%",
   bgcolor: "background.paper",
-  border: "1px solid",
   boxShadow: 24,
   p: 2,
   overflow: "auto",
 };
 
 const PATTERN_CPF = ["999.999.999-99"];
-const PATTERN_PHONE = ["(99) 9 9999-9999"];
-const PATTERN_DATE = ["99/99/9999"];
-const PATTERN_CEP = ["99999-999"];
 
 export default function ModalCreateLeader({
   showModal,
@@ -43,9 +39,9 @@ export default function ModalCreateLeader({
   const submit = (e) => {
     e.preventDefault();
 
-    post(route("voters.create"), {
+    post(route("leaders.create"), {
       onSuccess: () => {
-        Notify.success("Eleitor cadastro com sucesso!");
+        Notify.success("Liderança cadastra com sucesso!");
         reset();
         handleClose();
       },
@@ -57,6 +53,7 @@ export default function ModalCreateLeader({
 
   return (
     <Modal
+      style={{ zIndex: 999 }}
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={showModal}
@@ -94,12 +91,12 @@ export default function ModalCreateLeader({
           <Divider variant="fullWidth" />
           <form onSubmit={submit}>
             <div className="w-full p-6.5">
-              {/*Input de Nome e Data*/}
-              <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
-                <div className="w-full xl:w-2/3">
+              {/*Input de Nome do Líder e CPF*/}
+              <div className="w-full flex flex-col gap-6 xl:flex-row max-xl:left-1 mb-5">
+                <div className="w-full  xl:w-1/2">
                   <InputLabel
                     htmlFor="name"
-                    value="Nome*"
+                    value="Nome da Liderança*"
                     className="mb-2.5 block text-black dark:text-white"
                   />
 
@@ -108,65 +105,17 @@ export default function ModalCreateLeader({
                     name="name"
                     value={data.name}
                     className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="Nome Completo"
+                    placeholder="Nome da Liderança"
                     required={true}
-                    autoComplete="name"
                     onChange={(e) => setData("name", e.target.value)}
                   />
 
                   <InputError message={errors.name} className="mt-2" />
                 </div>
-                <div className="w-full xl:w-1/3">
-                  <InputLabel
-                    htmlFor="date_of_birth"
-                    value="Data de Nascimento"
-                    className="mb-2.5 block text-black dark:text-white"
-                  />
-
-                  <TextInput
-                    id="date_of_birth"
-                    name="date_of_birth"
-                    value={data.date_of_birth}
-                    className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="__/__/____"
-                    required={true}
-                    autoComplete="date"
-                    onChange={(e) =>
-                      setData(
-                        "date_of_birth",
-                        mask(e.target.value, PATTERN_DATE)
-                      )
-                    }
-                  />
-
-                  <InputError message={errors.date_of_birth} className="mt-2" />
-                </div>
-              </div>
-
-              {/*Input de RG, CPF e Telefone*/}
-              <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
-                <div className="w-full xl:w-1/3">
-                  <InputLabel
-                    htmlFor="rg"
-                    value="RG"
-                    className="mb-2.5 block text-black dark:text-white"
-                  />
-
-                  <TextInput
-                    id="rg"
-                    name="rg"
-                    value={data.rg}
-                    className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="RG"
-                    onChange={(e) => setData("rg", e.target.value)}
-                  />
-
-                  <InputError message={errors.rg} className="mt-2" />
-                </div>
-                <div className="w-full xl:w-1/3">
+                <div className="w-full  xl:w-1/2">
                   <InputLabel
                     htmlFor="cpf"
-                    value="CPF*"
+                    value="CPF da Liderança*"
                     className="mb-2.5 block text-black dark:text-white"
                   />
 
@@ -183,211 +132,6 @@ export default function ModalCreateLeader({
                   />
 
                   <InputError message={errors.cpf} className="mt-2" />
-                </div>
-                <div className="w-full xl:w-1/3">
-                  <InputLabel
-                    htmlFor="phone"
-                    value="Telefone*"
-                    className="mb-2.5 block text-black dark:text-white"
-                  />
-
-                  <TextInput
-                    id="phone"
-                    name="phone"
-                    value={data.phone}
-                    className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="(91) 9 0000-0000"
-                    required={true}
-                    onChange={(e) =>
-                      setData("phone", mask(e.target.value, PATTERN_PHONE))
-                    }
-                  />
-
-                  <InputError message={errors.phone} className="mt-2" />
-                </div>
-              </div>
-
-              {/*Input de Título, Zona e Seção*/}
-              <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
-                <div className="w-full xl:w-1/3">
-                  <InputLabel
-                    htmlFor="title_number"
-                    value="Nº Título"
-                    className="mb-2.5 block text-black dark:text-white"
-                  />
-
-                  <TextInput
-                    id="title_number"
-                    name="title_number"
-                    value={data.title_number}
-                    className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="Nº Título"
-                    onChange={(e) => setData("title_number", e.target.value)}
-                  />
-
-                  <InputError message={errors.title_number} className="mt-2" />
-                </div>
-                <div className="w-full xl:w-1/3">
-                  <InputLabel
-                    htmlFor="zone"
-                    value="Zona"
-                    className="mb-2.5 block text-black dark:text-white"
-                  />
-
-                  <TextInput
-                    id="zone"
-                    name="zone"
-                    value={data.zone}
-                    className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="Nº Zona"
-                    onChange={(e) => setData("zone", e.target.value)}
-                  />
-
-                  <InputError message={errors.zone} className="mt-2" />
-                </div>
-                <div className="w-full xl:w-1/3">
-                  <InputLabel
-                    htmlFor="session"
-                    value="Seção"
-                    className="mb-2.5 block text-black dark:text-white"
-                  />
-
-                  <TextInput
-                    id="session"
-                    name="session"
-                    value={data.session}
-                    className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="Seção"
-                    onChange={(e) => setData("session", e.target.value)}
-                  />
-
-                  <InputError message={errors.session} className="mt-2" />
-                </div>
-              </div>
-
-              {/*Input de Endereço e CEP*/}
-              <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
-                <div className="w-full  xl:w-1/2">
-                  <InputLabel
-                    htmlFor="address"
-                    value="Endereço"
-                    className="mb-2.5 block text-black dark:text-white"
-                  />
-
-                  <TextInput
-                    id="address"
-                    name="address"
-                    value={data.address}
-                    className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="Endereço"
-                    onChange={(e) => setData("address", e.target.value)}
-                  />
-
-                  <InputError message={errors.address} className="mt-2" />
-                </div>
-                <div className="w-full  xl:w-1/2">
-                  <InputLabel
-                    htmlFor="cep"
-                    value="CEP"
-                    className="mb-2.5 block text-black dark:text-white"
-                  />
-
-                  <TextInput
-                    id="cep"
-                    name="cep"
-                    value={data.zip_code}
-                    className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="00000-000"
-                    onChange={(e) =>
-                      setData("zip_code", mask(e.target.value, PATTERN_CEP))
-                    }
-                  />
-
-                  <InputError message={errors.zip_code} className="mt-2" />
-                </div>
-              </div>
-
-              {/*Input de Bairro e Cidade*/}
-              <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
-                <div className="w-full xl:w-1/2">
-                  <InputLabel
-                    htmlFor="neighborhood"
-                    value="Bairro"
-                    className="mb-2.5 block text-black dark:text-white"
-                  />
-
-                  <TextInput
-                    id="neighborhood"
-                    name="neighborhood"
-                    value={data.neighborhood}
-                    className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="Bairro"
-                    onChange={(e) => setData("neighborhood", e.target.value)}
-                  />
-
-                  <InputError message={errors.neighborhood} className="mt-2" />
-                </div>
-                <div className="w-full xl:w-1/2">
-                  <InputLabel
-                    htmlFor="city"
-                    value="Cidade"
-                    className="mb-2.5 block text-black dark:text-white"
-                  />
-
-                  <TextInput
-                    id="city"
-                    name="city"
-                    value={data.city}
-                    className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="Cidade"
-                    onChange={(e) => setData("city", e.target.value)}
-                  />
-
-                  <InputError message={errors.city} className="mt-2" />
-                </div>
-              </div>
-
-              {/*Input de Nome do Líder e CPF*/}
-              <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
-                <div className="w-full  xl:w-1/2">
-                  <InputLabel
-                    htmlFor="leader"
-                    value="Nome da Liderança*"
-                    className="mb-2.5 block text-black dark:text-white"
-                  />
-
-                  <TextInput
-                    id="leader"
-                    name="leader"
-                    value={data.leader_name}
-                    className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="Nome da Liderança"
-                    required={true}
-                    onChange={(e) => setData("leader_name", e.target.value)}
-                  />
-
-                  <InputError message={errors.leader_name} className="mt-2" />
-                </div>
-                <div className="w-full  xl:w-1/2">
-                  <InputLabel
-                    htmlFor="leader_cpf"
-                    value="CPF da Liderança*"
-                    className="mb-2.5 block text-black dark:text-white"
-                  />
-
-                  <TextInput
-                    id="leader_cpf"
-                    name="leader_cpf"
-                    value={data.leader_cpf}
-                    className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    placeholder="000.000.000-00"
-                    required={true}
-                    onChange={(e) =>
-                      setData("leader_cpf", mask(e.target.value, PATTERN_CPF))
-                    }
-                  />
-
-                  <InputError message={errors.leader_cpf} className="mt-2" />
                 </div>
               </div>
               <PrimaryButton

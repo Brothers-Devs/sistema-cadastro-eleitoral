@@ -23,7 +23,7 @@ class UpdateVoterDto
         public ?string $zipCode,
         public ?string $neighborhood,
         public ?string $city,
-        public CreateLeaderDto $leader,
+        public int $leaderId,
     ) {
     }
 
@@ -48,7 +48,7 @@ class UpdateVoterDto
             zipCode: $request->zip_code,
             neighborhood: $request->neighborhood,
             city: $request->city,
-            leader: CreateLeaderDto::makeFromArray($request->toArray())
+            leaderId: $request->leader['id'] ?? $request->leader_id
         );
     }
 
@@ -71,7 +71,7 @@ class UpdateVoterDto
             'zip_code' => $this->zipCode,
             'neighborhood' => $this->neighborhood,
             'city' => $this->city,
-            'leader' => $this->leader->toArray()
+            'leader_id' => $this->leaderId
         ];
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Dto\Voter;
 
-use App\Dto\Leader\CreateLeaderDto;
 use App\Http\Requests\StoreUpdateVoterRequest;
 
 class CreateVoterDto
@@ -22,11 +21,15 @@ class CreateVoterDto
         public ?string $zipCode,
         public ?string $neighborhood,
         public ?string $city,
-        public CreateLeaderDto $leader,
+        public int $leaderId,
     ) {
     }
 
-    public static function makeFromRequest(StoreUpdateVoterRequest $request)
+    /**
+     * @param StoreUpdateVoterRequest $request
+     * @return CreateVoterDto
+     */
+    public static function makeFromRequest(StoreUpdateVoterRequest $request): CreateVoterDto
     {
         return new self(
             name: $request->name,
@@ -41,10 +44,13 @@ class CreateVoterDto
             zipCode: $request->zip_code,
             neighborhood: $request->neighborhood,
             city: $request->city,
-            leader: CreateLeaderDto::makeFromArray($request->toArray())
+            leaderId: $request->leader['id'] ?? $request->leader_id
         );
     }
 
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         return [
@@ -60,7 +66,7 @@ class CreateVoterDto
             'zip_code' => $this->zipCode,
             'neighborhood' => $this->neighborhood,
             'city' => $this->city,
-            'leader' => $this->leader->toArray()
+            'leader_id' => $this->leaderId
         ];
     }
 }

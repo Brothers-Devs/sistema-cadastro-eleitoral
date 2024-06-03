@@ -217,6 +217,8 @@ return [
         'date_of_birth' => 'data de nascimento',
         'leader_name' => 'nome da liderança',
         'leader_cpf' => 'cpf da liderança',
+        'leader_id' => 'liderança',
+        'leader.id' => 'liderança',
     ],
 
 ];

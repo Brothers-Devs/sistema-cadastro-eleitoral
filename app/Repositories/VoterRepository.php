@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Dto\Voter\CreateVoterDto;
 use App\Models\Voter;
 
 class VoterRepository
@@ -27,6 +28,11 @@ class VoterRepository
         }
 
         return $voter;
+    }
+
+    public function create(CreateVoterDto $createVoterDto): Voter
+    {
+        return $this->model->create($createVoterDto->toArray());
     }
 
     /**

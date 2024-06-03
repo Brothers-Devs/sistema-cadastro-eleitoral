@@ -6,7 +6,7 @@ import Breadcrumb from "@/Components/Breadcrumbs/Breadcrumb";
 export default function NotFound() {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Eleitor" />
+      <Breadcrumb pageName="Registro não encontrado" />
       <Box
         sx={{
           width: "100%",
@@ -19,8 +19,8 @@ export default function NotFound() {
         }}
       >
         <FcHighPriority size={120} />
-        <h2 className="text-zinc-400 font-satoshi font-bold text-lg">
-          404 | Eleitor Não Encontrado!
+        <h2 className="text-zinc-400 font-satoshi text-lg">
+          404 | Registro Não Encontrado!
         </h2>
       </Box>
     </DefaultLayout>

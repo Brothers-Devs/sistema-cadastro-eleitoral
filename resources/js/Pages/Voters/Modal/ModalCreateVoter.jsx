@@ -1,10 +1,13 @@
 import Backdrop from "@mui/material/Backdrop";
 import {
+  Autocomplete,
   Box,
   Divider,
   Fade,
+  FormControl,
   Grid,
   Modal,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -42,6 +45,7 @@ export default function ModalCreateVoter({
   handleClose,
   title,
   typeButton,
+  leaders,
 }) {
   const { data, setData, post, errors, processing, reset } = useForm({
     name: "",
@@ -56,8 +60,21 @@ export default function ModalCreateVoter({
     zip_code: "",
     neighborhood: "",
     city: "",
-    leader_name: "",
-    leader_cpf: "",
+    leader: {
+      id: "",
+      name: "",
+      cpf: "",
+      created_at: "",
+      updated_at: "",
+      nameWithCpf: "",
+    },
+  });
+
+  const leadersWithCPFInName = leaders.map((leader) => {
+    return {
+      ...leader,
+      nameWithCpf: `${leader.name} (${mask(leader.cpf, PATTERN_CPF)})`,
+    };
   });
 
   const submit = (e) => {
@@ -77,6 +94,7 @@ export default function ModalCreateVoter({
 
   return (
     <Modal
+      style={{ zIndex: 999 }}
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={showModal}
@@ -115,6 +133,35 @@ export default function ModalCreateVoter({
             <Divider variant="fullWidth" />
             <form onSubmit={submit}>
               <div className="w-full p-6.5">
+                {/*Select de Liderança*/}
+                <div className="w-full flex flex-colxl:flex-row mb-5">
+                  <div className="w-full xl:w-2/3">
+                    <FormControl required sx={{ width: 400 }}>
+                      <InputLabel id="leader" className="mb-2">
+                        Selecione a Liderança*
+                      </InputLabel>
+                      <Autocomplete
+                        value={data?.leader}
+                        onChange={(_, newValue) => {
+                          setData("leader", newValue);
+                        }}
+                        id="leader"
+                        options={[...leadersWithCPFInName, data.leader]}
+                        renderInput={(params) => <TextField {...params} />}
+                        getOptionLabel={(option) =>
+                          option ? option.nameWithCpf : ""
+                        }
+                      />
+                    </FormControl>
+
+                    <InputError
+                      message={errors["leader.id"]}
+                      className="mt-2"
+                    />
+                  </div>
+                  <div className="w-full xl:w-1/3"></div>
+                </div>
+
                 {/*Input de Nome e Data*/}
                 <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
                   <div className="w-full xl:w-2/3">
@@ -377,51 +424,7 @@ export default function ModalCreateVoter({
                   </div>
                 </div>
 
-                {/*Input de Nome do Líder e CPF*/}
-                <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
-                  <div className="w-full  xl:w-1/2">
-                    <InputLabel
-                      htmlFor="leader"
-                      value="Nome da Liderança*"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="leader"
-                      name="leader"
-                      value={data.leader_name}
-                      className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="Nome da Liderança"
-                      required={true}
-                      onChange={(e) => setData("leader_name", e.target.value)}
-                    />
-
-                    <InputError message={errors.leader_name} className="mt-2" />
-                  </div>
-                  <div className="w-full  xl:w-1/2">
-                    <InputLabel
-                      htmlFor="leader_cpf"
-                      value="CPF da Liderança*"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="leader_cpf"
-                      name="leader_cpf"
-                      value={data.leader_cpf}
-                      className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="000.000.000-00"
-                      required={true}
-                      onChange={(e) =>
-                        setData("leader_cpf", mask(e.target.value, PATTERN_CPF))
-                      }
-                    />
-
-                    <InputError message={errors.leader_cpf} className="mt-2" />
-                  </div>
-                </div>
                 <PrimaryButton
-                  type="submit"
                   disabled={processing}
                   onClick={submit}
                   className="flex w-full mt-3 h-12 justify-center rounded bg-green-600 p-3 font-medium text-gray hover:bg-opacity-90"

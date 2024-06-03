@@ -36,8 +36,7 @@ class StoreUpdateVoterRequest extends FormRequest
             'zip_code' => 'nullable|size:8',
             'neighborhood' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:100',
-            'leader_name' => 'required|max:255',
-            'leader_cpf' => 'required|size:11'
+            'leader.id' => 'required|integer|exists:leaders,id',
         ];
 
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
@@ -60,7 +59,6 @@ class StoreUpdateVoterRequest extends FormRequest
             'cpf' => preg_replace('/\D/', '', $this->cpf),
             'phone' => preg_replace('/\D/', '', $this->phone),
             'zip_code' => preg_replace('/\D/', '', $this->zip_code),
-            'leader_cpf' => preg_replace('/\D/', '', $this->leader_cpf),
         ]);
     }
 
