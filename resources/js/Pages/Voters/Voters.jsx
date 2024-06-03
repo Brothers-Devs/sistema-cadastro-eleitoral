@@ -11,7 +11,7 @@ import ModalCreateVoter from "./Modal/ModalCreateVoter";
 const PATTERN_CPF = ["999.999.999-99"];
 const PATTERN_PHONE = ["(99) 9 9999-9999"];
 
-export default function Voters({ items }) {
+export default function Voters({ items, leaders }) {
   const [modification, setModification] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [rowSelected, setRowSelected] = useState(false);
@@ -134,6 +134,7 @@ export default function Voters({ items }) {
         handleClose={handleClose}
         title={"Cadastrar Eleitor"}
         typeButton={"Salvar"}
+        leaders={leaders}
       />
     </DefaultLayout>
   );
