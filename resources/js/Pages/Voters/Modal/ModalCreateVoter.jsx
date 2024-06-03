@@ -135,7 +135,7 @@ export default function ModalCreateVoter({
               <div className="w-full p-6.5">
                 {/*Select de Liderança*/}
                 <div className="w-full flex flex-colxl:flex-row mb-5">
-                  <div className="w-fullxl:w-2/3">
+                  <div className="w-full xl:w-2/3">
                     <FormControl required sx={{ width: 400 }}>
                       <InputLabel id="leader" className="mb-2">
                         Selecione a Liderança*
@@ -161,13 +161,13 @@ export default function ModalCreateVoter({
                   </div>
                   <div className="w-full xl:w-1/3"></div>
                 </div>
-
+                <Divider variant="fullWidth" />
                 {/*Input de Nome e Data*/}
-                <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
+                <div className="w-full flex flex-col gap-6 xl:flex-row mb-5 mt-5">
                   <div className="w-full xl:w-2/3">
                     <InputLabel
                       htmlFor="name"
-                      value="Nome*"
+                      value="Nome do Eleitor*"
                       className="mb-2.5 block text-black dark:text-white"
                     />
 

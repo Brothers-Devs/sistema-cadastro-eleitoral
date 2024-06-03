@@ -10,6 +10,7 @@ use App\Dto\Voter\UpdateVoterDto;
 use App\Models\Leader;
 use App\Repositories\LeaderRepository;
 use App\Repositories\VoterRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -35,11 +36,21 @@ class VoterService
     public function create(CreateVoterDto $createVoterDto)
     {
         return DB::transaction(function () use ($createVoterDto) {
-            $leader = $this->leaderRepository->model->firstOrCreate(
-                ['cpf' => $createVoterDto->leader->cpf],
-                $createVoterDto->leader->toArray()
-            );
-            $voter = $leader->voters()->create($createVoterDto->toArray());
+            $leader = $this->leaderRepository->findById($createVoterDto->leaderId);
+
+            if (!$leader) {
+                Log::error(
+                    'LIDER_NAO_ENCONTRADO',
+                    [
+                        'leader_id' => $createVoterDto->leaderId,
+                    ]
+                );
+                throw new ModelNotFoundException(
+                    sprintf('Liderança com ID: %s não encontrada', $createVoterDto->leaderId)
+                );
+            }
+
+            $voter = $this->voterRepository->create($createVoterDto);
 
             return $voter->with('leader')->get();
         });
