@@ -51,7 +51,7 @@ export default function ButtonsActions({
           <Create fontSize="inherit" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="Deletar">
+      <Tooltip title="Excluir">
         <IconButton
           aria-label="delete"
           size="medium"
@@ -112,22 +112,24 @@ function ModalDelete({
             flexDirection: "column",
           }}
         >
-          <GoAlert size={30} className="mr-3" color="red" />
+          <GoAlert size={30} className="mb-2" color="red" />
           <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
-            Excluir Eleitor
+            Confirmar Exclusão
           </Typography>
         </Box>
         <Typography
           id="keep-mounted-modal-description"
           variant="subtitle1"
           component="h2"
-          sx={{ mt: 2, textAlign: "center" }}
+          sx={{mt: 2, textAlign: "center"}}
         >
-          {`Tem certeza que deseja excluir o eleitor ${
-            dataVoter.name
-          } de CPF: ${mask(dataVoter.cpf, PATTERN_CPF)} ?`}
+          <p>
+            Tem certeza que deseja excluir o Eleitor
+            <b> {dataVoter.name} </b> de CPF
+            <b> {`${mask(dataVoter.cpf, PATTERN_CPF)}`} </b>?
+          </p>
         </Typography>
-        <Stack direction="row" alignItems="center" spacing={4} sx={{ mt: 5 }}>
+        <Stack direction="row" alignItems="center" spacing={4} sx={{mt: 4}}>
           <PrimaryButton
             className="bg-slate-200 p-3 font-medium text-slate-700 hover:bg-slate-100 mb-10 h-11"
             onClick={handleClose}
