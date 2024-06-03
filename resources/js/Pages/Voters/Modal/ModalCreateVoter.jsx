@@ -6,9 +6,7 @@ import {
   Fade,
   FormControl,
   Grid,
-  MenuItem,
   Modal,
-  Select,
   TextField,
   Tooltip,
   Typography,
@@ -21,7 +19,6 @@ import InputError from "@/Components/InputError";
 import { mask } from "remask";
 import SecondaryButton from "@/Components/SecondaryButton";
 import { Notify } from "notiflix";
-import { useState } from "react";
 
 const style = {
   position: "absolute",
@@ -48,8 +45,8 @@ export default function ModalCreateVoter({
   handleClose,
   title,
   typeButton,
+  leaders,
 }) {
-  const [leaderSelected, setLeaderSelected] = useState({ name: "", cpf: "" });
   const { data, setData, post, errors, processing, reset } = useForm({
     name: "",
     cpf: "",
@@ -63,21 +60,22 @@ export default function ModalCreateVoter({
     zip_code: "",
     neighborhood: "",
     city: "",
-    leader_name: "",
-    leader_cpf: "",
+    leader: {
+      id: "",
+      name: "",
+      cpf: "",
+      created_at: "",
+      updated_at: "",
+      nameWithCpf: "",
+    },
   });
 
-  const leaders = [
-    { name: "Lucas", cpf: "04356036204" },
-    { name: "Gabriel", cpf: "12345678901" },
-  ];
-
-  function handleOnChange(value) {
-    console.log(value);
-    const filterCpf = leaders.filter((leader) => leader.name === value);
-
-    setLeaderSelected({ ...value, name: value, cpf: filterCpf.cpf });
-  }
+  const leadersWithCPFInName = leaders.map((leader) => {
+    return {
+      ...leader,
+      nameWithCpf: `${leader.name} (${mask(leader.cpf, PATTERN_CPF)})`,
+    };
+  });
 
   const submit = (e) => {
     e.preventDefault();
@@ -135,6 +133,7 @@ export default function ModalCreateVoter({
             <Divider variant="fullWidth" />
             <form onSubmit={submit}>
               <div className="w-full p-6.5">
+                {/*Select de Liderança*/}
                 <div className="w-full flex flex-colxl:flex-row mb-5">
                   <div className="w-fullxl:w-2/3">
                     <FormControl required sx={{ width: 400 }}>
@@ -142,16 +141,23 @@ export default function ModalCreateVoter({
                         Selecione a Liderança*
                       </InputLabel>
                       <Autocomplete
-                        value={leaderSelected}
+                        value={data?.leader}
                         onChange={(_, newValue) => {
-                          setLeaderSelected(newValue);
+                          setData("leader", newValue);
                         }}
                         id="leader"
-                        options={leaders}
+                        options={[...leadersWithCPFInName, data.leader]}
                         renderInput={(params) => <TextField {...params} />}
-                        getOptionLabel={(option) => option?.name}
+                        getOptionLabel={(option) =>
+                          option ? option.nameWithCpf : ""
+                        }
                       />
                     </FormControl>
+
+                    <InputError
+                      message={errors["leader.id"]}
+                      className="mt-2"
+                    />
                   </div>
                   <div className="w-full xl:w-1/3"></div>
                 </div>
@@ -419,7 +425,6 @@ export default function ModalCreateVoter({
                 </div>
 
                 <PrimaryButton
-                  type="submit"
                   disabled={processing}
                   onClick={submit}
                   className="flex w-full mt-3 h-12 justify-center rounded bg-green-600 p-3 font-medium text-gray hover:bg-opacity-90"
