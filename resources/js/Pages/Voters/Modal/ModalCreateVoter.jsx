@@ -161,13 +161,13 @@ export default function ModalCreateVoter({
                   </div>
                   <div className="w-full xl:w-1/3"></div>
                 </div>
-                <Divider variant="fullWidth" />
+
                 {/*Input de Nome e Data*/}
-                <div className="w-full flex flex-col gap-6 xl:flex-row mb-5 mt-5">
+                <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
                   <div className="w-full xl:w-2/3">
                     <InputLabel
                       htmlFor="name"
-                      value="Nome do Eleitor*"
+                      value="Nome*"
                       className="mb-2.5 block text-black dark:text-white"
                     />
 
