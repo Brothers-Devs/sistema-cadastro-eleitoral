@@ -1,10 +1,16 @@
-import { Box, Typography } from "@mui/material";
-import { AiOutlineInbox } from "react-icons/ai";
+import {Box, Typography} from "@mui/material";
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {AiOutlineInbox} from "react-icons/ai";
 import {
   DataGrid,
   GridLogicOperator,
   GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
+import {ptBR} from "@mui/x-data-grid/locales";
+
+const theme = createTheme(
+  ptBR
+);
 
 function QuickSearchToolbar() {
   return (
@@ -40,13 +46,14 @@ function CustomNoRowsOverlay() {
         flexDirection: "column",
       }}
     >
-      <AiOutlineInbox size={100} style={{ marginBottom: "15px" }} />
+      <AiOutlineInbox size={100} style={{marginBottom: "15px"}}/>
       <Typography variant="h6">Sem Registros</Typography>
     </Box>
   );
 }
+
 function CustomToolbar() {
-  return <QuickSearchToolbar />;
+  return <QuickSearchToolbar/>;
 }
 
 export default function DataGridUtils({
@@ -55,34 +62,37 @@ export default function DataGridUtils({
   setRowSelected,
 }) {
   return (
-    <DataGrid
-      sx={{ p: 3, height: "46.68rem", backgroundColor: "#FFFFFF" }}
-      getRowId={(rows) => rows.id}
-      rows={dataContent}
-      columns={columns}
-      disableRowSelectionOnClick
-      disableColumnMenu
-      pageSizeOptions={[10, 25, 50]}
-      initialState={{
-        sorting: {
-          sortModel: [{ field: "id", sort: "desc" }],
-        },
-        pagination: { paginationModel: { pageSize: 10 } },
-        filter: {
-          filterModel: {
-            items: [],
-            quickFilterLogicOperator: GridLogicOperator.Or,
+    <ThemeProvider theme={theme}>
+      <DataGrid
+        sx={{p: 3, height: "46.68rem", backgroundColor: "#FFFFFF"}}
+        getRowId={(rows) => rows.id}
+        rows={dataContent}
+        columns={columns}
+        disableRowSelectionOnClick
+        disableColumnMenu
+        pageSizeOptions={[10, 25, 50]}
+        initialState={{
+          sorting: {
+            sortModel: [{field: "id", sort: "desc"}],
           },
-        },
-      }}
-      slots={{
-        toolbar: CustomToolbar,
-        noRowsOverlay: CustomNoRowsOverlay,
-        noResultsOverlay: CustomNoRowsOverlay,
-      }}
-      showCellVerticalBorder={true}
-      showColumnVerticalBorder={true}
-      onRowClick={(params) => setRowSelected(params)}
-    />
+          pagination: {paginationModel: {pageSize: 10}},
+          filter: {
+            filterModel: {
+              items: [],
+              quickFilterLogicOperator: GridLogicOperator.Or,
+            },
+          },
+        }}
+        slots={{
+          toolbar: CustomToolbar,
+          noRowsOverlay: CustomNoRowsOverlay,
+          noResultsOverlay: CustomNoRowsOverlay,
+        }}
+        showCellVerticalBorder={true}
+        showColumnVerticalBorder={true}
+        onRowClick={(params) => setRowSelected(params)}
+        localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
+      />
+    </ThemeProvider>
   );
 }
