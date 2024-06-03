@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Dto\Leader\CreateLeaderDto;
 use App\Dto\Leader\UpdateLeaderDto;
+use App\Exceptions\LeaderHasVotersException;
 use App\Http\Requests\StoreUpdateLeaderRequest;
 use App\Services\LeaderService;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -24,7 +27,7 @@ class LeaderController extends Controller
      */
     public function list(): Response
     {
-        $items = $this->leaderService->all();
+        $items = $this->leaderService->all(true);
 
         return Inertia::render('Leaders/Leaders', ['items' => $items]);
     }
@@ -76,20 +79,26 @@ class LeaderController extends Controller
      */
     public function delete(int $id): RedirectResponse
     {
-        if (!$this->leaderService->findById($id)) {
-            Redirect::route('leaders.list')
+        try {
+            $this->leaderService->delete($id);
+
+            return Redirect::route('leaders.list')
                 ->with([
+                    'success' => true,
+                    'message' => 'Liderança excluída com sucesso.'
+                ]);
+        } catch (LeaderHasVotersException|ModelNotFoundException $exception) {
+            return Redirect::route('leaders.list')
+                ->withErrors([
                     'success' => false,
-                    'message' => 'Liderança não encontrada.'
+                    'message' => $exception->getMessage()
+                ]);
+        } catch (Exception $exception) {
+            return Redirect::route('leaders.list')
+                ->withErrors([
+                    'success' => false,
+                    'message' => 'Ocorreu um erro ao tentar excluir a liderança. Tente novamente mais tarde.'
                 ]);
         }
-
-        $this->leaderService->delete($id);
-
-        return Redirect::route('leaders.list')
-            ->with([
-                'success' => true,
-                'message' => 'Liderança excluída com sucesso.'
-            ]);
     }
 }

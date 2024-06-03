@@ -31,15 +31,15 @@ export default function Leaders({ items }) {
       },
       {
         field: "name",
-        headerName: "Nome",
-        width: 320,
+        headerName: "Nome da Liderança",
+        width: 270,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
       },
       {
         field: "cpf",
         headerName: "CPF",
-        width: 313,
+        width: 150,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
@@ -47,9 +47,20 @@ export default function Leaders({ items }) {
         },
       },
       {
+        field: "voters",
+        headerName: "Total de Eleitores",
+        width: 150,
+        disableClickEventBubbling: true,
+        headerClassName: "bg-bodydark2 text-white",
+        valueGetter: (_, row) => {
+          return `${row?.voters.length}`;
+        },
+        align: "center",
+      },
+      {
         field: "created_at",
         headerName: "Data de Cadastro",
-        width: 313,
+        width: 160,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
@@ -58,7 +69,7 @@ export default function Leaders({ items }) {
       },
       {
         headerName: "Ações",
-        width: 123,
+        width: 390,
         headerClassName: "bg-bodydark2 text-white",
         renderCell: ({ row }) => (
           <ButtonsActions
@@ -78,7 +89,7 @@ export default function Leaders({ items }) {
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Liderança" />
+      <Breadcrumb pageName="Lideranças" />
 
       <div className="flex justify-between">
         <div></div>

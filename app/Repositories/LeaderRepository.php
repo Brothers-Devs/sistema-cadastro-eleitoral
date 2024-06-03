@@ -19,9 +19,19 @@ class LeaderRepository
     {
     }
 
-    public function all(): Collection
+    /**
+     * @param bool $withRelations
+     * @return Collection|array
+     */
+    public function all(bool $withRelations = false): Collection|array
     {
-        return $this->model::all();
+        $leaders = $this->model::query();
+
+        if ($withRelations) {
+            $leaders->with('voters');
+        }
+
+        return $leaders->get();
     }
 
     public function findById(int $id): ?Model

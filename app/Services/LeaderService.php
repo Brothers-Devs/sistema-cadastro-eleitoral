@@ -6,9 +6,12 @@ namespace App\Services;
 
 use App\Dto\Leader\CreateLeaderDto;
 use App\Dto\Leader\UpdateLeaderDto;
+use App\Exceptions\LeaderHasVotersException;
+use App\Models\Leader;
 use App\Repositories\LeaderRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LeaderService
 {
@@ -19,11 +22,12 @@ class LeaderService
     }
 
     /**
+     * @param bool $withRelations
      * @return Collection
      */
-    public function all(): Collection
+    public function all(bool $withRelations = false): Collection
     {
-        return $this->leaderRepository->all();
+        return $this->leaderRepository->all($withRelations);
     }
 
     /**
@@ -64,10 +68,21 @@ class LeaderService
 
     /**
      * @param int $id
-     * @return void
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws LeaderHasVotersException
      */
-    public function delete(int $id): void
+    public function delete(int $id)
     {
+        /** @var Leader $leader */
+        $leader = $this->leaderRepository->findById($id);
+        if (!$leader) {
+            throw new ModelNotFoundException('Liderança não encontrada.');
+        }
+
+        if ($leader->voters()->count() > 0) {
+            throw new LeaderHasVotersException();
+        }
+
         $this->leaderRepository->delete($id);
     }
 }
