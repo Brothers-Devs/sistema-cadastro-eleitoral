@@ -25,7 +25,7 @@
         "@inertiajs/inertia": "^0.11.1",
         "@mui/icons-material": "^5.15.18",
         "@mui/material": "^5.15.18",
-        "@mui/x-data-grid": "^7.5.1",
+        "@mui/x-data-grid": "^7.6.1",
         "@mui/x-date-pickers": "^7.5.1",
         "dayjs": "^1.11.11",
         "flatpickr": "^4.6.13",
