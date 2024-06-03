@@ -7,6 +7,8 @@ use App\Dto\Leader\UpdateLeaderDto;
 use App\Exceptions\LeaderHasVotersException;
 use App\Http\Requests\StoreUpdateLeaderRequest;
 use App\Services\LeaderService;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -74,16 +76,29 @@ class LeaderController extends Controller
     /**
      * @param int $id
      * @return RedirectResponse
-     * @throws LeaderHasVotersException
      */
     public function delete(int $id): RedirectResponse
     {
-        $this->leaderService->delete($id);
+        try {
+            $this->leaderService->delete($id);
 
-        return Redirect::route('leaders.list')
-            ->with([
-                'success' => true,
-                'message' => 'Liderança excluída com sucesso.'
-            ]);
+            return Redirect::route('leaders.list')
+                ->with([
+                    'success' => true,
+                    'message' => 'Liderança excluída com sucesso.'
+                ]);
+        } catch (LeaderHasVotersException|ModelNotFoundException $exception) {
+            return Redirect::route('leaders.list')
+                ->withErrors([
+                    'success' => false,
+                    'message' => $exception->getMessage()
+                ]);
+        } catch (Exception $exception) {
+            return Redirect::route('leaders.list')
+                ->withErrors([
+                    'success' => false,
+                    'message' => 'Ocorreu um erro ao tentar excluir a liderança. Tente novamente mais tarde.'
+                ]);
+        }
     }
 }

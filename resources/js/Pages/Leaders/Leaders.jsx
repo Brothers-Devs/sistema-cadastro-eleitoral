@@ -78,7 +78,7 @@ export default function Leaders({ items }) {
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Liderança" />
+      <Breadcrumb pageName="Lideranças" />
 
       <div className="flex justify-between">
         <div></div>

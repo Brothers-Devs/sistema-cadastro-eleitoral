@@ -67,10 +67,10 @@ class LeaderService
 
     /**
      * @param int $id
-     * @return void
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws LeaderHasVotersException
      */
-    public function delete(int $id): void
+    public function delete(int $id)
     {
         /** @var Leader $leader */
         $leader = $this->leaderRepository->findById($id);

@@ -89,8 +89,9 @@ function ModalDelete({
         setModification(!modification);
         Notify.success("Liderança excluída com sucesso!");
       },
-      onError: () => {
-        Notify.failure("Falha ao excluir Liderança!");
+      onError: (e) => {
+        handleClose();
+        Notify.failure(e.message);
       },
     });
   }
