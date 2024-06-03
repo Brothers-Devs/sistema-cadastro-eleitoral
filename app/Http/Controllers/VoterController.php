@@ -58,8 +58,12 @@ class VoterController extends Controller
     public function edit(int $id): Response
     {
         $voter = $this->voterService->findById($id);
+        $leaders = $this->leaderService->all();
 
-        return Inertia::render('Voters/Edit', ['voter' => $voter]);
+        return Inertia::render('Voters/Edit', [
+            'voter' => $voter,
+            'leaders' => $leaders
+        ]);
     }
 
     /**
