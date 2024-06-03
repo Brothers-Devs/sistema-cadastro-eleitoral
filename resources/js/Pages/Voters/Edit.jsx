@@ -1,5 +1,5 @@
 import DefaultLayout from "@/Layouts/DefaultLayout";
-import { Box } from "@mui/material";
+import { Autocomplete, Box, FormControl, TextField } from "@mui/material";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Link, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
@@ -11,21 +11,13 @@ import { Notify } from "notiflix";
 import Breadcrumb from "@/Components/Breadcrumbs/Breadcrumb";
 import NotFound from "../NotFound/NotFound";
 
-const style = {
-  width: 800,
-  display: "flex",
-  justifyContent: "center",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 2,
-};
-
 const PATTERN_CPF = ["999.999.999-99"];
 const PATTERN_PHONE = ["(99) 9 9999-9999"];
 const PATTERN_DATE = ["99/99/9999"];
 const PATTERN_CEP = ["99999-999"];
 
-export default function Edit({ voter }) {
+export default function Edit({ voter, leaders }) {
+  const dataLeaders = [...leaders];
   const { data, setData, put, errors, processing, reset } = useForm({
     name: voter?.name || "",
     cpf: voter?.cpf ? mask(voter?.cpf, PATTERN_CPF) : "",
@@ -41,8 +33,20 @@ export default function Edit({ voter }) {
     zip_code: voter?.zip_code ? mask(voter?.zip_code, PATTERN_CEP) : "",
     neighborhood: voter?.neighborhood || "",
     city: voter?.city || "",
-    leader_name: voter?.leader.name || "",
-    leader_cpf: voter?.leader.cpf ? mask(voter?.leader.cpf, PATTERN_CPF) : "",
+    leader: {
+      ...voter.leader,
+      nameWithCpf: `${voter?.leader?.name} (${mask(
+        voter?.leader?.cpf,
+        PATTERN_CPF
+      )})`,
+    },
+  });
+
+  const leadersWithCPFInName = dataLeaders?.map((leader) => {
+    return {
+      ...leader,
+      nameWithCpf: `${leader.name} (${mask(leader.cpf, PATTERN_CPF)})`,
+    };
   });
 
   const submit = (e) => {
@@ -54,7 +58,6 @@ export default function Edit({ voter }) {
         Notify.success("Eleitor editado com sucesso!");
       },
       onError: (e) => {
-        console.log(e);
         Notify.failure(
           "Algo deu errado, verifique os dados enviados e tente novamente!"
         );
@@ -70,6 +73,45 @@ export default function Edit({ voter }) {
       <div className="grid grid-cols-1 gap-9">
         <form onSubmit={submit} className="w-full">
           <div className="flex flex-col gap-9">
+            {/* <!-- Dados da liderança --> */}
+            <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+              <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
+                <h3 className="font-medium text-black dark:text-white">
+                  Dados da Liderança
+                </h3>
+              </div>
+              <div className="p-6.5">
+                <div className="w-full flex flex-col xl:flex-row mb-5">
+                  <div className="w-fullxl:w-2/3">
+                    <FormControl required sx={{ width: 400 }}>
+                      <InputLabel id="leader" className="mb-2">
+                        Selecione a Liderança*
+                      </InputLabel>
+                      <Autocomplete
+                        value={data?.leader}
+                        onChange={(_, newValue) => {
+                          setData("leader", newValue);
+                        }}
+                        id="leader"
+                        options={leadersWithCPFInName}
+                        renderInput={(params) => (
+                          <TextField key={params.id} {...params} />
+                        )}
+                        getOptionLabel={(option) =>
+                          option ? option.nameWithCpf : ""
+                        }
+                      />
+                    </FormControl>
+
+                    <InputError
+                      message={errors["leader.id"]}
+                      className="mt-2"
+                    />
+                  </div>
+                  <div className="w-full xl:w-1/3"></div>
+                </div>
+              </div>
+            </div>
             {/* <!-- Dados Pessoais --> */}
             <div className="w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
@@ -337,59 +379,6 @@ export default function Edit({ voter }) {
                     />
 
                     <InputError message={errors.city} className="mt-2" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* <!-- Dados da liderança --> */}
-            <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-              <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-                <h3 className="font-medium text-black dark:text-white">
-                  Dados da Liderança
-                </h3>
-              </div>
-              <div className="p-6.5">
-                <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                  <div className="w-full xl:w-1/2">
-                    <InputLabel
-                      htmlFor="leader"
-                      value="Nome da Liderança*"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="leader"
-                      name="leader"
-                      value={data?.leader_name}
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="Nome da Liderança"
-                      required={true}
-                      onChange={(e) => setData("leader_name", e.target.value)}
-                    />
-
-                    <InputError message={errors.leader_name} className="mt-2" />
-                  </div>
-                  <div className="w-full xl:w-1/2">
-                    <InputLabel
-                      htmlFor="leader_cpf"
-                      value="CPF da Liderança*"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="leader_cpf"
-                      name="leader_cpf"
-                      value={data?.leader_cpf}
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="CPF da Liderança"
-                      required={true}
-                      onChange={(e) =>
-                        setData("leader_cpf", mask(e.target.value, PATTERN_CPF))
-                      }
-                    />
-
-                    <InputError message={errors.leader_cpf} className="mt-2" />
                   </div>
                 </div>
               </div>
