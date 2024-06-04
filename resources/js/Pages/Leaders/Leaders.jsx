@@ -60,7 +60,7 @@ export default function Leaders({ items }) {
       {
         field: "created_at",
         headerName: "Data de Cadastro",
-        width: 160,
+        width: 180,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
@@ -69,7 +69,7 @@ export default function Leaders({ items }) {
       },
       {
         headerName: "Ações",
-        width: 390,
+        width: 319,
         headerClassName: "bg-bodydark2 text-white",
         renderCell: ({ row }) => (
           <ButtonsActions
