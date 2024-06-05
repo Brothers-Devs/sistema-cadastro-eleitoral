@@ -1,4 +1,5 @@
-import DarkModeSwitcher from "./DarkModeSwitcher";
+import {IoLogOutOutline} from "react-icons/io5";
+import {Link} from "@inertiajs/react";
 
 const Header = (props) => {
   return (
@@ -51,7 +52,18 @@ const Header = (props) => {
         <div className="hidden sm:block"></div>
 
         <div className="flex items-center gap-3 2xsm:gap-7">
-          <p>Eleições 2024</p>
+          {/*<p>Eleições 2024</p>*/}
+          <Link
+            href={route('logout')}
+            method="post"
+            as="button"
+            className="inline-flex items-center justify-center gap-2.5 rounded-full border border-danger py-2 px-5 text-center font-medium text-danger hover:bg-danger hover:text-white lg:px-8 xl:px-5"
+          >
+            <span>
+              <IoLogOutOutline size={22}/>
+            </span>
+            Sair
+          </Link>
           <ul className="flex items-center gap-2 2xsm:gap-4">
             {/* <!-- Dark Mode Toggler --> */}
             {/*<DarkModeSwitcher />*/}

@@ -33,13 +33,13 @@ export default function Edit({ voter, leaders }) {
     zip_code: voter?.zip_code ? mask(voter?.zip_code, PATTERN_CEP) : "",
     neighborhood: voter?.neighborhood || "",
     city: voter?.city || "",
-    leader: {
+    leader: voter?.leader ? {
       ...voter.leader,
       nameWithCpf: `${voter?.leader?.name} (${mask(
         voter?.leader?.cpf,
         PATTERN_CPF
       )})`,
-    },
+    } : "",
   });
 
   const leadersWithCPFInName = dataLeaders?.map((leader) => {
