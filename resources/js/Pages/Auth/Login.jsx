@@ -69,7 +69,7 @@ export default function Login({status, canResetPassword}) {
 
         <div className="flex items-center justify-end mt-4">
           <PrimaryButton
-            className="bg-black p-3 font-medium text-slate-700 hover:bg-opacity-80"
+            className="bg-black p-3 font-medium text-white hover:bg-opacity-80"
             disabled={processing}
           >
             Acessar
