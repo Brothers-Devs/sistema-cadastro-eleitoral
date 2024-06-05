@@ -1,7 +1,6 @@
 import Breadcrumb from "@/Components/Breadcrumbs/Breadcrumb";
 import { IconButton } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-
 import DefaultLayout from "@/Layouts/DefaultLayout";
 import {
   Autocomplete,
@@ -51,7 +50,7 @@ export default function SendWhatsapp({ leaders }) {
       leader_id: leaderSelected?.id,
       media_type: file.type.split("/")[0],
       text_message: textMessage,
-      media: file?.name,
+      media: file,
     };
 
     router.post("/messages/send-media", payloadMessage, {
@@ -61,6 +60,12 @@ export default function SendWhatsapp({ leaders }) {
       },
       onError: (e) => {
         console.log(e);
+        setSendMessage(false);
+        console.log("Ocorreu um Erro!");
+      },
+      onFinish: () => {
+        setSendMessage(false);
+        console.log("Promisse finalizada!");
       },
     });
   };
