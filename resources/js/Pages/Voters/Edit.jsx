@@ -88,6 +88,7 @@ export default function Edit({ voter, leaders }) {
                         Selecione a Liderança*
                       </InputLabel>
                       <Autocomplete
+                        className="max-sm:w-67"
                         value={data?.leader}
                         onChange={(_, newValue) => {
                           setData("leader", newValue);

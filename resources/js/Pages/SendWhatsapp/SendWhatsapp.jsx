@@ -1,138 +1,156 @@
 import Breadcrumb from "@/Components/Breadcrumbs/Breadcrumb";
-import TextInput from "@/Components/TextInput";
+import { IconButton } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
+
 import DefaultLayout from "@/Layouts/DefaultLayout";
-import { Box, Divider, Typography } from "@mui/material";
-import { useState } from "react";
+import {
+  Autocomplete,
+  Box,
+  Divider,
+  FormControl,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useCallback, useState } from "react";
+import { mask } from "remask";
+import { HasFile } from "./components/HasFile";
+import { FormMedia } from "./components/FormMedia";
+import { router } from "@inertiajs/react";
 
-export default function SendWhatsapp() {
-  // { Leaders }
+const PATTERN_CPF = ["999.999.999-99"];
 
-  const [leaderSelected, setLeaderSelected] = useState({ name: "", cpf: "" });
-  const [selectedFile, setSelectedFile] = useState(null);
+export default function SendWhatsapp({ leaders }) {
+  const [leaderSelected, setLeaderSelected] = useState({
+    id: "",
+    name: "",
+    cpf: "",
+    created_at: "",
+    updated_at: "",
+    nameWithCpf: "",
+  });
+  const [textMessage, setTextMessage] = useState("");
+  const [file, setFile] = useState(null);
+  const [sendMessage, setSendMessage] = useState(false);
 
-  const handleFileChange = (event) => {
-    console.log(event.target.files);
-    setSelectedFile(event.target.files[0]);
+  const removeFile = useCallback(() => {
+    setFile(null);
+    setTextMessage("");
+  }, [file]);
+
+  const handleClearInputLeader = () => {
+    setLeaderSelected({});
+    setTextMessage("");
+    removeFile();
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Aqui você pode enviar o arquivo para o servidor ou fazer qualquer outra coisa que precisar com ele
-    console.log(selectedFile);
+    setSendMessage(true);
+    const payloadMessage = {
+      leader_id: leaderSelected?.id,
+      media_type: file.type.split("/")[0],
+      text_message: textMessage,
+      media: file?.name,
+    };
+
+    router.post("/messages/send-media", payloadMessage, {
+      onSuccess: () => {
+        setSendMessage(false);
+        console.log("Sucesso!");
+      },
+      onError: (e) => {
+        console.log(e);
+      },
+    });
   };
 
-  const Leaders = [
-    { name: "Lucas", cpf: "04356036204" },
-    { name: "Gabriel", cpf: "12345678901" },
-  ];
+  const VotersOfLeaderSelected = leaders?.map((leader) => {
+    return {
+      ...leader,
+      nameWithCpf: `${leader.name} (${mask(leader.cpf, PATTERN_CPF)})`,
+    };
+  });
 
-  const columns = useMemo(
-    () => [
-      {
-        field: "name",
-        headerName: "Nome da Liderança",
-        width: 100,
-        align: "center",
-        headerAlign: "center",
-        sortable: false,
-        disableClickEventBubbling: true,
-        headerClassName: "bg-bodydark2 text-white",
-      },
-      {
-        field: "name",
-        headerName: "Equipe",
-        align: "center",
-        width: 200,
-        headerAlign: "center",
-        sortable: false,
-        headerClassName: "bg-bodydark2 text-white",
-        disableClickEventBubbling: true,
-      },
-      {
-        field: "fishermen",
-        headerName: "Pescadores",
-        width: 400,
-        align: "center",
-        disableClickEventBubbling: true,
-        headerClassName: "super-app-theme--header",
-        headerAlign: "center",
-        sortable: false,
-        renderCell: (params) => (
-          <CellNames
-            {...{
-              params,
-            }}
-          />
-        ),
-      },
-      {
-        field: "total_points",
-        headerName: "Pontuação",
-        flex: 1,
-        headerAlign: "center",
-        align: "center",
-        headerClassName: "super-app-theme--header",
-        disableClickEventBubbling: true,
-        sortable: false,
-      },
-    ],
-    []
-  );
+  VotersOfLeaderSelected.unshift({
+    id: 0,
+    name: "Todos",
+    nameWithCpf: "Todos",
+  });
 
-  const VotersOfLeaderSelected = Leaders.filter(
-    (leader) => leader.cpf === leaderSelected.cpf
-  );
   function handleOnChange(value) {
-    setLeaderSelected({ ...leaderSelected, ...value });
+    setLeaderSelected({ ...value });
   }
 
   return (
     <DefaultLayout>
-      <>
-        <Breadcrumb pageName={"Enviar Pelo Whatsapp"} />
-        <Divider variant="fullWidth" />
-        <Box
+      <Breadcrumb pageName={"Enviar Pelo Whatsapp"} />
+      <Divider variant="fullWidth" />
+      <Box
+        sx={{
+          marginTop: 3,
+          width: 500,
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <Typography variant="subtitle1" sx={{ mb: 2 }}>
+          Selecione a Liderança*
+        </Typography>
+        <FormControl required sx={{ width: 400 }}>
+          <Autocomplete
+            clearIcon={
+              <IconButton onClick={handleClearInputLeader}>
+                <ClearIcon />
+              </IconButton>
+            }
+            value={leaderSelected}
+            onChange={(_, newValue) => {
+              handleOnChange(newValue);
+            }}
+            id="leader"
+            options={VotersOfLeaderSelected}
+            renderInput={(params) => <TextField {...params} />}
+            getOptionLabel={(option) => (option.name ? option.nameWithCpf : "")}
+          />
+          <p className="mt-3 text-orange-600 text-xs font-semibold">
+            OBS: SELECIONE UMA LIDERANÇA OU SE DESEJA ENVIAR A MENSAGEM PARA
+            TODOS OS ELEITORES CADASTRADO NO SISTEMA .
+          </p>
+        </FormControl>
+      </Box>
+      {leaderSelected.name ? (
+        <Grid
+          item
+          xs={10}
+          sm={8}
+          md={6}
           sx={{
             marginTop: 3,
-            paddingLeft: 6,
-            width: 500,
+            maxWidth: 500,
+            p: 5,
             display: "flex",
             justifyContent: "center",
             flexDirection: "column",
+            border: "2px solid #7f7f7f",
           }}
         >
-          <Typography variant="subtitle1" sx={{ mb: 2 }}>
-            Selecione a Liderança
-          </Typography>
-          <FormControl required sx={{ width: 400 }}>
-            <InputLabel id="category">Liderança</InputLabel>
-            <Select
-              labelId="category"
-              id="select-category"
-              label="Categoria"
-              value={leaderSelected?.name !== "" ? leaderSelected.name : ""}
-              onChange={(e) => handleOnChange(e.target.value)}
-            >
-              {Leaders.map((leader) => (
-                <MenuItem key={leader.name} value={leader.name}>
-                  {leader.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-        {leaderSelected.name !== "" ? (
-          <>
-            <form onSubmit={handleSubmit}>
-              <TextInput
-                type="file"
-                onChange={handleFileChange}
-                accept="image/*"
-              />
-              <input type="submit" value="Enviar" />
-            </form>
-          </>
-        ) : null}
-      </>
+          {!file ? (
+            <FormMedia setFile={setFile} />
+          ) : (
+            <HasFile
+              file={file}
+              removeFile={removeFile}
+              textMessage={textMessage}
+              setTextMessage={setTextMessage}
+              handleSubmit={handleSubmit}
+              leaderSelected={leaderSelected}
+              sendMessage={sendMessage}
+            />
+          )}
+        </Grid>
+      ) : null}
     </DefaultLayout>
   );
 }
