@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\Message\SendMedia\SendMediaInputDto;
+use App\Http\Requests\Message\SendMediaRequest;
 use App\Services\LeaderService;
 use App\Services\MessageService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -28,8 +32,17 @@ class MessageController extends Controller
         ]);
     }
 
-    public function sendWithMedia()
+    /**
+     * @param SendMediaRequest $request
+     * @return RedirectResponse
+     */
+    public function sendMedia(SendMediaRequest $request): RedirectResponse
     {
-        return $this->messageService->send();
+        $result = $this->messageService->sendMediaToVoters(SendMediaInputDto::makeFromRequest($request));
+
+        return Redirect::route('messages.index')
+            ->with([
+                'result' => $result
+            ]);
     }
 }
