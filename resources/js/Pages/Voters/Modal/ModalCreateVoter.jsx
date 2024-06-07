@@ -141,6 +141,7 @@ export default function ModalCreateVoter({
                         Selecione a Liderança*
                       </InputLabel>
                       <Autocomplete
+                        className="max-sm:w-67"
                         value={data?.leader}
                         onChange={(_, newValue) => {
                           setData("leader", newValue);
@@ -343,24 +344,6 @@ export default function ModalCreateVoter({
                 <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
                   <div className="w-full  xl:w-1/2">
                     <InputLabel
-                      htmlFor="address"
-                      value="Endereço"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="address"
-                      name="address"
-                      value={data.address}
-                      className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="Endereço"
-                      onChange={(e) => setData("address", e.target.value)}
-                    />
-
-                    <InputError message={errors.address} className="mt-2" />
-                  </div>
-                  <div className="w-full  xl:w-1/2">
-                    <InputLabel
                       htmlFor="cep"
                       value="CEP"
                       className="mb-2.5 block text-black dark:text-white"
@@ -378,6 +361,24 @@ export default function ModalCreateVoter({
                     />
 
                     <InputError message={errors.zip_code} className="mt-2" />
+                  </div>
+                  <div className="w-full  xl:w-1/2">
+                    <InputLabel
+                      htmlFor="address"
+                      value="Endereço"
+                      className="mb-2.5 block text-black dark:text-white"
+                    />
+
+                    <TextInput
+                      id="address"
+                      name="address"
+                      value={data.address}
+                      className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      placeholder="Endereço"
+                      onChange={(e) => setData("address", e.target.value)}
+                    />
+
+                    <InputError message={errors.address} className="mt-2" />
                   </div>
                 </div>
 
