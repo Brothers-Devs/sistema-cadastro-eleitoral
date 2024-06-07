@@ -1,7 +1,6 @@
 import Breadcrumb from "@/Components/Breadcrumbs/Breadcrumb";
 import { IconButton } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-
 import DefaultLayout from "@/Layouts/DefaultLayout";
 import {
   Autocomplete,
@@ -17,6 +16,7 @@ import { mask } from "remask";
 import { HasFile } from "./components/HasFile";
 import { FormMedia } from "./components/FormMedia";
 import { router } from "@inertiajs/react";
+import { Notify } from "notiflix";
 
 const PATTERN_CPF = ["999.999.999-99"];
 
@@ -47,20 +47,30 @@ export default function SendWhatsapp({ leaders }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     setSendMessage(true);
+    Notify.info("Aguarde um momento, sua mensagem está sendo enviada!");
+
     const payloadMessage = {
       leader_id: leaderSelected?.id,
       media_type: file.type.split("/")[0],
       text_message: textMessage,
-      media: file?.name,
+      media: file,
     };
 
     router.post("/messages/send-media", payloadMessage, {
       onSuccess: () => {
         setSendMessage(false);
+        Notify.success("Mensagem enviada com sucesso!");
         console.log("Sucesso!");
       },
       onError: (e) => {
         console.log(e);
+        setSendMessage(false);
+        Notify.failure("Ocorreu um erro ao enviar sua mensagem!");
+        console.log("Ocorreu um Erro!");
+      },
+      onFinish: () => {
+        setSendMessage(false);
+        console.log("Promisse finalizada!");
       },
     });
   };

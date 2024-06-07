@@ -10,7 +10,7 @@ export const FormMedia = ({ setFile }) => {
   const dropzone = useDropzone({
     onDrop,
     accept: {
-      "image/*": [".png", ".gif", ".jpeg", ".jpg"],
+      "image/*": [".png", ".jpeg", ".jpg"],
       "video/*": [".mp4"],
     },
   });
