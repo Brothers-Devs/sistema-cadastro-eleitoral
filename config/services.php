@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'evolution_api' => [
+        'url' => env('EVOLUTION_API_URL'),
+        'api_key' => env('EVOLUTION_API_KEY'),
+        'instance' => env('EVOLUTION_API_INSTANCE'),
+    ],
 ];
