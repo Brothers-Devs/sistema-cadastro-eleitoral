@@ -4,7 +4,7 @@ namespace App\Repositories\Message\Providers\Whatsapp;
 
 use App\Dto\Message\SendMedia\MediaMessageDto;
 use App\Repositories\Message\Interfaces\MessageProviderInterface;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -18,9 +18,9 @@ class EvolutionApiRepository implements MessageProviderInterface
 
     public function __construct(Config $config)
     {
-        $this->baseUrl = $config->get('service.evolution_api.url');
-        $this->apiKey = $config->get('service.evolution_api.key');
-        $this->instance = $config->get('service.evolution_api.instance');
+        $this->baseUrl = $config->get('services.evolution_api.url');
+        $this->apiKey = $config->get('services.evolution_api.api_key');
+        $this->instance = $config->get('services.evolution_api.instance');
     }
 
     /**
