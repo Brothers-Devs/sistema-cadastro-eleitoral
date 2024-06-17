@@ -41,7 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Envio de mensagens
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-    Route::get('/messages/send-media', [MessageController::class, 'sendMedia'])->name('messages.send.media');
+    Route::post('/messages/send-media', [MessageController::class, 'sendMedia'])->name('messages.send.media');
 });
 
 require __DIR__ . '/auth.php';
