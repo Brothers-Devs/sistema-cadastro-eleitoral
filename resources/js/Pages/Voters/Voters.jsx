@@ -57,23 +57,25 @@ export default function Voters({ items, leaders }) {
         },
       },
       {
-        field: "city",
-        headerName: "Município",
+        field: "title_number",
+        headerName: "Nº Título",
         width: 120,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
-          return `${row?.city ? row.city : "-"}`;
+          return `${row?.title_number ? row?.title_number : "-"}`;
         },
       },
       {
-        field: "neighborhood",
-        headerName: "Bairro",
+        field: "zone",
+        headerName: "Zona / Sessão",
         width: 120,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
-          return `${row?.neighborhood ? row.neighborhood : "-"}`;
+          return `${row?.zone ? row?.zone : "-"} / ${
+            row?.session ? row?.session : "-"
+          }`;
         },
       },
 
