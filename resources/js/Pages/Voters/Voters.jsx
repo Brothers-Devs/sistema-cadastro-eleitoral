@@ -62,16 +62,20 @@ export default function Voters({ items, leaders }) {
         width: 120,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
+        valueGetter: (_, row) => {
+          return `${row?.title_number ? row?.title_number : "-"}`;
+        },
       },
       {
-        /*Será trocado o field para zone session*/
         field: "zone",
         headerName: "Zona / Sessão",
         width: 120,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
-          return `${row?.zone} / ${row?.session}`;
+          return `${row?.zone ? row?.zone : "-"} / ${
+            row?.session ? row?.session : "-"
+          }`;
         },
       },
 
