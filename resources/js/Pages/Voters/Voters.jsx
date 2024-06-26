@@ -26,21 +26,24 @@ export default function Voters({ items, leaders }) {
       {
         field: "id",
         headerName: "ID",
-        width: 80,
+        flex: 1,
+        minWidth: 64,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
       },
       {
         field: "name",
         headerName: "Nome",
-        width: 250,
+        flex: 1,
+        minWidth: 250,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
       },
       {
         field: "cpf",
         headerName: "CPF",
-        width: 130,
+        flex: 1,
+        minWidth: 130,
         headerClassName: "bg-bodydark2 text-white",
         disableClickEventBubbling: true,
         valueGetter: (_, row) => {
@@ -50,7 +53,8 @@ export default function Voters({ items, leaders }) {
       {
         field: "phone",
         headerName: "Telefone",
-        width: 140,
+        flex: 1,
+        minWidth: 140,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
@@ -60,7 +64,8 @@ export default function Voters({ items, leaders }) {
       {
         field: "title_number",
         headerName: "Nº Título",
-        width: 120,
+        flex: 1,
+        minWidth: 130,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
@@ -70,7 +75,8 @@ export default function Voters({ items, leaders }) {
       {
         field: "zone",
         headerName: "Zona / Sessão",
-        width: 120,
+        flex: 1,
+        minWidth: 120,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
@@ -83,7 +89,8 @@ export default function Voters({ items, leaders }) {
       {
         field: "leader",
         headerName: "Liderança",
-        width: 200,
+        flex: 1,
+        minWidth: 207,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
@@ -92,7 +99,8 @@ export default function Voters({ items, leaders }) {
       },
       {
         headerName: "Ações",
-        width: 108,
+        flex: 1,
+        minWidth: 108,
         headerClassName: "bg-bodydark2 text-white",
         renderCell: ({ row }) => (
           <ButtonsActions
