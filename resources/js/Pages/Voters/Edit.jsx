@@ -13,8 +13,6 @@ import NotFound from "../NotFound/NotFound";
 
 const PATTERN_CPF = ["999.999.999-99"];
 const PATTERN_PHONE = ["(99) 9 9999-9999"];
-const PATTERN_DATE = ["99/99/9999"];
-const PATTERN_CEP = ["99999-999"];
 
 export default function Edit({ voter, leaders }) {
   const dataLeaders = [...leaders];
@@ -22,24 +20,18 @@ export default function Edit({ voter, leaders }) {
     name: voter?.name || "",
     cpf: voter?.cpf ? mask(voter?.cpf, PATTERN_CPF) : "",
     phone: voter?.phone ? mask(voter?.phone, PATTERN_PHONE) : "",
-    date_of_birth: voter?.date_of_birth
-      ? mask(voter?.date_of_birth, PATTERN_DATE)
-      : "",
-    rg: voter?.rg || "",
     title_number: voter?.title_number || "",
     zone: voter?.zone || "",
     session: voter?.session || "",
-    address: voter?.address || "",
-    zip_code: voter?.zip_code ? mask(voter?.zip_code, PATTERN_CEP) : "",
-    neighborhood: voter?.neighborhood || "",
-    city: voter?.city || "",
-    leader: voter?.leader ? {
-      ...voter.leader,
-      nameWithCpf: `${voter?.leader?.name} (${mask(
-        voter?.leader?.cpf,
-        PATTERN_CPF
-      )})`,
-    } : "",
+    leader: voter?.leader
+      ? {
+          ...voter.leader,
+          nameWithCpf: `${voter?.leader?.name} (${mask(
+            voter?.leader?.cpf,
+            PATTERN_CPF
+          )})`,
+        }
+      : "",
   });
 
   const leadersWithCPFInName = dataLeaders?.map((leader) => {
@@ -122,6 +114,7 @@ export default function Edit({ voter, leaders }) {
               </div>
 
               <div className="p-6.5">
+                {/*Input nome */}
                 <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                   <div className="w-full xl:w-1/3">
                     <InputLabel
@@ -143,56 +136,10 @@ export default function Edit({ voter, leaders }) {
 
                     <InputError message={errors.name} className="mt-2" />
                   </div>
-                  <div className="w-full xl:w-1/3">
-                    <InputLabel
-                      htmlFor="date_of_birth"
-                      value="Data de Nascimento"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="date_of_birth"
-                      name="date_of_birth"
-                      value={data?.date_of_birth}
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="Data de Nascimento"
-                      required={true}
-                      autoComplete="date"
-                      onChange={(e) =>
-                        setData(
-                          "date_of_birth",
-                          mask(e.target.value, PATTERN_DATE)
-                        )
-                      }
-                    />
-
-                    <InputError
-                      message={errors.date_of_birth}
-                      className="mt-2"
-                    />
-                  </div>
                   <div className="w-full xl:w-1/3"></div>
                 </div>
-
+                {/*Input de CPF e Telefone */}
                 <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                  <div className="w-full xl:w-1/3">
-                    <InputLabel
-                      htmlFor="rg"
-                      value="RG"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="rg"
-                      name="rg"
-                      value={data?.rg}
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="RG"
-                      onChange={(e) => setData("rg", e.target.value)}
-                    />
-
-                    <InputError message={errors.rg} className="mt-2" />
-                  </div>
                   <div className="w-full xl:w-1/3">
                     <InputLabel
                       htmlFor="cpf"
@@ -295,91 +242,6 @@ export default function Edit({ voter, leaders }) {
                     />
 
                     <InputError message={errors.session} className="mt-2" />
-                  </div>
-                </div>
-
-                {/*Input de Endereço*/}
-                <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                  <div className="w-full xl:w-1/3">
-                    <InputLabel
-                      htmlFor="cep"
-                      value="CEP"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="cep"
-                      name="cep"
-                      value={data?.zip_code}
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="CEP"
-                      onChange={(e) =>
-                        setData("zip_code", mask(e.target.value, PATTERN_CEP))
-                      }
-                    />
-
-                    <InputError message={errors.zip_code} className="mt-2" />
-                  </div>
-                  <div className="w-full xl:w-1/3"></div>
-                  <div className="w-full xl:w-1/3"></div>
-                </div>
-                <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                  <div className="w-full xl:w-2/4">
-                    <InputLabel
-                      htmlFor="address"
-                      value="Endereço"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="address"
-                      name="address"
-                      value={data?.address}
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="Endereço"
-                      onChange={(e) => setData("address", e.target.value)}
-                    />
-
-                    <InputError message={errors.address} className="mt-2" />
-                  </div>
-                  <div className="w-full xl:w-1/4">
-                    <InputLabel
-                      htmlFor="neighborhood"
-                      value="Bairro"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="neighborhood"
-                      name="neighborhood"
-                      value={data?.neighborhood}
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="Bairro"
-                      onChange={(e) => setData("neighborhood", e.target.value)}
-                    />
-
-                    <InputError
-                      message={errors.neighborhood}
-                      className="mt-2"
-                    />
-                  </div>
-                  <div className="w-full xl:w-1/4">
-                    <InputLabel
-                      htmlFor="city"
-                      value="Cidade"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="city"
-                      name="city"
-                      value={data?.city}
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="Cidade"
-                      onChange={(e) => setData("city", e.target.value)}
-                    />
-
-                    <InputError message={errors.city} className="mt-2" />
                   </div>
                 </div>
               </div>
