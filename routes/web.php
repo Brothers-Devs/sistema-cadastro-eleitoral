@@ -40,8 +40,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/leaders/{id}', [LeaderController::class, 'delete'])->name('leaders.delete');
 
     //Envio de mensagens
-    Route::get('/messages', [MessageController::class, 'index'])->name('message.index');
-    Route::get('/messages/send-media', [MessageController::class, 'sendWithMedia'])->name('message.send.media');
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::post('/messages/send-media', [MessageController::class, 'sendMedia'])->name('messages.send.media');
 });
 
 require __DIR__ . '/auth.php';
