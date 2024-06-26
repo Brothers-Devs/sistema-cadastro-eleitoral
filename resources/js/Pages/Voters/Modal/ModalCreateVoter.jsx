@@ -287,6 +287,33 @@ export default function ModalCreateVoter({
                   </div>
                 </div>
 
+                <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
+                  <div className="w-full xl:w-3/4">
+                    <InputLabel
+                      htmlFor="location_voting"
+                      value="Local de Votação"
+                      className="mb-2.5 block text-black dark:text-white"
+                    />
+
+                    <TextInput
+                      id="location_voting"
+                      name="location_voting"
+                      defaultValue="1120 - EEEF BOM JARDIM, ÁGUAS LINDAS, ANANINDEUA"
+                      disabled
+                      // value={data.location_voting}
+                      className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter disabled:opacity-55 dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      placeholder="Local de Votação"
+                      // onChange={(e) =>
+                      //   setData("location_voting", e.target.value)
+                      // }
+                    />
+
+                    <InputError
+                      // message={errors.location_voting}
+                      className="mt-2"
+                    />
+                  </div>
+                </div>
                 <PrimaryButton
                   disabled={processing}
                   onClick={submit}
