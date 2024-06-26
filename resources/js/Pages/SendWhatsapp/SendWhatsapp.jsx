@@ -82,12 +82,6 @@ export default function SendWhatsapp({ leaders }) {
     };
   });
 
-  VotersOfLeaderSelected.unshift({
-    id: 0,
-    name: "Todos",
-    nameWithCpf: "Todos",
-  });
-
   function handleOnChange(value) {
     setLeaderSelected({ ...value });
   }
