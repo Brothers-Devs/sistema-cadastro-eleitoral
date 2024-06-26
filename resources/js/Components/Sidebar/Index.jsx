@@ -5,6 +5,7 @@ import {
   IoLogoWhatsapp,
   IoPeopleOutline,
   IoManOutline,
+  // IoLocationOutline,
 } from "react-icons/io5";
 
 import Logo from "@/Logo/logo-candidato.png";
@@ -125,6 +126,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   Lideranças
                 </Link>
               </li>
+              {/* <li>
+                <Link
+                  // href={route("voters.list")}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 
+
+                  `}
+                >
+                  <IoLocationOutline size={18} />
+                  Local de Votação
+                </Link>
+              </li> */}
               <li>
                 <Link
                   href={route("voters.list")}
