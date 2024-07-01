@@ -70,11 +70,8 @@ export const HasFile = ({
           )}
         </PrimaryButton>
         <p className=" text-orange-600 text-sm font-semibold">
-          OBS: A MENSAGEM SERÁ ENVIADO PARA OS ELEITORES CADASTRADOS NO SISTEMA{" "}
-          {leaderSelected.name === "Todos"
-            ? ""
-            : "POR ESSA LIDERANÇA QUE VOCÊ ESCOLHEU"}
-          .
+          OBS: A MENSAGEM SERÁ ENVIADO PARA OS ELEITORES CADASTRADOS NO SISTEMA
+          POR ESSA LIDERANÇA QUE VOCÊ ESCOLHEU.
         </p>
       </div>
     </>
