@@ -32,7 +32,6 @@ export default function SendWhatsapp({ leaders }) {
   const [textMessage, setTextMessage] = useState("");
   const [file, setFile] = useState(null);
   const [sendMessage, setSendMessage] = useState(false);
-
   const removeFile = useCallback(() => {
     setFile(null);
     setTextMessage("");
@@ -59,24 +58,38 @@ export default function SendWhatsapp({ leaders }) {
     };
 
     router.post("/messages/send-media", payloadMessage, {
-      onSuccess: (e) => {
-        console.log(e);
+      onSuccess: (res) => {
+        setLeaderSelected({
+          id: "",
+          name: "",
+          cpf: "",
+          created_at: "",
+          updated_at: "",
+          nameWithCpf: "",
+        });
         setSendMessage(false);
+        removeFile();
         clearTimeout(loadingNotificationTimeout);
         Notify.success("Mensagem enviada com sucesso!");
-        console.log("Sucesso!");
       },
       onError: (e) => {
-        console.log(e);
+        removeFile();
         setSendMessage(false);
         clearTimeout(loadingNotificationTimeout);
-        Notify.failure("Ocorreu um erro ao enviar sua mensagem!");
-        console.log("Ocorreu um Erro!");
+        Notify.failure(e?.media);
       },
       onFinish: () => {
+        setLeaderSelected({
+          id: "",
+          name: "",
+          cpf: "",
+          created_at: "",
+          updated_at: "",
+          nameWithCpf: "",
+        });
+        removeFile();
         clearTimeout(loadingNotificationTimeout);
         setSendMessage(false);
-        console.log("Promisse finalizada!");
       },
     });
   };
@@ -128,8 +141,8 @@ export default function SendWhatsapp({ leaders }) {
               }
             />
             <p className="mt-3 text-orange-600 text-xs font-semibold">
-              OBS: SELECIONE UMA LIDERANÇA OU SE DESEJA ENVIAR A MENSAGEM PARA
-              TODOS OS ELEITORES CADASTRADO NO SISTEMA .
+              OBS: SELECIONE UMA LIDERANÇA PARA ENVIAR A MENSAGEM PARA TODOS OS
+              ELEITORES CADASTRADO DESSA LIDERANÇA.
             </p>
           </FormControl>
         </Box>
