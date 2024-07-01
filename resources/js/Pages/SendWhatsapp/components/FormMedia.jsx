@@ -1,10 +1,15 @@
+import { Notify } from "notiflix";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { IoCloudUpload } from "react-icons/io5";
 
 export const FormMedia = ({ setFile }) => {
   const onDrop = useCallback((file) => {
-    setFile(file[0]);
+    if (file[0] === undefined) {
+      Notify.failure("O Arquivo deve ser uma Imgem ou um Vídeo");
+    } else {
+      setFile(file[0]);
+    }
   }, []);
 
   const dropzone = useDropzone({
