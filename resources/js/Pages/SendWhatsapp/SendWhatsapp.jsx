@@ -47,7 +47,9 @@ export default function SendWhatsapp({ leaders }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     setSendMessage(true);
-    Notify.info("Aguarde um momento, sua mensagem está sendo enviada!");
+    const loadingNotificationTimeout = setTimeout(() => {
+      Notify.info("Aguarde um momento, sua mensagem está sendo enviada!");
+    }, 0);
 
     const payloadMessage = {
       leader_id: leaderSelected?.id,
@@ -57,18 +59,22 @@ export default function SendWhatsapp({ leaders }) {
     };
 
     router.post("/messages/send-media", payloadMessage, {
-      onSuccess: () => {
+      onSuccess: (e) => {
+        console.log(e);
         setSendMessage(false);
+        clearTimeout(loadingNotificationTimeout);
         Notify.success("Mensagem enviada com sucesso!");
         console.log("Sucesso!");
       },
       onError: (e) => {
         console.log(e);
         setSendMessage(false);
+        clearTimeout(loadingNotificationTimeout);
         Notify.failure("Ocorreu um erro ao enviar sua mensagem!");
         console.log("Ocorreu um Erro!");
       },
       onFinish: () => {
+        clearTimeout(loadingNotificationTimeout);
         setSendMessage(false);
         console.log("Promisse finalizada!");
       },
@@ -90,71 +96,75 @@ export default function SendWhatsapp({ leaders }) {
     <DefaultLayout>
       <Breadcrumb pageName={"Enviar Pelo Whatsapp"} />
       <Divider variant="fullWidth" />
-      <Box
-        sx={{
-          marginTop: 3,
-          width: 500,
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
-        }}
-      >
-        <Typography variant="subtitle1" sx={{ mb: 2 }}>
-          Selecione a Liderança*
-        </Typography>
-        <FormControl required sx={{ width: 400 }}>
-          <Autocomplete
-            clearIcon={
-              <IconButton onClick={handleClearInputLeader}>
-                <ClearIcon />
-              </IconButton>
-            }
-            value={leaderSelected}
-            onChange={(_, newValue) => {
-              handleOnChange(newValue);
-            }}
-            id="leader"
-            options={VotersOfLeaderSelected}
-            renderInput={(params) => <TextField {...params} />}
-            getOptionLabel={(option) => (option.name ? option.nameWithCpf : "")}
-          />
-          <p className="mt-3 text-orange-600 text-xs font-semibold">
-            OBS: SELECIONE UMA LIDERANÇA OU SE DESEJA ENVIAR A MENSAGEM PARA
-            TODOS OS ELEITORES CADASTRADO NO SISTEMA .
-          </p>
-        </FormControl>
-      </Box>
-      {leaderSelected.name ? (
-        <Grid
-          item
-          xs={10}
-          sm={8}
-          md={6}
+      <div className="mt-5 h-full w-full bg-white p-8 shadow-6">
+        <Box
           sx={{
             marginTop: 3,
-            maxWidth: 500,
-            p: 5,
+            width: 500,
             display: "flex",
             justifyContent: "center",
             flexDirection: "column",
-            border: "2px solid #7f7f7f",
           }}
         >
-          {!file ? (
-            <FormMedia setFile={setFile} />
-          ) : (
-            <HasFile
-              file={file}
-              removeFile={removeFile}
-              textMessage={textMessage}
-              setTextMessage={setTextMessage}
-              handleSubmit={handleSubmit}
-              leaderSelected={leaderSelected}
-              sendMessage={sendMessage}
+          <Typography variant="subtitle1" sx={{ mb: 2 }}>
+            Selecione a Liderança*
+          </Typography>
+          <FormControl required sx={{ width: 400 }}>
+            <Autocomplete
+              clearIcon={
+                <IconButton onClick={handleClearInputLeader}>
+                  <ClearIcon />
+                </IconButton>
+              }
+              value={leaderSelected}
+              onChange={(_, newValue) => {
+                handleOnChange(newValue);
+              }}
+              id="leader"
+              options={VotersOfLeaderSelected}
+              renderInput={(params) => <TextField {...params} />}
+              getOptionLabel={(option) =>
+                option.name ? option.nameWithCpf : ""
+              }
             />
-          )}
-        </Grid>
-      ) : null}
+            <p className="mt-3 text-orange-600 text-xs font-semibold">
+              OBS: SELECIONE UMA LIDERANÇA OU SE DESEJA ENVIAR A MENSAGEM PARA
+              TODOS OS ELEITORES CADASTRADO NO SISTEMA .
+            </p>
+          </FormControl>
+        </Box>
+        {leaderSelected.name ? (
+          <Grid
+            item
+            xs={10}
+            sm={8}
+            md={6}
+            sx={{
+              marginTop: 3,
+              maxWidth: 500,
+              p: 5,
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+              border: "2px solid #7f7f7f",
+            }}
+          >
+            {!file ? (
+              <FormMedia setFile={setFile} />
+            ) : (
+              <HasFile
+                file={file}
+                removeFile={removeFile}
+                textMessage={textMessage}
+                setTextMessage={setTextMessage}
+                handleSubmit={handleSubmit}
+                leaderSelected={leaderSelected}
+                sendMessage={sendMessage}
+              />
+            )}
+          </Grid>
+        ) : null}
+      </div>
     </DefaultLayout>
   );
 }
