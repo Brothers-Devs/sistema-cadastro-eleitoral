@@ -30,14 +30,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy existing application directory contents
 COPY . /var/www
 
-# Change current user to root
-USER root
+# Run composer install
+RUN composer install --no-dev --optimize-autoloader
 
-# Set permissions and create necessary directories
-RUN mkdir -p /var/www/vendor \
-    && chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www \
-    && chown -R www-data:www-data /var/www/vendor
+# Set permissions
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 775 /var/www/vendor
 
 # Change current user to www
 USER www-data
