@@ -33,8 +33,9 @@ COPY . /var/www
 # Run composer install
 RUN composer install --no-dev --optimize-autoloader
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www \
+# Create the vendor directory and set permissions
+RUN mkdir -p /var/www/vendor \
+    && chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/vendor
 
 # Change current user to www
