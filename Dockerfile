@@ -30,13 +30,14 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy existing application directory contents
 COPY . /var/www
 
-# Create the vendor directory and set permissions
+# Change current user to root
+USER root
+
+# Set permissions and create necessary directories
 RUN mkdir -p /var/www/vendor \
     && chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www
-
-# Copy existing application directory permissions
-COPY --chown=www-data:www-data . /var/www
+    && chmod -R 755 /var/www \
+    && chown -R www-data:www-data /var/www/vendor
 
 # Change current user to www
 USER www-data
