@@ -31,10 +31,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . /var/www
 
 # Run composer install
-# RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader
 
 # Set permissions
-RUN chown -R 775 www-data:www-data /var/www
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 775 /var/www/vendor
 
 # Change current user to www
 USER www-data
