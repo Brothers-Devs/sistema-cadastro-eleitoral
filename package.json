@@ -26,6 +26,7 @@
         "@mui/material": "^5.15.18",
         "@mui/x-data-grid": "^7.6.1",
         "@mui/x-date-pickers": "^7.5.1",
+        "@ramonak/react-progress-bar": "^5.2.0",
         "dayjs": "^1.11.11",
         "flatpickr": "^4.6.13",
         "notiflix": "^3.2.7",
