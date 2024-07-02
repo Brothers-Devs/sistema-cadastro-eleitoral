@@ -17,6 +17,8 @@ import { HasFile } from "./components/HasFile";
 import { FormMedia } from "./components/FormMedia";
 import { router } from "@inertiajs/react";
 import { Notify } from "notiflix";
+import ProgressBar from "@ramonak/react-progress-bar";
+import LoadingOverlay from "./components/LoadingOverlay";
 
 const PATTERN_CPF = ["999.999.999-99"];
 
@@ -31,6 +33,7 @@ export default function SendWhatsapp({ leaders }) {
   });
   const [textMessage, setTextMessage] = useState("");
   const [file, setFile] = useState(null);
+  const [progress, setProgress] = useState(0);
   const [sendMessage, setSendMessage] = useState(false);
   const removeFile = useCallback(() => {
     setFile(null);
@@ -46,9 +49,6 @@ export default function SendWhatsapp({ leaders }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     setSendMessage(true);
-    const loadingNotificationTimeout = setTimeout(() => {
-      Notify.info("Aguarde um momento, sua mensagem está sendo enviada!");
-    }, 0);
 
     const payloadMessage = {
       leader_id: leaderSelected?.id,
@@ -58,7 +58,16 @@ export default function SendWhatsapp({ leaders }) {
     };
 
     router.post("/messages/send-media", payloadMessage, {
-      onSuccess: (res) => {
+      onProgress: (progressEvent) => {
+        if (progressEvent.lengthComputable) {
+          const percentComplete = Math.round(
+            (progressEvent.loaded / progressEvent.total) * 100
+          );
+          setProgress(percentComplete);
+        }
+      },
+      onSuccess: () => {
+        Notify.success("Mensagem enviada com sucesso!");
         setLeaderSelected({
           id: "",
           name: "",
@@ -68,15 +77,16 @@ export default function SendWhatsapp({ leaders }) {
           nameWithCpf: "",
         });
         setSendMessage(false);
+        setIsLoading(false);
         removeFile();
-        clearTimeout(loadingNotificationTimeout);
-        Notify.success("Mensagem enviada com sucesso!");
+        setProgress(0);
       },
       onError: (e) => {
-        removeFile();
-        setSendMessage(false);
-        clearTimeout(loadingNotificationTimeout);
         Notify.failure(e?.media);
+        removeFile();
+        setIsLoading(false);
+        setSendMessage(false);
+        setProgress(0);
       },
       onFinish: () => {
         setLeaderSelected({
@@ -88,8 +98,9 @@ export default function SendWhatsapp({ leaders }) {
           nameWithCpf: "",
         });
         removeFile();
-        clearTimeout(loadingNotificationTimeout);
+        setIsLoading(false);
         setSendMessage(false);
+        setProgress(0);
       },
     });
   };
@@ -165,19 +176,31 @@ export default function SendWhatsapp({ leaders }) {
             {!file ? (
               <FormMedia setFile={setFile} />
             ) : (
-              <HasFile
-                file={file}
-                removeFile={removeFile}
-                textMessage={textMessage}
-                setTextMessage={setTextMessage}
-                handleSubmit={handleSubmit}
-                leaderSelected={leaderSelected}
-                sendMessage={sendMessage}
-              />
+              <>
+                <HasFile
+                  file={file}
+                  removeFile={removeFile}
+                  textMessage={textMessage}
+                  setTextMessage={setTextMessage}
+                  handleSubmit={handleSubmit}
+                  leaderSelected={leaderSelected}
+                  sendMessage={sendMessage}
+                />
+                {sendMessage && (
+                  <ProgressBar
+                    completed={progress}
+                    bgColor="#3b82f6"
+                    height="20px"
+                    labelColor="#fff"
+                    labelAlignment="center"
+                  />
+                )}
+              </>
             )}
           </Grid>
         ) : null}
       </div>
+      <LoadingOverlay isVisible={sendMessage} />
     </DefaultLayout>
   );
 }
