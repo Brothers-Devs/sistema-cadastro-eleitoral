@@ -1,9 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import { useEffect } from "react";
 
-const LoadingOverlay = ({ isVisible }) => {
-  if (!isVisible) return null;
-
+const LoadingOverlay = () => {
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       event.preventDefault();

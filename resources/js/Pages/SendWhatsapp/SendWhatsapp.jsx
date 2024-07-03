@@ -49,7 +49,6 @@ export default function SendWhatsapp({ leaders }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     setSendMessage(true);
-
     const payloadMessage = {
       leader_id: leaderSelected?.id,
       media_type: file.type.split("/")[0],
@@ -78,12 +77,10 @@ export default function SendWhatsapp({ leaders }) {
         });
         removeFile();
         setSendMessage(false);
-        setIsLoading(false);
         setProgress(0);
       },
       onError: (e) => {
         Notify.failure(e?.media);
-        setIsLoading(false);
         setSendMessage(false);
         setProgress(0);
       },
@@ -185,7 +182,7 @@ export default function SendWhatsapp({ leaders }) {
           </Grid>
         ) : null}
       </div>
-      <LoadingOverlay isVisible={sendMessage} />
+      {sendMessage && <LoadingOverlay isVisible={sendMessage} />}
     </DefaultLayout>
   );
 }
