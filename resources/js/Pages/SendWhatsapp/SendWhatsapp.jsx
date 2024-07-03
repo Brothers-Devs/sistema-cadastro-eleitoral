@@ -76,28 +76,13 @@ export default function SendWhatsapp({ leaders }) {
           updated_at: "",
           nameWithCpf: "",
         });
+        removeFile();
         setSendMessage(false);
         setIsLoading(false);
-        removeFile();
         setProgress(0);
       },
       onError: (e) => {
         Notify.failure(e?.media);
-        removeFile();
-        setIsLoading(false);
-        setSendMessage(false);
-        setProgress(0);
-      },
-      onFinish: () => {
-        setLeaderSelected({
-          id: "",
-          name: "",
-          cpf: "",
-          created_at: "",
-          updated_at: "",
-          nameWithCpf: "",
-        });
-        removeFile();
         setIsLoading(false);
         setSendMessage(false);
         setProgress(0);

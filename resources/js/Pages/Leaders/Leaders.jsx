@@ -50,10 +50,11 @@ export default function Leaders({ items }) {
         field: "voters",
         headerName: "Total de Eleitores",
         width: 150,
+        sortable: true,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
-          return `${row?.voters.length}`;
+          return Number(row?.voters.length);
         },
         align: "center",
       },
