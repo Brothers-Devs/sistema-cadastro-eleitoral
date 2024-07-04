@@ -3,10 +3,12 @@
 namespace App\Repositories\Message\Providers\Whatsapp;
 
 use App\Dto\Message\SendMedia\MediaMessageDto;
+use App\Exceptions\EvolutionApi\InstanceNotFoundException;
 use App\Repositories\Message\Interfaces\MessageProviderInterface;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
 class EvolutionApiRepository implements MessageProviderInterface
 {
@@ -21,6 +23,52 @@ class EvolutionApiRepository implements MessageProviderInterface
         $this->baseUrl = $config->get('services.evolution_api.url');
         $this->apiKey = $config->get('services.evolution_api.api_key');
         $this->instance = $config->get('services.evolution_api.instance');
+    }
+
+    /**
+     * @return bool
+     * @throws \JsonException
+     * @throws \Throwable
+     */
+    public function isInstanceOpen(): bool
+    {
+        $instance = $this->getConnectionState();
+        return $instance['instance']['state'] == 'open';
+    }
+
+    /**
+     * @return mixed
+     * @throws \JsonException
+     * @throws \Throwable
+     */
+    public function getConnectionState(): array
+    {
+        $url = $this->baseUrl . '/instance/connectionState/' . $this->instance;
+
+        try {
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'apikey' => $this->apiKey,
+            ])->get($url);
+
+            if ($response->status() == Response::HTTP_NOT_FOUND) {
+                throw new InstanceNotFoundException();
+            }
+
+            return json_decode($response->json(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\Throwable $exception) {
+            Log::error(
+                'ERRO_AO_CONSULTAR_STATUS_DE_CONEXAO_DA_INSTANCIA',
+                [
+                    'message' => $exception->getMessage(),
+                    'code' => $exception->getCode(),
+                    'file' => $exception->getFile(),
+                    'trace' => $exception->getTraceAsString(),
+                ]
+            );
+
+            throw $exception;
+        }
     }
 
     /**

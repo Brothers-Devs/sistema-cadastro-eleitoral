@@ -6,7 +6,9 @@ namespace App\Services;
 
 use App\Dto\Message\SendMedia\MediaMessageFactory;
 use App\Dto\Message\SendMedia\SendMediaInputDto;
+use App\Exceptions\EvolutionApi\ConnectionIsNotOpenException;
 use App\Repositories\Message\Interfaces\MessageProviderInterface;
+use Illuminate\Support\Facades\Log;
 
 class MessageService
 {
@@ -17,8 +19,22 @@ class MessageService
     {
     }
 
+    /**
+     * @param SendMediaInputDto $sendMediaInputDto
+     * @return array
+     * @throws ConnectionIsNotOpenException
+     * @throws \JsonException
+     * @throws \Throwable
+     */
     public function sendMediaToVoters(SendMediaInputDto $sendMediaInputDto): array
     {
+        if (!$this->messageRepository->isInstanceOpen()) {
+            Log::error('ERRO_INSTANCIA_ESTA_FECHADA', [
+                'leader_id' => $sendMediaInputDto->getLeaderId()
+            ]);
+            throw new ConnectionIsNotOpenException();
+        }
+
         // buscar todos os eleitores de um leader_id
         $voters = $this->leaderService->findById($sendMediaInputDto->getLeaderId())->voters();
 
