@@ -16,7 +16,7 @@ class MessageController extends Controller
 {
     public function __construct(
         protected MessageService $messageService,
-        protected LeaderService  $leaderService,
+        protected LeaderService  $leaderService
     )
     {
     }
