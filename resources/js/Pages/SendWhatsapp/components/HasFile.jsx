@@ -3,6 +3,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import { IoClose } from "react-icons/io5";
 import { FaFile } from "react-icons/fa6";
 import { CircularProgress, Tooltip } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export const HasFile = ({
   file,
@@ -15,8 +16,8 @@ export const HasFile = ({
 }) => {
   return (
     <>
-      <div className="w-full h-45 bg-slate-300 rounded-lg border-dashed border-2 hover:border-slate-700 flex justify-center items-center">
-        <div className="bg-white pl-4 pr-4 rounded-md shadow-md flex gap-3 items-center justify-center">
+      <div className="relative w-full h-45 bg-slate-300 rounded-lg border-dashed border-2 hover:border-slate-700 flex justify-center items-center flex-col">
+        <div className="bg-white pl-4 pr-4 rounded-md shadow-md flex gap-3 items-center justify-center z-1">
           <FaFile size={20} />
           <span className="text-sm text-slate-600 my-4 flex-wrap">
             {file?.name}

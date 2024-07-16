@@ -33,8 +33,26 @@ class SendMediaRequest extends FormRequest
             'text_message' => 'nullable|string',
             'media' => [
                 'required',
-                File::types(['jpeg', 'jpg', 'png', 'mp4']),
+                File::types(['jpeg', 'jpg', 'png', 'mp4'])
+                    ->when($this->isImage(), function ($file) {
+                        return $file->max(5120); // 5 MB para imagens
+                    })
+                    ->when($this->isVideo(), function ($file) {
+                        return $file->max(16384); // 16 MB para vídeos
+                    }),
             ]
         ];
+    }
+
+    protected function isImage(): bool
+    {
+        $mediaType = $this->input('media_type');
+        return in_array($mediaType, ['jpeg', 'jpg', 'png']);
+    }
+
+    protected function isVideo(): bool
+    {
+        $mediaType = $this->input('media_type');
+        return $mediaType === 'mp4';
     }
 }

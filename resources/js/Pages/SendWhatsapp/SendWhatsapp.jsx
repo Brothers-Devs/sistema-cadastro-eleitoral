@@ -80,6 +80,7 @@ export default function SendWhatsapp({ leaders }) {
         setProgress(0);
       },
       onError: (e) => {
+        console.log(e);
         Notify.failure(e?.media);
         setSendMessage(false);
         setProgress(0);
