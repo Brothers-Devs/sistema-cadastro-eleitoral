@@ -37,8 +37,6 @@ const style = {
 
 const PATTERN_CPF = ["999.999.999-99"];
 const PATTERN_PHONE = ["(99) 9 9999-9999"];
-const PATTERN_DATE = ["99/99/9999"];
-const PATTERN_CEP = ["99999-999"];
 
 export default function ModalCreateVoter({
   showModal,
@@ -51,15 +49,9 @@ export default function ModalCreateVoter({
     name: "",
     cpf: "",
     phone: "",
-    date_of_birth: "",
-    rg: "",
     title_number: "",
     zone: "",
     session: "",
-    address: "",
-    zip_code: "",
-    neighborhood: "",
-    city: "",
     leader: {
       id: "",
       name: "",
@@ -147,8 +139,10 @@ export default function ModalCreateVoter({
                           setData("leader", newValue);
                         }}
                         id="leader"
-                        options={[...leadersWithCPFInName, data.leader]}
-                        renderInput={(params) => <TextField {...params} />}
+                        options={leadersWithCPFInName}
+                        renderInput={(params) => (
+                          <TextField {...params} key={params.id} />
+                        )}
                         getOptionLabel={(option) =>
                           option ? option.nameWithCpf : ""
                         }
@@ -163,7 +157,7 @@ export default function ModalCreateVoter({
                   <div className="w-full xl:w-1/3"></div>
                 </div>
 
-                {/*Input de Nome e Data*/}
+                {/*Input de Nome*/}
                 <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
                   <div className="w-full xl:w-2/3">
                     <InputLabel
@@ -185,56 +179,10 @@ export default function ModalCreateVoter({
 
                     <InputError message={errors.name} className="mt-2" />
                   </div>
-                  <div className="w-full xl:w-1/3">
-                    <InputLabel
-                      htmlFor="date_of_birth"
-                      value="Data de Nascimento"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="date_of_birth"
-                      name="date_of_birth"
-                      value={data.date_of_birth}
-                      className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="__/__/____"
-                      required={true}
-                      autoComplete="date"
-                      onChange={(e) =>
-                        setData(
-                          "date_of_birth",
-                          mask(e.target.value, PATTERN_DATE)
-                        )
-                      }
-                    />
-
-                    <InputError
-                      message={errors.date_of_birth}
-                      className="mt-2"
-                    />
-                  </div>
                 </div>
 
-                {/*Input de RG, CPF e Telefone*/}
+                {/*Input de CPF e Telefone*/}
                 <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
-                  <div className="w-full xl:w-1/3">
-                    <InputLabel
-                      htmlFor="rg"
-                      value="RG"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="rg"
-                      name="rg"
-                      value={data.rg}
-                      className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="RG"
-                      onChange={(e) => setData("rg", e.target.value)}
-                    />
-
-                    <InputError message={errors.rg} className="mt-2" />
-                  </div>
                   <div className="w-full xl:w-1/3">
                     <InputLabel
                       htmlFor="cpf"
@@ -337,91 +285,6 @@ export default function ModalCreateVoter({
                     />
 
                     <InputError message={errors.session} className="mt-2" />
-                  </div>
-                </div>
-
-                {/*Input de Endereço e CEP*/}
-                <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
-                  <div className="w-full  xl:w-1/2">
-                    <InputLabel
-                      htmlFor="cep"
-                      value="CEP"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="cep"
-                      name="cep"
-                      value={data.zip_code}
-                      className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="00000-000"
-                      onChange={(e) =>
-                        setData("zip_code", mask(e.target.value, PATTERN_CEP))
-                      }
-                    />
-
-                    <InputError message={errors.zip_code} className="mt-2" />
-                  </div>
-                  <div className="w-full  xl:w-1/2">
-                    <InputLabel
-                      htmlFor="address"
-                      value="Endereço"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="address"
-                      name="address"
-                      value={data.address}
-                      className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="Endereço"
-                      onChange={(e) => setData("address", e.target.value)}
-                    />
-
-                    <InputError message={errors.address} className="mt-2" />
-                  </div>
-                </div>
-
-                {/*Input de Bairro e Cidade*/}
-                <div className="w-full flex flex-col gap-6 xl:flex-row mb-5">
-                  <div className="w-full xl:w-1/2">
-                    <InputLabel
-                      htmlFor="neighborhood"
-                      value="Bairro"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="neighborhood"
-                      name="neighborhood"
-                      value={data.neighborhood}
-                      className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="Bairro"
-                      onChange={(e) => setData("neighborhood", e.target.value)}
-                    />
-
-                    <InputError
-                      message={errors.neighborhood}
-                      className="mt-2"
-                    />
-                  </div>
-                  <div className="w-full xl:w-1/2">
-                    <InputLabel
-                      htmlFor="city"
-                      value="Cidade"
-                      className="mb-2.5 block text-black dark:text-white"
-                    />
-
-                    <TextInput
-                      id="city"
-                      name="city"
-                      value={data.city}
-                      className="w-full h-14 mt-1 rounded border-[1.5px] border-stone-400 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      placeholder="Cidade"
-                      onChange={(e) => setData("city", e.target.value)}
-                    />
-
-                    <InputError message={errors.city} className="mt-2" />
                   </div>
                 </div>
 
