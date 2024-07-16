@@ -57,7 +57,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute z-1 left-0 top-0 flex h-screen w-60 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`absolute z-999 left-0 top-0 flex h-screen w-60 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
@@ -136,7 +136,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   Eleitores
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   href={route("messages.index")}
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
@@ -144,7 +144,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   <IoLogoWhatsapp size={18} />
                   Enviar
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
         </nav>

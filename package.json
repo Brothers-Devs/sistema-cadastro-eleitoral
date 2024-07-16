@@ -11,7 +11,6 @@
         "@tailwindcss/forms": "^0.5.3",
         "@vitejs/plugin-react": "^4.2.0",
         "autoprefixer": "^10.4.12",
-        "axios": "^1.6.4",
         "laravel-vite-plugin": "^1.0.0",
         "postcss": "^8.4.31",
         "react": "^18.2.0",
@@ -30,6 +29,7 @@
         "dayjs": "^1.11.11",
         "flatpickr": "^4.6.13",
         "notiflix": "^3.2.7",
+        "react-dropzone": "^14.2.3",
         "react-icons": "^5.2.1",
         "react-toastify": "^10.0.5",
         "remask": "^1.2.2"

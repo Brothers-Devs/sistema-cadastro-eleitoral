@@ -133,6 +133,7 @@ export default function ModalCreateVoter({
                         Selecione a Liderança*
                       </InputLabel>
                       <Autocomplete
+                        className="max-sm:w-67"
                         value={data?.leader}
                         onChange={(_, newValue) => {
                           setData("leader", newValue);
