@@ -26,7 +26,7 @@ class MessageController extends Controller
      */
     public function index(): Response
     {
-        if (env('FF_IS_MAINTENANCE')) {
+        if (env('FF_MAINTENANCE_ENABLED', false)) {
             return Inertia::render('Maintenance');
         }
 
