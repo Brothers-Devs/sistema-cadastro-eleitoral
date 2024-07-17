@@ -33,7 +33,7 @@ class EvolutionApiRepository implements MessageProviderInterface
     public function isInstanceOpen(): bool
     {
         $instance = $this->getConnectionState();
-        return $instance['instance']['state'] == 'open';
+        return !empty($instance['instance']['state']) && $instance['instance']['state'] == 'open';
     }
 
     /**
