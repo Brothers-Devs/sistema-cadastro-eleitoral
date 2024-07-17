@@ -55,7 +55,7 @@ class EvolutionApiRepository implements MessageProviderInterface
                 throw new InstanceNotFoundException();
             }
 
-            return json_decode($response->json(), true, 512, JSON_THROW_ON_ERROR);
+            return $response->json();
         } catch (\Throwable $exception) {
             Log::error(
                 'ERRO_AO_CONSULTAR_STATUS_DE_CONEXAO_DA_INSTANCIA',
