@@ -287,7 +287,6 @@ export default function ModalCreateVoter({
                     <InputError message={errors.session} className="mt-2" />
                   </div>
                 </div>
-
                 <PrimaryButton
                   disabled={processing}
                   onClick={submit}
