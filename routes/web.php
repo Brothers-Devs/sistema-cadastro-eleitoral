@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\VoterController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/leaders/{id}', [LeaderController::class, 'update'])->name('leaders.update');
     Route::get('/leaders/{id}/edit', [LeaderController::class, 'edit'])->name('leaders.edit');
     Route::delete('/leaders/{id}', [LeaderController::class, 'delete'])->name('leaders.delete');
+
+    //Envio de mensagens
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::post('/messages/send-media', [MessageController::class, 'sendMedia'])->name('messages.send.media');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

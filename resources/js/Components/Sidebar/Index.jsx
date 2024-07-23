@@ -5,6 +5,7 @@ import {
   IoLogoWhatsapp,
   IoPeopleOutline,
   IoManOutline,
+  // IoLocationOutline,
 } from "react-icons/io5";
 
 import Logo from "@/Logo/logo-candidato.png";
@@ -57,7 +58,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute z-1 left-0 top-0 flex h-screen w-60 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`absolute z-999 left-0 top-0 flex h-screen w-60 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
@@ -125,6 +126,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   Lideranças
                 </Link>
               </li>
+              {/* <li>
+                <Link
+                  // href={route("voters.list")}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 
+
+                  `}
+                >
+                  <IoLocationOutline size={18} />
+                  Local de Votação
+                </Link>
+              </li> */}
               <li>
                 <Link
                   href={route("voters.list")}
@@ -138,7 +150,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               </li>
               <li>
                 <Link
-                  // to="/enviar"
+                  href={route("messages.index")}
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
                 >
                   <IoLogoWhatsapp size={18} />

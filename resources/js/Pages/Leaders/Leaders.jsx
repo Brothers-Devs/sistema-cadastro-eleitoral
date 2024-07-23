@@ -2,7 +2,7 @@ import Breadcrumb from "@/Components/Breadcrumbs/Breadcrumb";
 import PrimaryButton from "@/Components/PrimaryButton";
 import DefaultLayout from "@/Layouts/DefaultLayout";
 import DataGridUtils from "@/Utils/DataGridUtils";
-import { Box, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import { useMemo, useState } from "react";
 import ButtonsActions from "./Actions/ButtonActions";
 import { mask } from "remask";
@@ -50,10 +50,11 @@ export default function Leaders({ items }) {
         field: "voters",
         headerName: "Total de Eleitores",
         width: 150,
+        sortable: true,
         disableClickEventBubbling: true,
         headerClassName: "bg-bodydark2 text-white",
         valueGetter: (_, row) => {
-          return `${row?.voters.length}`;
+          return Number(row?.voters.length);
         },
         align: "center",
       },
