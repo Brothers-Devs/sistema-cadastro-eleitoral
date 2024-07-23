@@ -1,6 +1,6 @@
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoVideocamOutline } from "react-icons/io5";
 import { FaFile } from "react-icons/fa6";
 import { CircularProgress, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -11,12 +11,36 @@ export const HasFile = ({
   textMessage,
   setTextMessage,
   handleSubmit,
-  leaderSelected,
   sendMessage,
 }) => {
+  const [imagePreview, setImagePreview] = useState(null || "");
+
+  useEffect(() => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview(null);
+    }
+  }, [file]);
+
   return (
     <>
       <div className="relative w-full h-45 bg-slate-300 rounded-lg border-dashed border-2 hover:border-slate-700 flex justify-center items-center flex-col">
+        {imagePreview?.includes("image") ? (
+          <img
+            src={imagePreview}
+            alt="Preview"
+            className="max-w-full max-h-full absolute -z-0 w-full h-full opacity-75 bg-no-repeat"
+          />
+        ) : (
+          <>
+            <IoVideocamOutline size={35} style={{ marginBottom: 10 }} />
+          </>
+        )}
         <div className="bg-white pl-4 pr-4 rounded-md shadow-md flex gap-3 items-center justify-center z-1">
           <FaFile size={20} />
           <span className="text-sm text-slate-600 my-4 flex-wrap">

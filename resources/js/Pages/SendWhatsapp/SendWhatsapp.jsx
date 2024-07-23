@@ -85,6 +85,12 @@ export default function SendWhatsapp({ leaders }) {
         setSendMessage(false);
         setProgress(0);
       },
+      onFinish: () => {
+        removeFile();
+        Notify.init("Processo Encerrado!");
+        setSendMessage(false);
+        setProgress(0);
+      },
     });
   };
 
@@ -166,7 +172,6 @@ export default function SendWhatsapp({ leaders }) {
                   textMessage={textMessage}
                   setTextMessage={setTextMessage}
                   handleSubmit={handleSubmit}
-                  leaderSelected={leaderSelected}
                   sendMessage={sendMessage}
                 />
                 {sendMessage && (
