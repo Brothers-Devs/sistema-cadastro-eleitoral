@@ -1,6 +1,10 @@
 # Use the official PHP image as the base image
 FROM php:8.1-fpm
 
+ARG APP_STAGE
+
+ENV APP_STAGE=$APP_STAGE
+
 # Set working directory
 WORKDIR /var/www
 
@@ -30,13 +34,17 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy existing application directory contents
 COPY . /var/www
 
-# Run composer install
-RUN composer install --no-dev --optimize-autoloader
+COPY ./composer.* ./
 
-# Create the vendor directory and set permissions
-RUN mkdir -p /var/www/vendor \
-    && chown -R www-data:www-data /var/www \
-    && chmod -R 775 /var/www/vendor
+# Run composer install
+RUN if [ "$APP_STAGE" == "local" ]; then \
+    composer install --no-scripts --prefer-dist --no-autoloader; \
+    else \
+    composer install --no-scripts --prefer-dist --no-autoloader --no-dev; \
+    fi
+
+RUN composer dump-autoload --optimize --no-scripts \
+    && chown -R www-data:www-data /var/www
 
 # Change current user to www
 USER www-data

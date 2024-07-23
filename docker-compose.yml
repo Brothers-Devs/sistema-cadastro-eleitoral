@@ -5,13 +5,13 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
+            args:
+                APP_NAME: ${APP_NAME}
+                APP_STAGE: ${APP_ENV}
         image: laravel-app
         container_name: laravel-app
         restart: unless-stopped
         tty: true
-        environment:
-            SERVICE_NAME: app
-            SERVICE_TAGS: dev
         working_dir: /var/www
         volumes:
             - ./:/var/www
