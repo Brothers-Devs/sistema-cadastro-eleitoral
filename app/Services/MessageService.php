@@ -57,10 +57,15 @@ class MessageService
             $totalSuccess++;
         }
 
-        return [
+        $result = [
+            'leader_id' => $sendMediaInputDto->getLeaderId(),
             'total_voters' => $voters->count(),
             'total_success' => $totalSuccess,
             'total_failed' => $totalFailed,
         ];
+
+        Log::info('RESULTADO_ENVIO_DE_MENSAGEM', $result);
+
+        return $result;
     }
 }
