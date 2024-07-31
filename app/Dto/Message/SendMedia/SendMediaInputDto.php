@@ -25,7 +25,7 @@ class SendMediaInputDto
             mediaMessageDto: MediaMessageDto::create(
                 mediaType: MediaTypeEnum::from($request->media_type),
                 media: $request->media,
-                caption: $request->text_message,
+                caption: $request->text_message ?? '',
             )
         );
     }
