@@ -16,7 +16,7 @@ class MediaMessageFactory
     public static function createWithBase64(
         MediaTypeEnum $mediaType,
         UploadedFile  $media,
-        ?string       $caption = null
+        ?string       $caption = ''
     ): MediaMessageDto
     {
         $mediaInBase64 = self::convertMediaToBase64($media);
