@@ -62,6 +62,8 @@ class MessageService
             'total_voters' => $voters->count(),
             'total_success' => $totalSuccess,
             'total_failed' => $totalFailed,
+            'media_type' => $sendMediaInputDto->getMediaMessageDto()->getMediaType(),
+            'caption' => $sendMediaInputDto->getMediaMessageDto()->getCaption()
         ];
 
         Log::info('RESULTADO_ENVIO_DE_MENSAGEM', $result);
