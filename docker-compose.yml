@@ -72,7 +72,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        command: php /var/www/artisan queue:work --sleep=1 --tries=3
+        command: php /var/www/artisan queue:work --sleep=3 --tries=3
         volumes:
             - .:/var/www
         depends_on:
