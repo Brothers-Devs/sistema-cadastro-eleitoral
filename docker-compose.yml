@@ -60,6 +60,40 @@ services:
         networks:
             - app-network
 
+    redis:
+        image: redis:alpine
+        container_name: redis
+        ports:
+            - "6379:6379"
+        networks:
+            - app-network
+
+    queue:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: php /var/www/artisan queue:work --sleep=1 --tries=3
+        volumes:
+            - .:/var/www
+        depends_on:
+            - redis
+        networks:
+            - app-network
+
+    horizon:
+        container_name: horizon
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: php /var/www/artisan horizon
+        volumes:
+            - .:/var/www
+        depends_on:
+            - redis
+            - app
+        networks:
+            - app-network
+
 #    node:
 #        image: node:14
 #        container_name: node

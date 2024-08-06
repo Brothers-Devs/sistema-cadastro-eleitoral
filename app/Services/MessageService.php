@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Dto\Message\SendMedia\MediaMessageFactory;
 use App\Dto\Message\SendMedia\SendMediaInputDto;
 use App\Exceptions\EvolutionApi\ConnectionIsNotOpenException;
+use App\Jobs\SendMediaJob;
 use App\Repositories\Message\Interfaces\MessageProviderInterface;
 use Illuminate\Support\Facades\Log;
 
@@ -44,29 +45,21 @@ class MessageService
             media: $sendMediaInputDto->getMediaMessageDto()->getMedia(),
             caption: $sendMediaInputDto->getMediaMessageDto()->getCaption()
         );
+        $mediaMessage->setMedia(null); // para poder dispachar na fila
 
-        // enviar mensagem para os eleitores
-        $totalSuccess = $totalFailed = 0;
+        // enviar mensagens para a fila
         foreach ($voters->get() as $voter) {
-            $result = $this->messageRepository->sendMedia($voter->phone, $mediaMessage);
-
-            if (!$result['success']) {
-                $totalFailed++;
-                continue;
-            }
-            $totalSuccess++;
+            SendMediaJob::dispatch($voter->phone, $mediaMessage);
         }
 
         $result = [
             'leader_id' => $sendMediaInputDto->getLeaderId(),
             'total_voters' => $voters->count(),
-            'total_success' => $totalSuccess,
-            'total_failed' => $totalFailed,
             'media_type' => $sendMediaInputDto->getMediaMessageDto()->getMediaType(),
             'caption' => $sendMediaInputDto->getMediaMessageDto()->getCaption()
         ];
 
-        Log::info('RESULTADO_ENVIO_DE_MENSAGEM', $result);
+        Log::info('MENSAGENS_ENVIADAS_PARA_FILA', $result);
 
         return $result;
     }
