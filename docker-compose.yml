@@ -74,7 +74,8 @@ services:
             dockerfile: Dockerfile
         command: php /var/www/artisan queue:work --sleep=3 --tries=3
         volumes:
-            - .:/var/www
+            - ./:/var/www
+            - ./.docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
         depends_on:
             - redis
         networks:
