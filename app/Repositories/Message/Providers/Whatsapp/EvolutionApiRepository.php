@@ -82,13 +82,14 @@ class EvolutionApiRepository implements MessageProviderInterface
         $data = $this->buildPayload($phoneNumber, $mediaMessageDto);
 
         try {
-            Http::withHeaders([
-                'Content-Type' => 'application/json',
-                'apikey' => $this->apiKey,
-            ])->post(
-                $url,
-                $data
-            );
+            Http::timeout(60)
+                ->withHeaders([
+                    'Content-Type' => 'application/json',
+                    'apikey' => $this->apiKey,
+                ])->post(
+                    $url,
+                    $data
+                );
 
             return [
                 'success' => true,

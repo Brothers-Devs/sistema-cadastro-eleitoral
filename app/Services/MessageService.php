@@ -7,7 +7,9 @@ namespace App\Services;
 use App\Dto\Message\SendMedia\MediaMessageFactory;
 use App\Dto\Message\SendMedia\SendMediaInputDto;
 use App\Exceptions\EvolutionApi\ConnectionIsNotOpenException;
+use App\Jobs\SendMediaJob;
 use App\Repositories\Message\Interfaces\MessageProviderInterface;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Log;
 
 class MessageService
@@ -36,7 +38,7 @@ class MessageService
         }
 
         // buscar todos os eleitores de um leader_id
-        $voters = $this->leaderService->findById($sendMediaInputDto->getLeaderId())->voters();
+        $voters = $this->leaderService->findById($sendMediaInputDto->getLeaderId())->voters()->get();
 
         // converter midia em base64
         $mediaMessage = MediaMessageFactory::createWithBase64(
@@ -44,23 +46,25 @@ class MessageService
             media: $sendMediaInputDto->getMediaMessageDto()->getMedia(),
             caption: $sendMediaInputDto->getMediaMessageDto()->getCaption()
         );
+        $mediaMessage->setMedia(null); // para poder dispachar na fila
 
-        // enviar mensagem para os eleitores
-        $totalSuccess = $totalFailed = 0;
-        foreach ($voters->get() as $voter) {
-            $result = $this->messageRepository->sendMedia($voter->phone, $mediaMessage);
+        // criar jobs para batch dispatch
+        $jobs = $voters->map(function ($voter) use ($mediaMessage) {
+            return new SendMediaJob($voter->phone, $mediaMessage);
+        })->toArray();
 
-            if (!$result['success']) {
-                $totalFailed++;
-                continue;
-            }
-            $totalSuccess++;
-        }
+        // despachar jobs em batch
+        Bus::batch($jobs)->dispatch();
 
-        return [
+        $result = [
+            'leader_id' => $sendMediaInputDto->getLeaderId(),
             'total_voters' => $voters->count(),
-            'total_success' => $totalSuccess,
-            'total_failed' => $totalFailed,
+            'media_type' => $sendMediaInputDto->getMediaMessageDto()->getMediaType(),
+            'caption' => $sendMediaInputDto->getMediaMessageDto()->getCaption()
         ];
+
+        Log::info('MENSAGENS_ENVIADAS_PARA_FILA', $result);
+
+        return $result;
     }
 }

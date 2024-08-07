@@ -9,11 +9,16 @@ class MediaMessageDto
 {
     public function __construct(
         private readonly MediaTypeEnum $mediaType,
-        private readonly UploadedFile  $media,
+        private ?UploadedFile          $media,
         private readonly ?string       $caption,
         private readonly ?string       $mediaInBase64,
     )
     {
+    }
+
+    public function setMedia(?UploadedFile $media): void
+    {
+        $this->media = $media;
     }
 
     public static function create(
@@ -31,7 +36,7 @@ class MediaMessageDto
         return $this->mediaType;
     }
 
-    public function getMedia(): UploadedFile
+    public function getMedia(): ?UploadedFile
     {
         return $this->media;
     }
