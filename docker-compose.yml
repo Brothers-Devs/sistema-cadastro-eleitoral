@@ -72,6 +72,9 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
+            args:
+                APP_NAME: ${APP_NAME}
+                APP_STAGE: ${APP_ENV}
         command: php /var/www/artisan queue:work --sleep=3 --tries=3
         volumes:
             - ./:/var/www
@@ -86,6 +89,9 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
+            args:
+                APP_NAME: ${APP_NAME}
+                APP_STAGE: ${APP_ENV}
         command: php /var/www/artisan horizon
         volumes:
             - .:/var/www
