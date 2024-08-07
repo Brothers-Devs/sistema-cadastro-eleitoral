@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Dto\Message\SendMedia\MediaMessageDto;
 use App\Repositories\Message\Interfaces\MessageProviderInterface;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 
 class SendMediaJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Batchable;
 
     /**
      * Create a new job instance.

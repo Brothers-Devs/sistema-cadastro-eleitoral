@@ -9,6 +9,7 @@ use App\Dto\Message\SendMedia\SendMediaInputDto;
 use App\Exceptions\EvolutionApi\ConnectionIsNotOpenException;
 use App\Jobs\SendMediaJob;
 use App\Repositories\Message\Interfaces\MessageProviderInterface;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Log;
 
 class MessageService
@@ -37,7 +38,7 @@ class MessageService
         }
 
         // buscar todos os eleitores de um leader_id
-        $voters = $this->leaderService->findById($sendMediaInputDto->getLeaderId())->voters();
+        $voters = $this->leaderService->findById($sendMediaInputDto->getLeaderId())->voters()->get();
 
         // converter midia em base64
         $mediaMessage = MediaMessageFactory::createWithBase64(
@@ -47,10 +48,13 @@ class MessageService
         );
         $mediaMessage->setMedia(null); // para poder dispachar na fila
 
-        // enviar mensagens para a fila
-        foreach ($voters->get() as $voter) {
-            SendMediaJob::dispatch($voter->phone, $mediaMessage);
-        }
+        // criar jobs para batch dispatch
+        $jobs = $voters->map(function ($voter) use ($mediaMessage) {
+            return new SendMediaJob($voter->phone, $mediaMessage);
+        })->toArray();
+
+        // despachar jobs em batch
+        Bus::batch($jobs)->dispatch();
 
         $result = [
             'leader_id' => $sendMediaInputDto->getLeaderId(),

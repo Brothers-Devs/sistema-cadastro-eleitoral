@@ -81,19 +81,19 @@ services:
         networks:
             - app-network
 
-#    horizon:
-#        container_name: horizon
-#        build:
-#            context: .
-#            dockerfile: Dockerfile
-#        command: php /var/www/artisan horizon
-#        volumes:
-#            - .:/var/www
-#        depends_on:
-#            - redis
-#            - app
-#        networks:
-#            - app-network
+    horizon:
+        container_name: horizon
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: php /var/www/artisan horizon
+        volumes:
+            - .:/var/www
+        depends_on:
+            - redis
+            - app
+        networks:
+            - app-network
 
 #    node:
 #        image: node:14
