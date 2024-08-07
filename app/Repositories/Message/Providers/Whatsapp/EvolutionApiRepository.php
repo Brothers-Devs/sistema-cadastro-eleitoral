@@ -91,6 +91,12 @@ class EvolutionApiRepository implements MessageProviderInterface
                     $data
                 );
 
+            Log::info('SUCESSO_NO_ENVIO_DA_MENSAGEM', [
+                'phone' => $phoneNumber,
+                'media_type' => $mediaMessageDto->getMediaType()->value,
+                'caption' => $mediaMessageDto->getCaption(),
+            ]);
+
             return [
                 'success' => true,
                 'message' => 'Mensagem enviada com sucesso!'
@@ -100,6 +106,9 @@ class EvolutionApiRepository implements MessageProviderInterface
             Log::error(
                 'ERRO_NO_ENVIO_DA_MENSAGEM',
                 [
+                    'phone' => $phoneNumber,
+                    'media_type' => $mediaMessageDto->getMediaType()->value,
+                    'caption' => $mediaMessageDto->getCaption(),
                     'message' => $exception->getMessage(),
                     'code' => $exception->getCode(),
                     'file' => $exception->getFile(),
@@ -130,7 +139,7 @@ class EvolutionApiRepository implements MessageProviderInterface
             'mediaMessage' => [
                 'mediatype' => $mediaMessageDto->getMediaType(),
                 'caption' => $mediaMessageDto->getCaption(),
-                'media' => $mediaMessageDto->getMediaInBase64()
+                'media' => $mediaMessageDto->getMedia()
             ],
         ];
     }
