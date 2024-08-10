@@ -7,8 +7,7 @@ import {
   IoManOutline,
   // IoLocationOutline,
 } from "react-icons/io5";
-
-import Logo from "@/Logo/logo-candidato.png";
+import Logo from "@/Common/Logo/Logo.jsx";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const trigger = useRef(null);
@@ -68,7 +67,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           <span className="text-bodydark font-semibold">Eleições 2024</span>
         </div> */}
         <Link href={route("home")}>
-          <img src={Logo} alt="Logo" />
+          <Logo alt="Logo do candidato"/>
         </Link>
         <button
           ref={trigger}
@@ -129,7 +128,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <li>
                 <Link
                   // href={route("voters.list")}
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4
 
                   `}
                 >
