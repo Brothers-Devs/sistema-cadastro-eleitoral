@@ -97,4 +97,18 @@ class VoterService
     {
         $this->voterRepository->delete($id);
     }
+    public function searchAndPaginate($search = '', $perPage = 10)
+    {
+        try {
+            // Valida o tipo dos parâmetros
+            $search = is_string($search) ? $search : '';
+            $perPage = is_int($perPage) ? $perPage : 10;
+    
+            return $this->voterRepository->searchAndPaginate($search, $perPage);
+        } catch (\Exception $e) {
+            // Lida com a exceção e fornece uma mensagem de erro
+            // Você pode querer registrar o erro ou retornar uma mensagem adequada
+            throw new \Exception('Error during search and pagination: ' . $e->getMessage());
+        }
+    }
 }

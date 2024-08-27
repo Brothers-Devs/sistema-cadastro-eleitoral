@@ -43,4 +43,24 @@ class VoterRepository
     {
         $this->model->findOrFail($id)->delete();
     }
+
+    /**
+     * Realiza uma pesquisa e retorna resultados paginados de eleitores.
+     *
+     * @param string $search
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function searchAndPaginate(string $search = '', int $perPage = 10)
+    {
+        $search = $search ?? '';
+        $query = $this->model->query();
+
+        if (!empty($search)) {
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('id', 'like', "%{$search}%");
+        }
+
+        return $query->paginate($perPage);
+    }
 }
