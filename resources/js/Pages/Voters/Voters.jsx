@@ -7,18 +7,52 @@ import { useMemo, useState } from "react";
 import ButtonsActions from "./Actions/ButtonActions";
 import { mask } from "remask";
 import ModalCreateVoter from "./Modal/ModalCreateVoter";
-import SendWhatsapp from "../SendWhatsapp/SendWhatsapp";
+import { usePage } from "@inertiajs/react";
+import { useEffect } from "react";
+import { Inertia } from "@inertiajs/inertia";
 
 const PATTERN_CPF = ["999.999.999-99"];
 const PATTERN_PHONE = ["(99) 9 9999-9999"];
 
-export default function Voters({ items, leaders }) {
+export default function Voters() {
   const [modification, setModification] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [rowSelected, setRowSelected] = useState(false);
 
   const handleClose = () => {
     setOpenModal(false);
+  };
+
+  const { voters, leaders, filters } = usePage().props;
+  console.log(voters);
+  console.log(leaders);
+  console.log(filters);
+  const [paginationModel, setPaginationModel] = useState({
+    page: voters.current_page - 1, // Ajuste para o índice da página inicial do DataGrid
+    pageSize: voters.per_page,
+  });
+  const [searchText, setSearchText] = useState(filters?.search || "");
+
+  useEffect(() => {
+    Inertia.get(
+      route("voters.list"),
+      {
+        page: paginationModel.page + 1,
+        perPage: paginationModel.pageSize,
+        search: searchText,
+      },
+      { preserveState: true, preserveScroll: true }
+    );
+  }, [paginationModel, searchText]);
+
+  const handlePaginationModelChange = (newModel) => {
+    setPaginationModel(newModel);
+  };
+
+  const handleSearchChange = (event) => {
+    const newValue = event?.target?.value || "";
+    setSearchText(newValue);
+    setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
 
   const columns = useMemo(
@@ -134,8 +168,13 @@ export default function Voters({ items, leaders }) {
 
       {/* Lista de Eleitores */}
       <DataGridUtils
-        dataContent={items}
+        dataContent={voters.data}
         columns={columns}
+        rowCount={Number(voters?.total)}
+        paginationModel={paginationModel}
+        handlePaginationModelChange={handlePaginationModelChange}
+        onFilterModelChange={handleSearchChange}
+        searchText={searchText}
         setRowSelected={setRowSelected}
       />
 
