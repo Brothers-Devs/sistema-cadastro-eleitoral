@@ -57,6 +57,11 @@ function CustomToolbar() {
 export default function DataGridUtils({
   dataContent,
   columns,
+  rowCount,
+  paginationModel,
+  handlePaginationModelChange,
+  onFilterModelChange,
+  searchText,
   setRowSelected,
 }) {
   return (
@@ -65,6 +70,15 @@ export default function DataGridUtils({
         sx={{ p: 3, height: "46.68rem", backgroundColor: "#FFFFFF" }}
         getRowId={(rows) => rows.id}
         rows={dataContent}
+        pagination
+        paginationMode="server"
+        rowCount={rowCount}
+        paginationModel={paginationModel}
+        onPaginationModelChange={handlePaginationModelChange}
+        onFilterModelChange={(model) => {
+          const searchValue = model.items[0]?.value || ""; // Proteção contra undefined
+          onFilterModelChange({ target: { value: searchValue } });
+        }}
         columns={columns}
         disableRowSelectionOnClick
         disableColumnMenu
@@ -88,6 +102,15 @@ export default function DataGridUtils({
         }}
         showCellVerticalBorder={true}
         showColumnVerticalBorder={true}
+        filterModel={{
+          items: [
+            {
+              field: "name",
+              operator: "contains",
+              value: searchText,
+            },
+          ],
+        }}
         onRowClick={(params) => setRowSelected(params)}
         localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
       />
