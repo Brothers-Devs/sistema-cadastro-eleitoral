@@ -33,7 +33,7 @@ class EvolutionApiRepository implements MessageProviderInterface
     public function isInstanceOpen(): bool
     {
         $instance = $this->getConnectionState();
-        return $instance['instance']['state'] == 'open';
+        return !empty($instance['instance']['state']) && $instance['instance']['state'] == 'open';
     }
 
     /**
@@ -55,7 +55,7 @@ class EvolutionApiRepository implements MessageProviderInterface
                 throw new InstanceNotFoundException();
             }
 
-            return json_decode($response->json(), true, 512, JSON_THROW_ON_ERROR);
+            return $response->json();
         } catch (\Throwable $exception) {
             Log::error(
                 'ERRO_AO_CONSULTAR_STATUS_DE_CONEXAO_DA_INSTANCIA',
@@ -82,13 +82,20 @@ class EvolutionApiRepository implements MessageProviderInterface
         $data = $this->buildPayload($phoneNumber, $mediaMessageDto);
 
         try {
-            Http::withHeaders([
-                'Content-Type' => 'application/json',
-                'apikey' => $this->apiKey,
-            ])->post(
-                $url,
-                $data
-            );
+            Http::timeout(60)
+                ->withHeaders([
+                    'Content-Type' => 'application/json',
+                    'apikey' => $this->apiKey,
+                ])->post(
+                    $url,
+                    $data
+                );
+
+            Log::info('SUCESSO_NO_ENVIO_DA_MENSAGEM', [
+                'phone' => $phoneNumber,
+                'media_type' => $mediaMessageDto->getMediaType()->value,
+                'caption' => $mediaMessageDto->getCaption(),
+            ]);
 
             return [
                 'success' => true,
@@ -99,6 +106,9 @@ class EvolutionApiRepository implements MessageProviderInterface
             Log::error(
                 'ERRO_NO_ENVIO_DA_MENSAGEM',
                 [
+                    'phone' => $phoneNumber,
+                    'media_type' => $mediaMessageDto->getMediaType()->value,
+                    'caption' => $mediaMessageDto->getCaption(),
                     'message' => $exception->getMessage(),
                     'code' => $exception->getCode(),
                     'file' => $exception->getFile(),
@@ -129,7 +139,7 @@ class EvolutionApiRepository implements MessageProviderInterface
             'mediaMessage' => [
                 'mediatype' => $mediaMessageDto->getMediaType(),
                 'caption' => $mediaMessageDto->getCaption(),
-                'media' => $mediaMessageDto->getMediaInBase64()
+                'media' => $mediaMessageDto->getMedia()
             ],
         ];
     }

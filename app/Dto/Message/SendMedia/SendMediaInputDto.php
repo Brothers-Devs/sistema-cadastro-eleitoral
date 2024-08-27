@@ -24,8 +24,8 @@ class SendMediaInputDto
             leaderId: $request->leader_id,
             mediaMessageDto: MediaMessageDto::create(
                 mediaType: MediaTypeEnum::from($request->media_type),
-                media: $request->media,
-                caption: $request->text_message,
+                mediaFile: $request->media,
+                caption: $request->text_message ?? '',
             )
         );
     }

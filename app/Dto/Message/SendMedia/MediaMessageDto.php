@@ -9,21 +9,26 @@ class MediaMessageDto
 {
     public function __construct(
         private readonly MediaTypeEnum $mediaType,
-        private readonly UploadedFile  $media,
+        private ?UploadedFile          $mediaFile,
+        private readonly string        $media,
         private readonly ?string       $caption,
-        private readonly ?string       $mediaInBase64,
     )
     {
     }
 
     public static function create(
         MediaTypeEnum $mediaType,
-        UploadedFile  $media,
-        ?string       $caption,
-        ?string       $mediaInBase64 = null
+        UploadedFile  $mediaFile,
+        string        $media = '',
+        string        $caption = '',
     ): MediaMessageDto
     {
-        return new self($mediaType, $media, $caption, $mediaInBase64);
+        return new self($mediaType, $mediaFile, $media, $caption);
+    }
+
+    public function setMediaFile(?UploadedFile $mediaFile): void
+    {
+        $this->mediaFile = $mediaFile;
     }
 
     public function getMediaType(): MediaTypeEnum
@@ -31,9 +36,9 @@ class MediaMessageDto
         return $this->mediaType;
     }
 
-    public function getMedia(): UploadedFile
+    public function getMediaFile(): ?UploadedFile
     {
-        return $this->media;
+        return $this->mediaFile;
     }
 
     public function getCaption(): ?string
@@ -41,18 +46,18 @@ class MediaMessageDto
         return $this->caption;
     }
 
-    public function getMediaInBase64(): ?string
+    public function getMedia(): ?string
     {
-        return $this->mediaInBase64;
+        return $this->media;
     }
 
     public function toArray(): array
     {
         return [
             'media_type' => $this->getMediaType()->value,
-            'media' => $this->getMedia(),
+            'media_file' => $this->getMediaFile(),
             'caption' => $this->getCaption(),
-            'media_in_base64' => $this->getMediaInBase64(),
+            'media' => $this->getMedia(),
         ];
     }
 }

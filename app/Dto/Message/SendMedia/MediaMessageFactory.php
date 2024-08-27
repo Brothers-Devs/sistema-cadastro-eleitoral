@@ -7,6 +7,29 @@ use Illuminate\Http\UploadedFile;
 
 class MediaMessageFactory
 {
+
+    /**
+     * @param MediaTypeEnum $mediaType
+     * @param UploadedFile $media
+     * @param string $mediaUrl
+     * @param string|null $caption
+     * @return MediaMessageDto
+     */
+    public static function createWithUrl(
+        MediaTypeEnum $mediaType,
+        UploadedFile  $media,
+        string        $mediaUrl,
+        ?string       $caption = ''
+    ): MediaMessageDto
+    {
+        return new MediaMessageDto(
+            mediaType: $mediaType,
+            mediaFile: $media,
+            media: $mediaUrl,
+            caption: $caption,
+        );
+    }
+
     /**
      * @param MediaTypeEnum $mediaType
      * @param UploadedFile $media
@@ -16,12 +39,17 @@ class MediaMessageFactory
     public static function createWithBase64(
         MediaTypeEnum $mediaType,
         UploadedFile  $media,
-        ?string       $caption = null
+        ?string       $caption = ''
     ): MediaMessageDto
     {
         $mediaInBase64 = self::convertMediaToBase64($media);
 
-        return new MediaMessageDto($mediaType, $media, $caption, $mediaInBase64);
+        return new MediaMessageDto(
+            mediaType: $mediaType,
+            mediaFile: $media,
+            media: $mediaInBase64,
+            caption: $caption,
+        );
     }
 
     /**
