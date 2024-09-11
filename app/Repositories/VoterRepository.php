@@ -58,7 +58,7 @@ class VoterRepository
 
         if (!empty($search)) {
             $query->where('name', 'like', "%{$search}%")
-                  ->orWhere('id', 'like', "%{$search}%");
+                  ->orWhere('cpf', 'like', "%{$search}%");
         }
 
         return $query->paginate($perPage);
