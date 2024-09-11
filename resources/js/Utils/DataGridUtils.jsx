@@ -7,6 +7,7 @@ import {
   GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
 import { ptBR } from "@mui/x-data-grid/locales";
+import { useCallback } from "react";
 
 const theme = createTheme(ptBR);
 
@@ -57,14 +58,38 @@ function CustomToolbar() {
 export default function DataGridUtils({
   dataContent,
   columns,
+  rowCount,
+  paginationModel,
+  handlePaginationModelChange,
+  onFilterModelChange,
   setRowSelected,
 }) {
+  const handleQuickFilterChange = useCallback(
+    (model) => {
+      const searchValue = model?.quickFilterValues[0] || ""; // Proteção contra undefined
+      onFilterModelChange(searchValue);
+    },
+    [onFilterModelChange]
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <DataGrid
-        sx={{ p: 3, height: "46.68rem", backgroundColor: "#FFFFFF" }}
-        getRowId={(rows) => rows.id}
+        sx={{
+          p: 3,
+          height: "46.68rem",
+          backgroundColor: "#FFFFFF",
+        }}
+        getRowId={(rows) => {
+          return rows.id;
+        }}
         rows={dataContent}
+        pagination
+        paginationMode="server"
+        rowCount={rowCount}
+        paginationModel={paginationModel}
+        onPaginationModelChange={handlePaginationModelChange}
+        onFilterModelChange={handleQuickFilterChange}
         columns={columns}
         disableRowSelectionOnClick
         disableColumnMenu
@@ -73,7 +98,6 @@ export default function DataGridUtils({
           sorting: {
             sortModel: [{ field: "id", sort: "desc" }],
           },
-          pagination: { paginationModel: { pageSize: 10 } },
           filter: {
             filterModel: {
               items: [],

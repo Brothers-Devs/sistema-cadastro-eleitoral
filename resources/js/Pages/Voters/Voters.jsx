@@ -4,117 +4,66 @@ import DefaultLayout from "@/Layouts/DefaultLayout";
 import DataGridUtils from "@/Utils/DataGridUtils";
 import { Tooltip } from "@mui/material";
 import { useMemo, useState } from "react";
-import ButtonsActions from "./Actions/ButtonActions";
-import { mask } from "remask";
 import ModalCreateVoter from "./Modal/ModalCreateVoter";
-import SendWhatsapp from "../SendWhatsapp/SendWhatsapp";
+import { usePage, router } from "@inertiajs/react";
+import { useEffect } from "react";
+import { useCallback } from "react";
+import { debounce } from "lodash";
+import columnsVoters from "./Columns/columnsVoters";
 
-const PATTERN_CPF = ["999.999.999-99"];
-const PATTERN_PHONE = ["(99) 9 9999-9999"];
-
-export default function Voters({ items, leaders }) {
+export default function Voters() {
   const [modification, setModification] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [rowSelected, setRowSelected] = useState(false);
+
+  const { voters, leaders, filters } = usePage().props;
+
+  const [searchText, setSearchText] = useState(filters?.searchText || "");
+  const [paginationModel, setPaginationModel] = useState({
+    page: voters?.current_page - 1, // Ajuste para o índice da página inicial do DataGrid
+    pageSize: voters?.per_page,
+  });
 
   const handleClose = () => {
     setOpenModal(false);
   };
 
+  // Chama toda vez que as variáveis,presentes no array de depêndia, muda
+  useEffect(() => {
+    router.get(
+      "/voters",
+      {
+        page: paginationModel.page + 1,
+        perPage: paginationModel.pageSize,
+        search: searchText,
+      },
+      { preserveState: true, preserveScroll: true }
+    );
+  }, [
+    paginationModel.page,
+    paginationModel.pageSize,
+    searchText,
+    modification,
+  ]);
+
+  const handlePaginationModelChange = (newModel) => {
+    setPaginationModel(newModel);
+  };
+
+  const debounceSearch = useCallback(
+    debounce((search) => {
+      setSearchText(search);
+    }, 300),
+    []
+  );
+
+  const handleSearchChange = (event) => {
+    const newValue = event || "";
+    debounceSearch(newValue);
+  };
+
   const columns = useMemo(
-    () => [
-      {
-        field: "id",
-        headerName: "ID",
-        flex: 1,
-        minWidth: 64,
-        disableClickEventBubbling: true,
-        headerClassName: "bg-bodydark2 text-white",
-      },
-      {
-        field: "name",
-        headerName: "Nome",
-        flex: 1,
-        minWidth: 250,
-        disableClickEventBubbling: true,
-        headerClassName: "bg-bodydark2 text-white",
-      },
-      {
-        field: "cpf",
-        headerName: "CPF",
-        flex: 1,
-        minWidth: 130,
-        headerClassName: "bg-bodydark2 text-white",
-        disableClickEventBubbling: true,
-        valueGetter: (_, row) => {
-          return `${mask(row?.cpf, PATTERN_CPF)}`;
-        },
-      },
-      {
-        field: "phone",
-        headerName: "Telefone",
-        flex: 1,
-        minWidth: 140,
-        disableClickEventBubbling: true,
-        headerClassName: "bg-bodydark2 text-white",
-        valueGetter: (_, row) => {
-          return `${mask(row?.phone, PATTERN_PHONE)}`;
-        },
-      },
-      {
-        field: "title_number",
-        headerName: "Nº Título",
-        flex: 1,
-        minWidth: 130,
-        disableClickEventBubbling: true,
-        headerClassName: "bg-bodydark2 text-white",
-        valueGetter: (_, row) => {
-          return `${row?.title_number ? row?.title_number : "-"}`;
-        },
-      },
-      {
-        field: "zone",
-        headerName: "Zona / Sessão",
-        flex: 1,
-        minWidth: 120,
-        disableClickEventBubbling: true,
-        headerClassName: "bg-bodydark2 text-white",
-        valueGetter: (_, row) => {
-          return `${row?.zone ? row?.zone : "-"} / ${
-            row?.session ? row?.session : "-"
-          }`;
-        },
-      },
-
-      {
-        field: "leader",
-        headerName: "Liderança",
-        flex: 1,
-        minWidth: 207,
-        disableClickEventBubbling: true,
-        headerClassName: "bg-bodydark2 text-white",
-        valueGetter: (_, row) => {
-          return `${row?.leader.name} (${mask(row?.leader.cpf, PATTERN_CPF)})`;
-        },
-      },
-      {
-        headerName: "Ações",
-        flex: 1,
-        minWidth: 108,
-        headerClassName: "bg-bodydark2 text-white",
-        renderCell: ({ row }) => (
-          <ButtonsActions
-            rowSelected={row}
-            modification={modification}
-            setModification={setModification}
-          />
-        ),
-
-        sortable: false,
-        filterable: false,
-        disableClickEventBubbling: true,
-      },
-    ],
+    () => columnsVoters(modification, setModification),
     [rowSelected, modification]
   );
 
@@ -134,8 +83,12 @@ export default function Voters({ items, leaders }) {
 
       {/* Lista de Eleitores */}
       <DataGridUtils
-        dataContent={items}
+        dataContent={voters?.data || []}
         columns={columns}
+        rowCount={voters?.total || 0}
+        paginationModel={paginationModel}
+        handlePaginationModelChange={handlePaginationModelChange}
+        onFilterModelChange={handleSearchChange}
         setRowSelected={setRowSelected}
       />
 
@@ -146,6 +99,8 @@ export default function Voters({ items, leaders }) {
         title={"Cadastrar Eleitor"}
         typeButton={"Salvar"}
         leaders={leaders}
+        modification={modification}
+        setModification={setModification}
       />
     </DefaultLayout>
   );

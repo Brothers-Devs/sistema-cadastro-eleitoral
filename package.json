@@ -29,6 +29,7 @@
         "@ramonak/react-progress-bar": "^5.2.0",
         "dayjs": "^1.11.11",
         "flatpickr": "^4.6.13",
+        "lodash": "^4.17.21",
         "notiflix": "^3.2.7",
         "react-dropzone": "^14.2.3",
         "react-icons": "^5.2.1",

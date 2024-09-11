@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Http\Request;
 
 class VoterController extends Controller
 {
@@ -21,15 +22,23 @@ class VoterController extends Controller
     )
     {
     }
-
-    public function list(): Response
+    public function list(Request $request): Response
     {
-        $items = $this->voterService->all();
+        $search =  $request->input('search', '');   // Texto de busca
+        $perPage = is_numeric($request->input('perPage')) ? (int) $request->input('perPage') : 10; // Número de itens por página
+
+        // Obtendo eleitores com paginação e pesquisa
+        $voters = $this->voterService->searchAndPaginate($search, $perPage);
         $leaders = $this->leaderService->all();
 
+        // $items = $this->voterService->all();
+        // $leaders = $this->leaderService->all();
+
         return Inertia::render('Voters/Voters', [
-            'items' => $items,
-            'leaders' => $leaders
+            // 'items' => $items,
+            'voters' => $voters,
+            'leaders' => $leaders,
+            'filters' => $request->only(['search', 'perPage']),
         ]);
     }
 
