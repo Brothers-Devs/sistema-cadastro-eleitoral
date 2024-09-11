@@ -62,13 +62,10 @@ export default function DataGridUtils({
   paginationModel,
   handlePaginationModelChange,
   onFilterModelChange,
-  searchText,
   setRowSelected,
 }) {
-  console.log(rowCount);
   const handleQuickFilterChange = useCallback(
     (model) => {
-      console.log(model);
       const searchValue = model?.quickFilterValues[0] || ""; // Proteção contra undefined
       onFilterModelChange(searchValue);
     },
@@ -78,8 +75,14 @@ export default function DataGridUtils({
   return (
     <ThemeProvider theme={theme}>
       <DataGrid
-        sx={{ p: 3, height: "46.68rem", backgroundColor: "#FFFFFF" }}
-        getRowId={(rows) => rows.id}
+        sx={{
+          p: 3,
+          height: "46.68rem",
+          backgroundColor: "#FFFFFF",
+        }}
+        getRowId={(rows) => {
+          return rows.id;
+        }}
         rows={dataContent}
         pagination
         paginationMode="server"
@@ -95,7 +98,6 @@ export default function DataGridUtils({
           sorting: {
             sortModel: [{ field: "id", sort: "desc" }],
           },
-          pagination: { paginationModel: { pageSize: 10 } },
           filter: {
             filterModel: {
               items: [],
@@ -110,15 +112,6 @@ export default function DataGridUtils({
         }}
         showCellVerticalBorder={true}
         showColumnVerticalBorder={true}
-        filterModel={{
-          items: [
-            {
-              field: "name",
-              operator: "contains",
-              value: searchText,
-            },
-          ],
-        }}
         onRowClick={(params) => setRowSelected(params)}
         localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
       />
