@@ -27,9 +27,12 @@ const columnsVoters = (modification, setModification) => [
     minWidth: 130,
     headerClassName: "bg-bodydark2 text-white",
     disableClickEventBubbling: true,
-    valueGetter: (_, row) => {
-      return `${mask(row?.cpf, PATTERN_CPF)}`;
-    },
+    // valueGetter: (params) => {
+    //   // return `${mask(row?.cpf, PATTERN_CPF)}`;
+    //   return mask(params, PATTERN_CPF);
+    // },
+    // filterable: true,
+    // sortComparator: (v1, v2) => v1.localeCompare(v2),
   },
   {
     field: "phone",
@@ -38,8 +41,8 @@ const columnsVoters = (modification, setModification) => [
     minWidth: 140,
     disableClickEventBubbling: true,
     headerClassName: "bg-bodydark2 text-white",
-    valueGetter: (_, row) => {
-      return `${mask(row?.phone, PATTERN_PHONE)}`;
+    valueGetter: (params) => {
+      return mask(params, PATTERN_PHONE);
     },
   },
   {
@@ -49,8 +52,8 @@ const columnsVoters = (modification, setModification) => [
     minWidth: 130,
     disableClickEventBubbling: true,
     headerClassName: "bg-bodydark2 text-white",
-    valueGetter: (_, row) => {
-      return `${row?.title_number ? row?.title_number : "-"}`;
+    valueGetter: (params) => {
+      return params ? params : "-";
     },
   },
   {
@@ -60,10 +63,8 @@ const columnsVoters = (modification, setModification) => [
     minWidth: 120,
     disableClickEventBubbling: true,
     headerClassName: "bg-bodydark2 text-white",
-    valueGetter: (_, row) => {
-      return `${row?.zone ? row?.zone : "-"} / ${
-        row?.session ? row?.session : "-"
-      }`;
+    valueGetter: (params, row) => {
+      return `${params ? params : "-"} / ${row?.session ? row?.session : "-"}`;
     },
   },
 
