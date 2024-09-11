@@ -19,7 +19,6 @@ export default function Voters() {
   const { voters, leaders, filters } = usePage().props;
 
   const [searchText, setSearchText] = useState(filters?.searchText || "");
-
   const [paginationModel, setPaginationModel] = useState({
     page: voters?.current_page - 1, // Ajuste para o índice da página inicial do DataGrid
     pageSize: voters?.per_page,
@@ -31,8 +30,6 @@ export default function Voters() {
 
   // Chama toda vez que as variáveis,presentes no array de depêndia, muda
   useEffect(() => {
-    console.log("Entrei");
-
     router.get(
       "/voters",
       {
@@ -55,18 +52,14 @@ export default function Voters() {
 
   const debounceSearch = useCallback(
     debounce((search) => {
-      console.log(search);
       setSearchText(search);
     }, 300),
     []
   );
 
   const handleSearchChange = (event) => {
-    console.log(event);
     const newValue = event || "";
-    console.log(newValue);
-    setSearchText(newValue);
-    // debounceSearch(newValue);
+    debounceSearch(newValue);
   };
 
   const columns = useMemo(
@@ -90,13 +83,12 @@ export default function Voters() {
 
       {/* Lista de Eleitores */}
       <DataGridUtils
-        dataContent={voters?.data}
+        dataContent={voters?.data || []}
         columns={columns}
-        rowCount={Number(voters?.total)}
+        rowCount={voters?.total || 0}
         paginationModel={paginationModel}
         handlePaginationModelChange={handlePaginationModelChange}
         onFilterModelChange={handleSearchChange}
-        searchText={searchText}
         setRowSelected={setRowSelected}
       />
 
